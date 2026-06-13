@@ -1,1 +1,41 @@
-/node_modules
+# ── Dépendances ─────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ── Next.js ─────────────────────────────────
+.next/
+out/
+
+# ── TypeScript ───────────────────────────────
+*.tsbuildinfo
+next-env.d.ts
+
+# ── Tests — Vitest ───────────────────────────
+coverage/
+src/data/test-results.json
+
+# ── Tests — Playwright ───────────────────────
+test-results/
+playwright-report/
+.playwright/
+
+# ── Variables d'environnement ─────────────────
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ── Logs ─────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ── OS ───────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Déploiement ──────────────────────────────
+.vercel
