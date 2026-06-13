@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: '#experience',  label: 'Expériences' },
   { href: '#skills',      label: 'Compétences' },
   { href: '#ai-workflow', label: 'IA & Workflow' },
+  { href: '#tests',       label: 'Tests' },
   { href: '#projects',    label: 'Projets' },
   { href: '#education',   label: 'Formation' },
   { href: '#contact',     label: 'Contact' },
@@ -40,7 +41,7 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    const ids = ['home', 'experience', 'skills', 'ai-workflow', 'projects', 'education', 'contact'];
+    const ids = ['home', 'experience', 'skills', 'ai-workflow', 'tests', 'projects', 'education', 'contact'];
     const observer = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(`#${e.target.id}`); }),
       { rootMargin: '-40% 0px -55% 0px' },

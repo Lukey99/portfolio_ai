@@ -33,7 +33,7 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
         {/* Header */}
         <div className="reveal" style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <p style={{ fontSize: '0.7rem', color: 'rgba(var(--fg-rgb), 0.3)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
-            06 — Contact
+            07 — Contact
           </p>
           <h2 style={{ fontSize: 'clamp(2.25rem,6vw,4rem)', fontWeight: 900, color: 'var(--fg)', letterSpacing: '-0.03em' }}>
             Travaillons ensemble

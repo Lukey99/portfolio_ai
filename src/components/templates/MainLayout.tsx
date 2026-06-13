@@ -7,6 +7,7 @@ import {
   ExperienceSection,
   SkillsSection,
   AIWorkflowSection,
+  TestsSection,
   ProjectsSection,
   EducationSection,
   ContactSection,
@@ -32,6 +33,8 @@ export function MainLayout({ data }: MainLayoutProps) {
         <SkillsSection skills={skills} />
         <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(var(--overlay-rgb), 0.06), transparent)', maxWidth: '900px', margin: '0 auto' }} />
         <AIWorkflowSection />
+        <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(var(--overlay-rgb), 0.06), transparent)', maxWidth: '900px', margin: '0 auto' }} />
+        <TestsSection />
         <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(var(--overlay-rgb), 0.06), transparent)', maxWidth: '900px', margin: '0 auto' }} />
         <ProjectsSection projects={projects} />
         <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(var(--overlay-rgb), 0.06), transparent)', maxWidth: '900px', margin: '0 auto' }} />
