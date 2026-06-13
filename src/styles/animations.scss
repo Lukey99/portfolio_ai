@@ -1,0 +1,336 @@
+// ═══════════════════════════════════════════════════════════
+// Variables — compile-time (non-themed)
+// ═══════════════════════════════════════════════════════════
+
+$violet:   #8b5cf6;
+$cyan:     #22d3ee;
+$ease:     cubic-bezier(0.25, 0.4, 0.25, 1);
+$gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
+
+
+// ═══════════════════════════════════════════════════════════
+// Keyframes
+// ═══════════════════════════════════════════════════════════
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0,    0)    scale(1);    }
+  33%      { transform: translate(40px, -60px) scale(1.05); }
+  66%      { transform: translate(-30px, 30px) scale(0.95); }
+}
+
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0,     0)    scale(1);   }
+  33%      { transform: translate(-50px, 40px)  scale(0.9); }
+  66%      { transform: translate(30px, -20px)  scale(1.1); }
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(12px); }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Instant animations — above-fold, pure CSS (no JS needed)
+// ═══════════════════════════════════════════════════════════
+
+.a-fade-up   { animation: fadeInUp   0.8s $ease both; }
+.a-fade-left { animation: fadeInLeft 0.6s $ease both; }
+.a-fade      { animation: fadeIn     0.8s $ease both; }
+.a-scale-in  { animation: scaleIn    0.7s $ease both; }
+
+// Delay steps — d-0 … d-12 at 150 ms intervals
+@for $i from 0 through 12 {
+  .d-#{$i} { animation-delay: #{$i * 0.15}s; }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Scroll-reveal — JS adds .is-visible via IntersectionObserver
+// ═══════════════════════════════════════════════════════════
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.75s $ease, transform 0.75s $ease;
+
+  &.reveal--left  { transform: translateX(-28px); }
+  &.reveal--right { transform: translateX(28px);  }
+  &.reveal--scale { transform: scale(0.94);        }
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Stagger transition-delay for sibling reveals
+@for $i from 0 through 8 {
+  .reveal-s#{$i} { transition-delay: #{$i * 0.1}s; }
+}
+
+
+
+// ═══════════════════════════════════════════════════════════
+// Glass card
+// ═══════════════════════════════════════════════════════════
+
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(var(--overlay-rgb), 0.08);
+  border-radius: 1rem;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+
+  &:hover {
+    border-color: rgba($violet, 0.35);
+    box-shadow: 0 0 40px rgba($violet, 0.08);
+    background: var(--card-bg-hover);
+  }
+
+  &--cyan:hover {
+    border-color: rgba($cyan, 0.3);
+    box-shadow: 0 0 40px rgba($cyan, 0.06);
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Orbs
+// ═══════════════════════════════════════════════════════════
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+
+  &--violet {
+    background: radial-gradient(circle at center, rgba($violet, 0.4) 0%, transparent 65%);
+    filter: blur(80px);
+    animation: orbFloat1 20s ease-in-out infinite;
+  }
+
+  &--cyan {
+    background: radial-gradient(circle at center, rgba($cyan, 0.28) 0%, transparent 65%);
+    filter: blur(80px);
+    animation: orbFloat2 17s ease-in-out infinite;
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Timeline
+// ═══════════════════════════════════════════════════════════
+
+.timeline {
+  position: relative;
+
+  &__track {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(var(--overlay-rgb), 0.06);
+    overflow: hidden;
+  }
+
+  &__fill {
+    width: 100%;
+    height: 0;
+    background: linear-gradient(to bottom, $violet, $cyan);
+    transition: height 1.5s $ease;
+
+    &.is-visible { height: 100%; }
+  }
+
+  &__dot {
+    position: absolute;
+    left: calc(-2.5rem - 6px);
+    top: 24px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: var(--bg);
+    transition: background 0.3s ease;
+
+    &--violet {
+      border-color: $violet;
+      .timeline__item:hover & { background: $violet; }
+    }
+
+    &--cyan {
+      border-color: $cyan;
+      .timeline__item:hover & { background: $cyan; }
+    }
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Bento grid — responsive skills layout
+// ═══════════════════════════════════════════════════════════
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+
+    > * {
+      grid-column: auto !important;
+      grid-row:    auto !important;
+    }
+  }
+}
+
+
+
+// ═══════════════════════════════════════════════════════════
+// Section watermark number
+// ═══════════════════════════════════════════════════════════
+
+.section-watermark {
+  position: absolute;
+  top: -0.2em;
+  left: -0.05em;
+  font-size: 9rem;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(var(--overlay-rgb), 0.025);
+  pointer-events: none;
+  user-select: none;
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Scroll bounce indicator
+// ═══════════════════════════════════════════════════════════
+
+.scroll-bounce {
+  animation: scrollBounce 2.5s ease-in-out infinite;
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Tag chip
+// ═══════════════════════════════════════════════════════════
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: rgba(var(--overlay-rgb), 0.06);
+  color: rgba(var(--fg-rgb), 0.7);
+  border: 1px solid rgba(var(--overlay-rgb), 0.07);
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: rgba(var(--overlay-rgb), 0.1);
+    color: var(--fg);
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Badge
+// ═══════════════════════════════════════════════════════════
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+
+  &--accent {
+    background: rgba($violet, 0.15);
+    color: var(--violet-soft);
+    border: 1px solid rgba($violet, 0.25);
+  }
+
+  &--cyan {
+    background: rgba($cyan, 0.12);
+    color: var(--cyan-soft);
+    border: 1px solid rgba($cyan, 0.2);
+  }
+
+  &--dim {
+    background: rgba(var(--overlay-rgb), 0.05);
+    color: rgba(var(--fg-rgb), 0.5);
+    border: 1px solid rgba(var(--overlay-rgb), 0.08);
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// Button
+// ═══════════════════════════════════════════════════════════
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:active { transform: scale(0.97); }
+
+  &--primary {
+    background: $gradient;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba($violet, 0.25);
+
+    &:hover {
+      opacity: 0.9;
+      box-shadow: 0 6px 30px rgba($violet, 0.4);
+      transform: scale(1.02);
+    }
+  }
+
+  &--secondary {
+    background: transparent;
+    color: rgba(var(--fg-rgb), 0.8);
+    border: 1px solid rgba(var(--overlay-rgb), 0.12);
+
+    &:hover {
+      background: rgba(var(--overlay-rgb), 0.05);
+      border-color: rgba(var(--overlay-rgb), 0.22);
+      color: var(--fg);
+    }
+  }
+}

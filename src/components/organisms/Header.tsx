@@ -1,0 +1,228 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '@/hooks/useTheme';
+
+const NAV_LINKS = [
+  { href: '#experience',  label: 'Expériences' },
+  { href: '#skills',      label: 'Compétences' },
+  { href: '#ai-workflow', label: 'IA & Workflow' },
+  { href: '#projects',    label: 'Projets' },
+  { href: '#education',   label: 'Formation' },
+  { href: '#contact',     label: 'Contact' },
+];
+
+const SunIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+  </svg>
+);
+
+export function Header() {
+  const [scrolled,  setScrolled]  = useState(false);
+  const [active,    setActive]    = useState('#home');
+  const [menuOpen,  setMenuOpen]  = useState(false);
+  const { theme, toggle } = useTheme();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const ids = ['home', 'experience', 'skills', 'ai-workflow', 'projects', 'education', 'contact'];
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(`#${e.target.id}`); }),
+      { rootMargin: '-40% 0px -55% 0px' },
+    );
+    ids.forEach((id) => { const el = document.getElementById(id); if (el) observer.observe(el); });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <>
+      <header
+        style={{
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+          height: '64px',
+          background: scrolled ? 'var(--header-bg)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+          borderBottom: `1px solid ${scrolled ? 'rgba(var(--overlay-rgb), 0.07)' : 'transparent'}`,
+          transition: 'background 0.4s ease, border-color 0.4s ease',
+        }}
+      >
+        <div style={{
+          maxWidth: '90rem', margin: '0 auto', padding: '0 1.5rem',
+          height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+
+          {/* Logo */}
+          <a
+            href="#home"
+            style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--fg)', textDecoration: 'none', letterSpacing: '-0.02em', flexShrink: 0 }}
+          >
+            KN<span style={{ color: 'var(--violet-mid)' }}>.</span>
+          </a>
+
+          {/* Desktop navigation */}
+          <nav className="hidden md:flex" style={{ alignItems: 'center', gap: '0.15rem' }}>
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                style={{
+                  padding: '0.45rem 0.85rem',
+                  borderRadius: '0.6rem',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease, background 0.2s ease',
+                  color:      active === link.href ? 'var(--violet-soft)'       : 'rgba(var(--fg-rgb), 0.5)',
+                  background: active === link.href ? 'rgba(139, 92, 246, 0.15)' : 'transparent',
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            {/* Theme toggle */}
+            <button
+              onClick={toggle}
+              aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: '2.25rem', height: '2.25rem', borderRadius: '0.6rem',
+                background: 'rgba(var(--overlay-rgb), 0.06)',
+                border: '1px solid rgba(var(--overlay-rgb), 0.1)',
+                color: 'rgba(var(--fg-rgb), 0.6)',
+                cursor: 'pointer',
+                transition: 'background 0.2s ease, color 0.2s ease, border-color 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget;
+                el.style.background = 'rgba(var(--overlay-rgb), 0.1)';
+                el.style.color = 'var(--fg)';
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget;
+                el.style.background = 'rgba(var(--overlay-rgb), 0.06)';
+                el.style.color = 'rgba(var(--fg-rgb), 0.6)';
+              }}
+            >
+              {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+            </button>
+
+            {/* CTA — desktop */}
+            <a
+              href="#contact"
+              className="hidden md:inline-flex"
+              style={{
+                alignItems: 'center', gap: '0.35rem',
+                padding: '0.5rem 1.2rem', borderRadius: '9999px',
+                fontSize: '0.82rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
+                background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
+                transition: 'opacity 0.2s ease, transform 0.2s ease',
+              }}
+            >
+              Me contacter
+            </a>
+
+            {/* Hamburger — mobile */}
+            <button
+              className="flex md:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                padding: '0.4rem', color: 'var(--fg)', alignItems: 'center',
+                borderRadius: '0.5rem',
+                transition: 'background 0.2s ease',
+              }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {menuOpen ? (
+                  <>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </>
+                ) : (
+                  <>
+                    <line x1="3" y1="6"  x2="21" y2="6"  />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </>
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: 'fixed', top: '64px', left: 0, right: 0, zIndex: 49,
+              background: 'var(--menu-bg)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              borderBottom: '1px solid rgba(var(--overlay-rgb), 0.07)',
+              padding: '1rem 1.5rem 1.5rem',
+            }}
+          >
+            {NAV_LINKS.map((link, i) => (
+              <motion.a
+                key={link.href}
+                href={link.href}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05, duration: 0.18 }}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: 'block', padding: '0.9rem 1rem', marginBottom: '0.15rem',
+                  fontSize: '1rem', fontWeight: 500, textDecoration: 'none', borderRadius: '0.75rem',
+                  color:      active === link.href ? 'var(--violet-soft)'        : 'rgba(var(--fg-rgb), 0.7)',
+                  background: active === link.href ? 'rgba(139, 92, 246, 0.12)'  : 'transparent',
+                  transition: 'color 0.2s ease, background 0.2s ease',
+                }}
+              >
+                {link.label}
+              </motion.a>
+            ))}
+            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.07)' }}>
+              <a
+                href="#contact"
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: 'block', padding: '0.9rem 1rem', textAlign: 'center',
+                  fontSize: '0.9rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
+                  borderRadius: '0.75rem', background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
+                }}
+              >
+                Me contacter
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}

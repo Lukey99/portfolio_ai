@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ──────────────────────────── */
+:root {
+  --bg:              #060609;
+  --fg:              #e8e8ee;
+  --fg-rgb:          232, 232, 238;
+  --overlay-rgb:     255, 255, 255;
+  --card-bg:         rgba(255, 255, 255, 0.035);
+  --card-bg-hover:   rgba(255, 255, 255, 0.055);
+  --header-bg:       rgba(6, 6, 9, 0.9);
+  --menu-bg:         rgba(6, 6, 9, 0.97);
+  --scrollbar-track: #060609;
+  --scrollbar-thumb: #1f1f2e;
+  --scrollbar-hover: #2d2d40;
+  --violet:          #8b5cf6;
+  --cyan:            #22d3ee;
+  --violet-soft:     #c4b5fd;
+  --cyan-soft:       #67e8f9;
+  --violet-mid:      #a78bfa;
+}
+
+html.light {
+  --bg:              #f2f0ff;
+  --fg:              #1a1535;
+  --fg-rgb:          26, 21, 53;
+  --overlay-rgb:     26, 21, 53;
+  --card-bg:         rgba(255, 255, 255, 0.65);
+  --card-bg-hover:   rgba(255, 255, 255, 0.88);
+  --header-bg:       rgba(242, 240, 255, 0.92);
+  --menu-bg:         rgba(242, 240, 255, 0.97);
+  --scrollbar-track: #f2f0ff;
+  --scrollbar-thumb: #c4b5fd;
+  --scrollbar-hover: #a78bfa;
+  --violet:          #7c3aed;
+  --cyan:            #0891b2;
+  --violet-soft:     #5b21b6;
+  --cyan-soft:       #0c4a6e;
+  --violet-mid:      #6d28d9;
+}
+
+/* ── Base ──────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  scroll-padding-top: 80px;
+  transition: background-color 0.4s ease;
+}
+
+@media (pointer: fine) {
+  html, * { cursor: none !important; }
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ── Scrollbar ──────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}
+
+/* ── Selection ──────────────────────────── */
+::selection {
+  background: rgba(139, 92, 246, 0.35);
+  color: #f0f0f8;
+}
+
+/* ── Gradient utilities ─────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Focus ring ─────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.7);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
