@@ -10,7 +10,7 @@ import { useReveal } from '@/hooks/useReveal';
 const ENDPOINTS = [
   {
     id: 'all',
-    path: '/api/portfolio',
+    path: '/api/portfolio/all',
     label: 'Portfolio',
     color: '#64748b',
     desc: 'Intégralité des données du portfolio.',

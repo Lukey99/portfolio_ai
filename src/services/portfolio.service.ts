@@ -11,7 +11,7 @@ async function fetchJson<T>(path: string): Promise<T> {
 }
 
 export const portfolioService = {
-  getPortfolio: () => fetchJson<Portfolio>(''),
+  getPortfolio: () => fetchJson<Portfolio>('/all'),
   getExperiences: () => fetchJson<Experience[]>('/experiences'),
   getSkills: () => fetchJson<SkillCategory[]>('/skills'),
   getEducation: () => fetchJson<Education[]>('/education'),
