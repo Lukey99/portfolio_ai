@@ -6,10 +6,9 @@ import { Button } from '@/components/atoms/Button';
 import { Tag } from '@/components/atoms/Tag';
 import { GradientText } from '@/components/atoms/GradientText';
 import { SectionTitle } from '@/components/molecules/SectionTitle';
-import { ExperienceCard } from '@/components/molecules/ExperienceCard';
-import { EducationCard } from '@/components/molecules/EducationCard';
-import { SkillBento } from '@/components/molecules/SkillBento';
-import type { Experience, Education, SkillCategory } from '@/types/portfolio.types';
+import { TimelineCard } from '@/components/molecules/TimelineCard';
+import { CredentialCard } from '@/components/molecules/CredentialCard';
+import { BentoCell } from '@/components/molecules/BentoCell';
 
 async function a11y(ui: React.ReactElement) {
   const { container } = render(ui);
@@ -43,19 +42,6 @@ describe('Accessibilité — Atoms', () => {
 
 // ── Molecules ─────────────────────────────────────────────────
 
-const exp: Experience = {
-  id: '1', company: 'Acme', title: 'Dev Front', period: '2022 — 2024',
-  type: 'full-time', description: ['Développement React'],
-};
-
-const edu: Education = {
-  id: '1', degree: 'Ingénieur', school: 'ESIEA', period: '2019 — 2022',
-};
-
-const skill: SkillCategory = {
-  id: 'stack', name: 'Stack', icon: '⚡', skills: ['React', 'TypeScript'],
-};
-
 describe('Accessibilité — Molecules', () => {
   it('SectionTitle : aucune violation axe', async () => {
     expect(await a11y(
@@ -63,15 +49,21 @@ describe('Accessibilité — Molecules', () => {
     )).toHaveLength(0);
   });
 
-  it('ExperienceCard : aucune violation axe', async () => {
-    expect(await a11y(<ExperienceCard experience={exp} index={0} />)).toHaveLength(0);
+  it('TimelineCard : aucune violation axe', async () => {
+    expect(await a11y(
+      <TimelineCard badge="CDI" period="2022 — 2024" title="Acme" subtitle="Dev Front" items={['Tâche A']} index={0} />
+    )).toHaveLength(0);
   });
 
-  it('EducationCard : aucune violation axe', async () => {
-    expect(await a11y(<EducationCard education={edu} index={0} />)).toHaveLength(0);
+  it('CredentialCard : aucune violation axe', async () => {
+    expect(await a11y(
+      <CredentialCard period="2019 — 2022" institution="ESIEA" title="Ingénieur" index={0} />
+    )).toHaveLength(0);
   });
 
-  it('SkillBento : aucune violation axe', async () => {
-    expect(await a11y(<SkillBento category={skill} index={0} />)).toHaveLength(0);
+  it('BentoCell : aucune violation axe', async () => {
+    expect(await a11y(
+      <BentoCell icon="⚡" name="Stack" skills={['React', 'TypeScript']} index={0} />
+    )).toHaveLength(0);
   });
 });

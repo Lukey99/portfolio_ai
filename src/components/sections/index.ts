@@ -1,0 +1,8 @@
+export { Hero } from './Hero';
+export { ContactSection } from './ContactSection';
+export { ApiSection } from './ApiSection';
+export { AIWorkflowSection } from './AIWorkflowSection';
+export { TestsSection } from './TestsSection';
+export { TestsDashboardSection } from './TestsDashboardSection';
+export { ArchitectureSection } from './ArchitectureSection';
+export { StorybookSection } from './StorybookSection';

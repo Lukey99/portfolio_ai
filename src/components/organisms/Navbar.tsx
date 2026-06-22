@@ -57,11 +57,12 @@ export function Navbar() {
             </a>
 
             {/* Desktop links */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <div className="hidden md:flex" style={{ alignItems: 'center', gap: '0.25rem' }}>
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
+                  onClick={() => setActive(link.href)}
                   style={{
                     padding: '0.35rem 1rem',
                     borderRadius: '0.6rem',
@@ -78,17 +79,48 @@ export function Navbar() {
               ))}
             </div>
 
-            <a
-              href="#contact"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                padding: '0.45rem 1rem', borderRadius: '0.6rem',
-                fontSize: '0.78rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
-                background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
-              }}
-            >
-              Me contacter
-            </a>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <a
+                href="#contact"
+                className="hidden md:inline-flex"
+                style={{
+                  alignItems: 'center', gap: '0.4rem',
+                  padding: '0.45rem 1rem', borderRadius: '0.6rem',
+                  fontSize: '0.78rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
+                  background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
+                }}
+              >
+                Me contacter
+              </a>
+
+              {/* Hamburger — mobile */}
+              <button
+                className="flex md:hidden"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  padding: '0.4rem', color: 'rgba(232,232,238,0.9)', alignItems: 'center',
+                  borderRadius: '0.5rem',
+                  transition: 'background 0.2s ease',
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  {menuOpen ? (
+                    <>
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </>
+                  ) : (
+                    <>
+                      <line x1="3" y1="6"  x2="21" y2="6"  />
+                      <line x1="3" y1="12" x2="21" y2="12" />
+                      <line x1="3" y1="18" x2="21" y2="18" />
+                    </>
+                  )}
+                </svg>
+              </button>
+            </div>
           </div>
 
           {/* Mobile menu */}

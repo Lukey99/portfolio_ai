@@ -3,7 +3,7 @@ import path from 'path';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  stories: ['../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
@@ -19,6 +19,15 @@ const config: StorybookConfig = {
     const { mergeConfig } = await import('vite');
     return mergeConfig(config, {
       plugins: [tsconfigPaths()],
+      define: {
+        'process.env': {},
+      },
+      resolve: {
+        alias: {
+          'next/link': path.resolve(__dirname, './__mocks__/next-link.tsx'),
+          'next/navigation': path.resolve(__dirname, './__mocks__/next-navigation.ts'),
+        },
+      },
     });
   },
 };

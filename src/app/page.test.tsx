@@ -1,9 +1,35 @@
 import { vi } from 'vitest';
 
 vi.mock('@/components/templates/MainLayout', () => ({
-  MainLayout: ({ data }: { data: unknown }) => (
-    <main data-testid="main-layout" data-has-data={!!data} />
+  MainLayout: ({ hero, sections }: { hero: React.ReactNode; sections: React.ReactNode[] }) => (
+    <main data-testid="main-layout" data-sections={sections.length}>
+      {hero}
+    </main>
   ),
+}));
+
+vi.mock('@/components/sections', () => ({
+  Hero: () => <div data-testid="hero" />,
+}));
+
+vi.mock('@/components/organisms', () => ({
+  Timeline: () => null,
+  BentoGrid: () => null,
+  CardList: () => null,
+}));
+
+vi.mock('@/components/molecules', () => ({
+  TimelineCard: () => null,
+  CredentialCard: () => null,
+  ShowcaseCard: () => null,
+  BentoCell: () => null,
+}));
+
+vi.mock('@/adapters/portfolio', () => ({
+  toTimelineCardProps: (x: unknown) => x,
+  toCredentialCardProps: (x: unknown) => x,
+  toShowcaseCardProps: (x: unknown) => x,
+  toBentoCellProps: (x: unknown) => x,
 }));
 
 import { render, screen } from '@testing-library/react';
@@ -20,8 +46,13 @@ describe('HomePage', () => {
     expect(screen.getByTestId('main-layout')).toBeInTheDocument();
   });
 
-  it('passe des données à MainLayout', () => {
+  it('passe 4 sections à MainLayout', () => {
     render(<HomePage />);
-    expect(screen.getByTestId('main-layout').getAttribute('data-has-data')).toBe('true');
+    expect(screen.getByTestId('main-layout').getAttribute('data-sections')).toBe('4');
+  });
+
+  it('passe le Hero en slot hero', () => {
+    render(<HomePage />);
+    expect(screen.getByTestId('hero')).toBeInTheDocument();
   });
 });

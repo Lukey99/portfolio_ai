@@ -6,13 +6,7 @@ import { Button } from '@/components/atoms/Button';
 import { Tag } from '@/components/atoms/Tag';
 import { GradientText } from '@/components/atoms/GradientText';
 import { SectionTitle } from '@/components/molecules/SectionTitle';
-import { ExperienceCard } from '@/components/molecules/ExperienceCard';
-import type { Experience } from '@/types/portfolio.types';
-
-const exp: Experience = {
-  id: '1', company: 'Acme', title: 'Dev Front', period: '2022',
-  type: 'full-time', description: ['Task A'],
-};
+import { TimelineCard } from '@/components/molecules/TimelineCard';
 
 // ── Atoms ─────────────────────────────────────────────────────
 
@@ -46,15 +40,16 @@ describe('Benchmark — Molecules', () => {
     cleanup();
   }, { iterations: 50 });
 
-  bench('ExperienceCard render', () => {
-    render(React.createElement(ExperienceCard, { experience: exp, index: 0 }));
+  bench('TimelineCard render', () => {
+    render(React.createElement(TimelineCard, {
+      badge: 'CDI', period: '2022', title: 'Acme', subtitle: 'Dev Front', items: ['Task A'], index: 0,
+    }));
     cleanup();
   }, { iterations: 50 });
 });
 
 // ── API handlers ──────────────────────────────────────────────
 
-// Mocked inline to avoid requiring vi.mock here
 import { portfolioData } from '@/lib/mock-data';
 
 describe('Benchmark — API handlers', () => {

@@ -1,6 +1,6 @@
 export { SectionTitle } from './SectionTitle';
-export { ExperienceCard } from './ExperienceCard';
-export { SkillBento } from './SkillBento';
-export { ProjectCard } from './ProjectCard';
-export { EducationCard } from './EducationCard';
+export { TimelineCard } from './TimelineCard';
+export { CredentialCard } from './CredentialCard';
+export { ShowcaseCard } from './ShowcaseCard';
+export { BentoCell } from './BentoCell';
 export { ContactItem } from './ContactItem';

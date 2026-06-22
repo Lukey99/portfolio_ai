@@ -1,4 +1,4 @@
-import { ContactSection } from '@/components/organisms';
+import { ContactSection } from '@/components/sections';
 import { portfolioData } from '@/lib/mock-data';
 
 export const metadata = {

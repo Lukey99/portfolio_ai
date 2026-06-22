@@ -1,7 +1,5 @@
 import type React from 'react';
-import { AIWorkflowSection, TestsSection, TestsDashboardSection, ApiSection } from '@/components/organisms';
-import { ArchitectureSection } from '@/components/organisms/ArchitectureSection';
-import { StorybookSection } from '@/components/organisms/StorybookSection';
+import { AIWorkflowSection, TestsSection, TestsDashboardSection, ApiSection, ArchitectureSection, StorybookSection } from '@/components/sections';
 
 export const metadata = {
   title: 'Tech — Kévin Nguyen',

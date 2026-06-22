@@ -26,8 +26,9 @@ const MoonIcon = () => (
 );
 
 export function Header() {
-  const [scrolled, setScrolled]  = useState(false);
-  const [menuOpen, setMenuOpen]  = useState(false);
+  const [scrolled, setScrolled]     = useState(false);
+  const [menuOpen, setMenuOpen]     = useState(false);
+  const [clickedHref, setClickedHref] = useState<string | null>(null);
   const { theme, toggle } = useTheme();
   const pathname = usePathname();
 
@@ -40,10 +41,13 @@ export function Header() {
 
   useEffect(() => {
     setMenuOpen(false);
+    setClickedHref(null);
   }, [pathname]);
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const isActive = (href: string) => {
+    if (clickedHref !== null) return clickedHref === href;
+    return href === '/' ? pathname === '/' : pathname.startsWith(href);
+  };
 
   return (
     <>
@@ -77,6 +81,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={() => setClickedHref(link.href)}
                 style={{
                   padding: '0.45rem 0.85rem',
                   borderRadius: '0.6rem',
