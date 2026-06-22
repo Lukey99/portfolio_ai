@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView } from 'motion/react';
 import { useReveal } from '@/hooks/useReveal';
 import { SectionTitle } from '@/components/molecules';
 
@@ -220,7 +220,7 @@ export function AIWorkflowSection() {
     <section id="ai-workflow" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
         <SectionTitle
-          number="03"
+          number="01"
           label="IA & Workflow"
           title="Productivité augmentée"
           subtitle="J'intègre Cursor et Claude Code dans mon workflow quotidien pour automatiser les tâches répétitives et me concentrer sur ce qui crée de la valeur."

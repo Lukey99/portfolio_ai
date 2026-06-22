@@ -11,7 +11,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
     <section id="projects" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
         <SectionTitle
-          number="05"
+          number="03"
           label="Projets"
           title="Projets Entrepreneuriaux"
           subtitle="Des initiatives personnelles qui reflètent ma passion pour le produit et l'expérience utilisateur."

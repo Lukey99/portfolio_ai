@@ -1,25 +1,26 @@
 'use client';
 
-import { useEffect } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 
 export function CustomCursor() {
+  const [mounted, setMounted] = useState(false);
   const dotX = useMotionValue(-100);
   const dotY = useMotionValue(-100);
   const ringX = useSpring(dotX, { stiffness: 80, damping: 20 });
   const ringY = useSpring(dotY, { stiffness: 80, damping: 20 });
+
   useEffect(() => {
+    setMounted(true);
     const moveCursor = (e: MouseEvent) => {
       dotX.set(e.clientX);
       dotY.set(e.clientY);
     };
-
     window.addEventListener('mousemove', moveCursor);
-
-    return () => {
-      window.removeEventListener('mousemove', moveCursor);
-    };
+    return () => window.removeEventListener('mousemove', moveCursor);
   }, [dotX, dotY]);
+
+  if (!mounted) return null;
 
   return (
     <>

@@ -1,17 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '@/hooks/useTheme';
 
 const NAV_LINKS = [
-  { href: '#experience',  label: 'Expériences' },
-  { href: '#skills',      label: 'Compétences' },
-  { href: '#ai-workflow', label: 'IA & Workflow' },
-  { href: '#tests',       label: 'Tests' },
-  { href: '#projects',    label: 'Projets' },
-  { href: '#education',   label: 'Formation' },
-  { href: '#contact',     label: 'Contact' },
+  { href: '/',        label: 'Portfolio' },
+  { href: '/tech',    label: 'Tech' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 const SunIcon = () => (
@@ -28,10 +26,10 @@ const MoonIcon = () => (
 );
 
 export function Header() {
-  const [scrolled,  setScrolled]  = useState(false);
-  const [active,    setActive]    = useState('#home');
-  const [menuOpen,  setMenuOpen]  = useState(false);
+  const [scrolled, setScrolled]  = useState(false);
+  const [menuOpen, setMenuOpen]  = useState(false);
   const { theme, toggle } = useTheme();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -41,14 +39,11 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    const ids = ['home', 'experience', 'skills', 'ai-workflow', 'tests', 'projects', 'education', 'contact'];
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(`#${e.target.id}`); }),
-      { rootMargin: '-40% 0px -55% 0px' },
-    );
-    ids.forEach((id) => { const el = document.getElementById(id); if (el) observer.observe(el); });
-    return () => observer.disconnect();
-  }, []);
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
     <>
@@ -69,17 +64,17 @@ export function Header() {
         }}>
 
           {/* Logo */}
-          <a
-            href="#home"
+          <Link
+            href="/"
             style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--fg)', textDecoration: 'none', letterSpacing: '-0.02em', flexShrink: 0 }}
           >
             KN<span style={{ color: 'var(--violet-mid)' }}>.</span>
-          </a>
+          </Link>
 
           {/* Desktop navigation */}
           <nav className="hidden md:flex" style={{ alignItems: 'center', gap: '0.15rem' }}>
             {NAV_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 style={{
@@ -89,12 +84,12 @@ export function Header() {
                   fontWeight: 500,
                   textDecoration: 'none',
                   transition: 'color 0.2s ease, background 0.2s ease',
-                  color:      active === link.href ? 'var(--violet-soft)'       : 'rgba(var(--fg-rgb), 0.5)',
-                  background: active === link.href ? 'rgba(139, 92, 246, 0.15)' : 'transparent',
+                  color:      isActive(link.href) ? 'var(--violet-soft)'       : 'rgba(var(--fg-rgb), 0.5)',
+                  background: isActive(link.href) ? 'rgba(139, 92, 246, 0.15)' : 'transparent',
                 }}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -127,8 +122,8 @@ export function Header() {
             </button>
 
             {/* CTA — desktop */}
-            <a
-              href="#contact"
+            <Link
+              href="/contact"
               className="hidden md:inline-flex"
               style={{
                 alignItems: 'center', gap: '0.35rem',
@@ -139,7 +134,7 @@ export function Header() {
               }}
             >
               Me contacter
-            </a>
+            </Link>
 
             {/* Hamburger — mobile */}
             <button
@@ -190,28 +185,29 @@ export function Header() {
             }}
           >
             {NAV_LINKS.map((link, i) => (
-              <motion.a
+              <motion.div
                 key={link.href}
-                href={link.href}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05, duration: 0.18 }}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  display: 'block', padding: '0.9rem 1rem', marginBottom: '0.15rem',
-                  fontSize: '1rem', fontWeight: 500, textDecoration: 'none', borderRadius: '0.75rem',
-                  color:      active === link.href ? 'var(--violet-soft)'        : 'rgba(var(--fg-rgb), 0.7)',
-                  background: active === link.href ? 'rgba(139, 92, 246, 0.12)'  : 'transparent',
-                  transition: 'color 0.2s ease, background 0.2s ease',
-                }}
+                transition={{ delay: i * 0.06, duration: 0.18 }}
               >
-                {link.label}
-              </motion.a>
+                <Link
+                  href={link.href}
+                  style={{
+                    display: 'block', padding: '0.9rem 1rem', marginBottom: '0.15rem',
+                    fontSize: '1rem', fontWeight: 500, textDecoration: 'none', borderRadius: '0.75rem',
+                    color:      isActive(link.href) ? 'var(--violet-soft)'        : 'rgba(var(--fg-rgb), 0.7)',
+                    background: isActive(link.href) ? 'rgba(139, 92, 246, 0.12)'  : 'transparent',
+                    transition: 'color 0.2s ease, background 0.2s ease',
+                  }}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
             <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.07)' }}>
-              <a
-                href="#contact"
-                onClick={() => setMenuOpen(false)}
+              <Link
+                href="/contact"
                 style={{
                   display: 'block', padding: '0.9rem 1rem', textAlign: 'center',
                   fontSize: '0.9rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
@@ -219,7 +215,7 @@ export function Header() {
                 }}
               >
                 Me contacter
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

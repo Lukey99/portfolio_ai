@@ -1,7 +1,11 @@
 export { Header } from './Header';
+export { ApiSection } from './ApiSection';
 export { Hero } from './Hero';
 export { AIWorkflowSection } from './AIWorkflowSection';
 export { TestsSection } from './TestsSection';
+export { TestsDashboardSection } from './TestsDashboardSection';
+export { ArchitectureSection } from './ArchitectureSection';
+export { StorybookSection } from './StorybookSection';
 export { ExperienceSection } from './ExperienceSection';
 export { SkillsSection } from './SkillsSection';
 export { ProjectsSection } from './ProjectsSection';

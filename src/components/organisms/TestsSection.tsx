@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView } from 'motion/react';
 import { useReveal } from '@/hooks/useReveal';
 import { SectionTitle } from '@/components/molecules';
 
@@ -109,6 +109,28 @@ const UNIT_SUITES = [
       "affiche l'icône",
     ],
   },
+  {
+    category: 'Route',
+    file: 'api.test.ts',
+    path: 'src/app/api/portfolio/',
+    colorVar: '#10b981',
+    bg: 'rgba(16,185,129,0.07)',
+    border: 'rgba(16,185,129,0.20)',
+    tests: [
+      'GET /api/portfolio — retourne 200',
+      'retourne les 5 clés principales',
+      'personalInfo contient name et email',
+      'GET /api/portfolio/experiences — retourne 200',
+      'retourne un tableau de 4 expériences',
+      'chaque expérience a un id, company et type valide',
+      'GET /api/portfolio/skills — retourne 200',
+      'retourne 4 catégories avec id, name et skills[]',
+      'GET /api/portfolio/education — retourne 200',
+      'retourne 2 formations avec id et degree',
+      'GET /api/portfolio/projects — retourne 200',
+      'retourne 1 projet avec tags[]',
+    ],
+  },
 ] as const;
 
 const E2E_SUITES = [
@@ -151,6 +173,7 @@ const categoryClass: Record<string, string> = {
   Hook:     'badge badge--accent',
   Atom:     'badge badge--cyan',
   Molecule: 'badge badge--dim',
+  Route:    'badge badge--dim',
 };
 
 function SuiteCard({ suite, index }: { suite: typeof UNIT_SUITES[number]; index: number }) {
@@ -233,7 +256,7 @@ export function TestsSection() {
     <section id="tests" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <SectionTitle
-          number="04"
+          number="02"
           label="Tests & Qualité"
           title="Couverture de tests"
           subtitle="Tests unitaires sur les atomes, molécules et hooks — tests E2E sur les flux utilisateur critiques. Exécutés en CI à chaque push."

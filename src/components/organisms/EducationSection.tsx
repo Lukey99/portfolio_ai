@@ -11,7 +11,7 @@ export function EducationSection({ education }: { education: Education[] }) {
     <section id="education" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
         <SectionTitle
-          number="06"
+          number="04"
           label="Formation"
           title="Mon Cursus"
           subtitle="Un parcours académique solide qui allie théorie et pratique."

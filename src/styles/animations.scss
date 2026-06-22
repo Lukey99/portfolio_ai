@@ -207,6 +207,39 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   }
 }
 
+// ═══════════════════════════════════════════════════════════
+// Reduced motion
+// ═══════════════════════════════════════════════════════════
+
+@media (prefers-reduced-motion: reduce) {
+  .a-fade-up,
+  .a-fade-left,
+  .a-fade,
+  .a-scale-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .orb {
+    animation: none !important;
+  }
+
+  .scroll-bounce {
+    animation: none !important;
+  }
+
+  .timeline__fill {
+    transition: none !important;
+  }
+}
+
 
 
 // ═══════════════════════════════════════════════════════════

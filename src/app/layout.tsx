@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import '@/styles/animations.scss';
+import { Header } from '@/components/organisms/Header';
+import { CustomCursor } from '@/components/organisms/CustomCursor';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -20,12 +22,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={inter.variable}>
+    <html lang="fr" className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Anti-flash: apply stored theme before React hydrates */}
         <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}` }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <CustomCursor />
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
