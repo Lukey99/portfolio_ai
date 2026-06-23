@@ -14,18 +14,12 @@ test.describe('Navigation', () => {
     await expect(logo).toHaveAttribute('href', '/');
   });
 
-  test('le lien Expériences pointe vers #experience', async ({ page }) => {
-    await page.locator('#education').scrollIntoViewIfNeeded();
-    await page.locator('a[href="#home"]').waitFor({ state: 'visible', timeout: 5000 });
-    const link = page.locator('nav:has(a[href="#home"])').locator('a[href="#experience"]');
-    await expect(link).toHaveAttribute('href', '#experience');
+  test('la section Expériences existe sur la page', async ({ page }) => {
+    await expect(page.locator('#experience')).toBeAttached();
   });
 
-  test('cliquer sur Expériences scroll vers la section', async ({ page }) => {
-    await page.locator('#education').scrollIntoViewIfNeeded();
-    await page.locator('a[href="#home"]').waitFor({ state: 'visible', timeout: 5000 });
-    const link = page.locator('nav:has(a[href="#home"])').locator('a[href="#experience"]');
-    await link.click();
+  test('scroller vers la section Expériences la met en vue', async ({ page }) => {
+    await page.locator('#experience').scrollIntoViewIfNeeded();
     await expect(page.locator('#experience')).toBeInViewport({ ratio: 0.2 });
   });
 

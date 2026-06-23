@@ -2,7 +2,7 @@
 
 import { portfolioData } from '@/lib/mock-data';
 import { MainLayout } from '@/components/templates/MainLayout';
-import { Hero } from '@/components/sections';
+import { Hero, ProfileSection } from '@/components/sections';
 import { Timeline, BentoGrid, CardList } from '@/components/organisms';
 import { TimelineCard, CredentialCard, ShowcaseCard, BentoCell } from '@/components/molecules';
 import { toTimelineCardProps, toCredentialCardProps, toShowcaseCardProps, toBentoCellProps } from '@/adapters/portfolio';
@@ -47,6 +47,7 @@ export default function HomePage() {
           items={education}
           renderItem={(edu, i) => <CredentialCard {...toCredentialCardProps(edu)} index={i} />}
         />,
+        <ProfileSection key="profile" info={personalInfo} />,
       ]}
     />
   );
