@@ -10,6 +10,7 @@ vi.mock('@/components/templates/MainLayout', () => ({
 
 vi.mock('@/components/sections', () => ({
   Hero: () => <div data-testid="hero" />,
+  ProfileSection: () => null,
 }));
 
 vi.mock('@/components/organisms', () => ({
@@ -48,7 +49,7 @@ describe('HomePage', () => {
 
   it('passe 4 sections à MainLayout', () => {
     render(<HomePage />);
-    expect(screen.getByTestId('main-layout').getAttribute('data-sections')).toBe('4');
+    expect(screen.getByTestId('main-layout').getAttribute('data-sections')).toBe('5');
   });
 
   it('passe le Hero en slot hero', () => {

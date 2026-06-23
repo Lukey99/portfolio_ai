@@ -40,17 +40,6 @@ describe('ContactSection', () => {
     expect(mailto).toBeTruthy();
   });
 
-  it('affiche les langues', () => {
-    render(<ContactSection info={INFO} />);
-    expect(screen.getByText('Français')).toBeInTheDocument();
-    expect(screen.getByText('Anglais')).toBeInTheDocument();
-  });
-
-  it('affiche les centres d\'intérêt', () => {
-    render(<ContactSection info={INFO} />);
-    expect(screen.getByText('Musique')).toBeInTheDocument();
-  });
-
   it('expose un id "contact" sur la section', () => {
     const { container } = render(<ContactSection info={INFO} />);
     expect(container.querySelector('#contact')).toBeTruthy();
