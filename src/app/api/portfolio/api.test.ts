@@ -11,7 +11,7 @@ vi.mock('next/server', () => ({
   },
 }));
 
-import { GET as getAll }         from './route';
+import { GET as getAll }         from './all/route';
 import { GET as getExperiences } from './experiences/route';
 import { GET as getSkills }      from './skills/route';
 import { GET as getEducation }   from './education/route';

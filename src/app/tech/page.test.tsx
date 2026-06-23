@@ -1,18 +1,12 @@
 import { vi } from 'vitest';
 
-vi.mock('@/components/organisms', () => ({
+vi.mock('@/components/sections', () => ({
   AIWorkflowSection:      () => <section data-testid="ai-workflow" />,
   TestsSection:           () => <section data-testid="tests" />,
   TestsDashboardSection:  () => <section data-testid="dashboard" />,
   ApiSection:             () => <section data-testid="api" />,
-}));
-
-vi.mock('@/components/organisms/ArchitectureSection', () => ({
-  ArchitectureSection: () => <section data-testid="architecture" />,
-}));
-
-vi.mock('@/components/organisms/StorybookSection', () => ({
-  StorybookSection: () => <section data-testid="storybook" />,
+  ArchitectureSection:    () => <section data-testid="architecture" />,
+  StorybookSection:       () => <section data-testid="storybook" />,
 }));
 
 import { render, screen } from '@testing-library/react';

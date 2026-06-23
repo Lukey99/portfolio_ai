@@ -12,7 +12,7 @@ const ENDPOINTS = [
     id: 'all',
     path: '/api/portfolio/all',
     label: 'Portfolio',
-    color: '#64748b',
+    color: '#94a3b8',
     desc: 'Intégralité des données du portfolio.',
   },
   {
@@ -146,13 +146,18 @@ export function ApiSection() {
           subtitle="Route handlers Next.js qui exposent les données du portfolio. Cliquez sur un endpoint pour exécuter un fetch en direct."
         />
 
-        {/* Frame */}
+        {/* Frame — always dark (terminal aesthetic) */}
         <div style={{
           borderRadius: '1.25rem',
-          border: '1px solid rgba(var(--overlay-rgb), 0.08)',
-          background: 'var(--card-bg)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          background: '#0d0d12',
           overflow: 'hidden',
-        }}>
+          '--overlay-rgb': '255,255,255',
+          '--fg-rgb': '232,232,238',
+          '--fg': '#e8e8ee',
+          '--card-bg': '#111118',
+          '--card-bg-hover': '#1a1a24',
+        } as React.CSSProperties}>
 
           {/* Top bar — URL */}
           <div style={{
@@ -170,7 +175,7 @@ export function ApiSection() {
               GET
             </span>
             <span style={{ fontSize: '0.78rem', fontFamily: 'monospace', color: 'rgba(var(--fg-rgb), 0.55)' }}>
-              <span style={{ color: 'rgba(var(--fg-rgb), 0.25)' }}>localhost:3000</span>
+              <span style={{ color: 'rgba(var(--fg-rgb), 0.5)' }}>localhost:3000</span>
               <span style={{ color: active.color, fontWeight: 600 }}>{active.path}</span>
             </span>
 
@@ -190,7 +195,7 @@ export function ApiSection() {
                   <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#4ade80', fontFamily: 'monospace' }}>
                     200 OK
                   </span>
-                  <span style={{ fontSize: '0.68rem', color: 'rgba(var(--fg-rgb), 0.3)', fontFamily: 'monospace' }}>
+                  <span style={{ fontSize: '0.68rem', color: 'rgba(var(--fg-rgb), 0.55)', fontFamily: 'monospace' }}>
                     {fetchState.ms}ms
                   </span>
                 </motion.div>
@@ -216,7 +221,7 @@ export function ApiSection() {
 
             {/* LEFT — endpoint list */}
             <div style={{ borderRight: '1px solid rgba(var(--overlay-rgb), 0.07)', padding: '1rem 0' }}>
-              <p style={{ padding: '0 1rem 0.65rem', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.25)' }}>
+              <p style={{ padding: '0 1rem 0.65rem', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.5)' }}>
                 Endpoints
               </p>
               {ENDPOINTS.map(ep => {
@@ -236,12 +241,12 @@ export function ApiSection() {
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.15rem' }}>
-                      <span style={{ fontSize: '0.56rem', fontWeight: 700, color: isActive ? ep.color : 'rgba(var(--fg-rgb),0.28)', fontFamily: 'monospace' }}>GET</span>
+                      <span style={{ fontSize: '0.56rem', fontWeight: 700, color: isActive ? ep.color : 'rgba(var(--fg-rgb),0.55)', fontFamily: 'monospace' }}>GET</span>
                       <span style={{ fontSize: '0.78rem', fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--fg)' : 'rgba(var(--fg-rgb), 0.55)' }}>
                         {ep.label}
                       </span>
                     </div>
-                    <p style={{ fontSize: '0.64rem', color: 'rgba(var(--fg-rgb), 0.3)', lineHeight: 1.4 }}>{ep.desc}</p>
+                    <p style={{ fontSize: '0.64rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.4 }}>{ep.desc}</p>
                   </motion.button>
                 );
               })}

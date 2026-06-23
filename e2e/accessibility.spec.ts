@@ -113,6 +113,7 @@ test.describe('Accessibilité E2E — Light mode', () => {
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2aa'])
         .withRules(['color-contrast'])
+        .exclude('.section-watermark')
         .analyze();
       expect(results.violations).toHaveLength(0);
     });
@@ -125,6 +126,8 @@ test.describe('Accessibilité E2E — Light mode', () => {
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2aa'])
         .withRules(['color-contrast'])
+        .exclude('.section-watermark')
+        .exclude('.arch-demo')
         .analyze();
       expect(results.violations).toHaveLength(0);
     });

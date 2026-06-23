@@ -18,7 +18,7 @@ describe('portfolioService', () => {
     mockFetch.mockReturnValueOnce(mockOk({}));
     await portfolioService.getPortfolio();
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:3000/api/portfolio',
+      'http://localhost:3000/api/portfolio/all',
       expect.objectContaining({ next: { revalidate: 3600 } }),
     );
   });

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import '@/styles/animations.scss';
 import { Header } from '@/components/organisms/Header';
+import { Navbar } from '@/components/organisms/Navbar';
 import { CustomCursor } from '@/components/organisms/CustomCursor';
 
 const inter = Inter({
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <CustomCursor />
         <Header />
+        <Navbar />
         {children}
       </body>
     </html>

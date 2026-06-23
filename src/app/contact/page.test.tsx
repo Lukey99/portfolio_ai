@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 
-vi.mock('@/components/organisms', () => ({
+vi.mock('@/components/sections', () => ({
   ContactSection: ({ info }: { info: unknown }) => (
     <section data-testid="contact-section" data-has-info={!!info} />
   ),

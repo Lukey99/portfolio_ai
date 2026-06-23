@@ -8,7 +8,7 @@ interface SectionTitleProps {
 export function SectionTitle({ number, label, title, subtitle }: SectionTitleProps) {
   return (
     <div style={{ position: 'relative', marginBottom: '5rem' }}>
-      <span className="section-watermark">{number}</span>
+      <span className="section-watermark" aria-hidden="true">{number}</span>
 
       <div className="reveal reveal--left reveal-s0" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
         <div style={{ width: '2rem', height: '1px', background: 'linear-gradient(90deg,#8b5cf6,#22d3ee)', flexShrink: 0 }} />
@@ -22,7 +22,7 @@ export function SectionTitle({ number, label, title, subtitle }: SectionTitlePro
       </h2>
 
       {subtitle && (
-        <p className="reveal reveal-s2" style={{ marginTop: '1rem', color: 'rgba(var(--fg-rgb), 0.5)', fontSize: '1rem', maxWidth: '36rem', lineHeight: 1.75 }}>
+        <p className="reveal reveal-s2" style={{ marginTop: '1rem', color: 'rgba(var(--fg-rgb), 0.65)', fontSize: '1rem', maxWidth: '36rem', lineHeight: 1.75 }}>
           {subtitle}
         </p>
       )}

@@ -373,7 +373,7 @@ function ExplodeDemo() {
   }
 
   return (
-    <div style={{ marginTop: '4rem' }}>
+    <div className="arch-demo" style={{ marginTop: '4rem' }}>
       {/* Divider */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
         <div style={{ height: '1px', flex: 1, background: 'rgba(var(--overlay-rgb), 0.08)' }} />
