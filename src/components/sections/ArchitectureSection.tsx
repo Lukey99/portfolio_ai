@@ -4,58 +4,50 @@ import { useState } from 'react';
 import { motion, AnimatePresence, useInView } from 'motion/react';
 import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
+import { useLocale } from '@/contexts/LocaleContext';
 
-// ── Layer tree ────────────────────────────────────────────────
+// ── Static layer data (colors, component names) ───────────────
 
-const LAYERS = [
+const LAYERS_STATIC = [
   {
     level: 'Atoms',
-    labelFr: 'Atomes',
-    color: '#22d3ee',
-    bg: 'rgba(34,211,238,0.08)',
-    border: 'rgba(34,211,238,0.22)',
-    description: 'Briques élémentaires — aucune logique applicative',
+    color: '#22d3ee', bg: 'rgba(34,211,238,0.08)', border: 'rgba(34,211,238,0.22)',
     components: ['Button', 'Badge', 'Tag', 'GradientText'],
   },
   {
     level: 'Molecules',
-    labelFr: 'Molécules',
-    color: '#8b5cf6',
-    bg: 'rgba(139,92,246,0.08)',
-    border: 'rgba(139,92,246,0.22)',
-    description: 'Combinaisons d\'atomes avec une responsabilité unique',
+    color: '#8b5cf6', bg: 'rgba(139,92,246,0.08)', border: 'rgba(139,92,246,0.22)',
     components: ['SectionTitle', 'ExperienceCard', 'ProjectCard', 'EducationCard', 'ContactItem', 'SkillBento'],
   },
   {
     level: 'Organisms',
-    labelFr: 'Organismes',
-    color: '#a78bfa',
-    bg: 'rgba(167,139,250,0.08)',
-    border: 'rgba(167,139,250,0.22)',
-    description: 'Sections autonomes composées de molécules',
+    color: '#a78bfa', bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.22)',
     components: ['Header', 'Hero', 'Timeline', 'BentoGrid', 'CardList', 'ContactSection', 'ApiSection', 'AIWorkflowSection', 'TestsSection', 'TestsDashboardSection', 'ArchitectureSection', 'StorybookSection', 'CustomCursor'],
   },
   {
     level: 'Templates',
-    labelFr: 'Templates',
-    color: '#c4b5fd',
-    bg: 'rgba(196,181,253,0.06)',
-    border: 'rgba(196,181,253,0.18)',
-    description: 'Mise en page structurelle — pas de données en dur',
+    color: '#c4b5fd', bg: 'rgba(196,181,253,0.06)', border: 'rgba(196,181,253,0.18)',
     components: ['MainLayout'],
   },
   {
     level: 'Pages',
-    labelFr: 'Pages',
-    color: 'var(--fg)',
-    bg: 'rgba(var(--overlay-rgb), 0.04)',
-    border: 'rgba(var(--overlay-rgb), 0.12)',
-    description: 'Routes Next.js — assemblage final avec données réelles',
+    color: 'var(--fg)', bg: 'rgba(var(--overlay-rgb), 0.04)', border: 'rgba(var(--overlay-rgb), 0.12)',
     components: ['Portfolio (/)', 'Tech (/tech)', 'Contact (/contact)'],
   },
 ];
 
-function LayerRow({ layer, index, isInView }: { layer: typeof LAYERS[0]; index: number; isInView: boolean }) {
+const DEMO_STATIC = [
+  { color: '#64748b', component: '—' },
+  { color: '#f59e0b', component: 'Timeline' },
+  { color: '#8b5cf6', component: 'TimelineCard' },
+  { color: '#22d3ee', component: 'Badge · GradientText · text' },
+];
+
+const STATS_N = ['4', '6', '13', '3'];
+
+// ── Sub-components ────────────────────────────────────────────
+
+function LayerRow({ layer, index, isInView }: { layer: typeof LAYERS_STATIC[0] & { label: string; description: string }; index: number; isInView: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -24 }}
@@ -70,7 +62,7 @@ function LayerRow({ layer, index, isInView }: { layer: typeof LAYERS[0]; index: 
           color: layer.color, background: layer.bg, border: `1px solid ${layer.border}`,
           alignSelf: 'flex-start',
         }}>
-          {layer.labelFr}
+          {layer.label}
         </span>
         <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.35)', lineHeight: 1.4 }}>
           {layer.description}
@@ -115,43 +107,9 @@ function Connector({ index, isInView }: { index: number; isInView: boolean }) {
   );
 }
 
-// ── Interactive explosion demo ────────────────────────────────
-
 type ExplodeStep = 0 | 1 | 2 | 3;
 
-const DEMO_STEPS: { label: string; color: string; component: string; desc: string }[] = [
-  {
-    label: 'Assemblé',
-    color: '#64748b',
-    component: '—',
-    desc: 'L\'UI telle que l\'utilisateur la voit — aucune couture visible entre les niveaux.',
-  },
-  {
-    label: 'Organisme',
-    color: '#f59e0b',
-    component: 'Timeline',
-    desc: 'Orchestre une liste d\'items génériques et délègue le rendu de chacun via une render prop.',
-  },
-  {
-    label: 'Molécule',
-    color: '#8b5cf6',
-    component: 'TimelineCard',
-    desc: 'Assemble Badge + GradientText + textes à partir de props visuelles — sans couplage au domaine.',
-  },
-  {
-    label: 'Atomes',
-    color: '#22d3ee',
-    component: 'Badge · GradientText · text',
-    desc: 'Briques indivisibles — chacune vit dans sa propre logique, réutilisée partout.',
-  },
-];
-
-
-function LevelBorder({
-  color, label, visible, children,
-}: {
-  color: string; label: string; visible: boolean; children: React.ReactNode;
-}) {
+function LevelBorder({ color, label, visible, children }: { color: string; label: string; visible: boolean; children: React.ReactNode }) {
   return (
     <div style={{ position: 'relative' }}>
       <AnimatePresence>
@@ -162,23 +120,14 @@ function LevelBorder({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            style={{
-              position: 'absolute', inset: '-14px', borderRadius: '1.1rem',
-              border: `1.5px solid ${color}`, background: `${color}0C`,
-              pointerEvents: 'none', zIndex: 0,
-            }}
+            style={{ position: 'absolute', inset: '-14px', borderRadius: '1.1rem', border: `1.5px solid ${color}`, background: `${color}0C`, pointerEvents: 'none', zIndex: 0 }}
           >
             <motion.span
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, delay: 0.12 }}
-              style={{
-                position: 'absolute', top: '-11px', left: '14px',
-                fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em',
-                textTransform: 'uppercase', color, fontFamily: 'monospace',
-                background: 'var(--bg)', padding: '0 8px', whiteSpace: 'nowrap',
-              }}
+              style={{ position: 'absolute', top: '-11px', left: '14px', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color, fontFamily: 'monospace', background: 'var(--bg)', padding: '0 8px', whiteSpace: 'nowrap' }}
             >
               {label}
             </motion.span>
@@ -189,7 +138,6 @@ function LevelBorder({
     </div>
   );
 }
-
 
 function ExperienceSkeletonCard() {
   return (
@@ -245,7 +193,6 @@ function DemoExperienceCard() {
 function PageThumbnail() {
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
-      {/* Nav */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0.7rem', background: 'rgba(var(--overlay-rgb), 0.04)', borderRadius: '0.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.06)' }}>
         <div style={{ width: '40px', height: '5px', borderRadius: '3px', background: 'linear-gradient(90deg,#8b5cf6,#22d3ee)' }} />
         <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -254,7 +201,6 @@ function PageThumbnail() {
           ))}
         </div>
       </div>
-      {/* Hero */}
       <div style={{ padding: '0.9rem 0.7rem', background: 'rgba(var(--overlay-rgb), 0.03)', borderRadius: '0.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.05)' }}>
         <div style={{ width: '55%', height: '8px', borderRadius: '4px', background: 'linear-gradient(90deg,rgba(139,92,246,0.3),rgba(34,211,238,0.2))', marginBottom: '0.35rem' }} />
         <div style={{ width: '75%', height: '5px', borderRadius: '3px', background: 'rgba(var(--overlay-rgb), 0.07)', marginBottom: '0.22rem' }} />
@@ -264,7 +210,6 @@ function PageThumbnail() {
           <div style={{ width: '44px', height: '13px', borderRadius: '9999px', background: 'rgba(var(--overlay-rgb), 0.06)', border: '1px solid rgba(var(--overlay-rgb), 0.09)' }} />
         </div>
       </div>
-      {/* Experience section */}
       <div style={{ padding: '0.7rem 0.7rem', background: 'rgba(var(--overlay-rgb), 0.03)', borderRadius: '0.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.05)' }}>
         <div style={{ width: '35%', height: '5px', borderRadius: '3px', background: 'rgba(var(--overlay-rgb), 0.08)', marginBottom: '0.45rem' }} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.28rem' }}>
@@ -272,7 +217,6 @@ function PageThumbnail() {
           <div style={{ opacity: 0.45 }}><ExperienceSkeletonCard /></div>
         </div>
       </div>
-      {/* Skills stub */}
       <div style={{ padding: '0.55rem 0.7rem', background: 'rgba(var(--overlay-rgb), 0.02)', borderRadius: '0.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.04)' }}>
         <div style={{ display: 'flex', gap: '0.28rem', flexWrap: 'wrap' }}>
           {[38, 30, 44, 34, 28].map((w, i) => (
@@ -346,26 +290,16 @@ function AtomBreakdownView() {
 }
 
 const zoomVariants = {
-  enter: (dir: number) => ({
-    scale: dir > 0 ? 0.82 : 1.16,
-    opacity: 0,
-    filter: 'blur(6px)',
-  }),
+  enter: (dir: number) => ({ scale: dir > 0 ? 0.82 : 1.16, opacity: 0, filter: 'blur(6px)' }),
   center: { scale: 1, opacity: 1, filter: 'blur(0px)' },
-  exit: (dir: number) => ({
-    scale: dir > 0 ? 1.16 : 0.82,
-    opacity: 0,
-    filter: 'blur(6px)',
-  }),
+  exit: (dir: number) => ({ scale: dir > 0 ? 1.16 : 0.82, opacity: 0, filter: 'blur(6px)' }),
 };
+const zoomTransitionIn  = { duration: 0.42, ease: 'easeOut' as const };
 
-const zoomTransitionIn = { duration: 0.42, ease: 'easeOut' as const };
-const zoomTransitionOut = { duration: 0.32, ease: 'easeIn' as const };
-
-function ExplodeDemo() {
+function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: string; desc: string }[] }) {
   const [step, setStep] = useState<ExplodeStep>(0);
-  const [dir, setDir] = useState<1 | -1>(1);
-  const current = DEMO_STEPS[step];
+  const [dir, setDir]   = useState<1 | -1>(1);
+  const current         = { ...DEMO_STATIC[step], ...steps[step] };
 
   function goTo(i: ExplodeStep) {
     setDir(i > step ? 1 : -1);
@@ -377,35 +311,16 @@ function ExplodeDemo() {
       {/* Divider */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
         <div style={{ height: '1px', flex: 1, background: 'rgba(var(--overlay-rgb), 0.08)' }} />
-        <span style={{
-          fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.14em',
-          textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.28)',
-          padding: '0.3rem 1.1rem', border: '1px solid rgba(var(--overlay-rgb), 0.09)',
-          borderRadius: '9999px', background: 'var(--card-bg)', whiteSpace: 'nowrap',
-        }}>
-          Démo interactive
+        <span style={{ fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.28)', padding: '0.3rem 1.1rem', border: '1px solid rgba(var(--overlay-rgb), 0.09)', borderRadius: '9999px', background: 'var(--card-bg)', whiteSpace: 'nowrap' }}>
+          {demoLabel}
         </span>
         <div style={{ height: '1px', flex: 1, background: 'rgba(var(--overlay-rgb), 0.08)' }} />
       </div>
 
-      {/* 2-column frame */}
-      <div style={{
-        display: 'grid', gridTemplateColumns: '1fr 1fr',
-        background: 'var(--card-bg)', borderRadius: '1.5rem',
-        border: '1px solid rgba(var(--overlay-rgb), 0.07)',
-        marginBottom: '2.5rem', overflow: 'hidden',
-        minHeight: '480px',
-      }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', background: 'var(--card-bg)', borderRadius: '1.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.07)', marginBottom: '2.5rem', overflow: 'hidden', minHeight: '480px' }}>
 
         {/* LEFT — zoom view */}
-        <div style={{
-          padding: '2.5rem 2rem',
-          borderRight: '1px solid rgba(var(--overlay-rgb), 0.07)',
-          overflow: 'hidden',
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-        }}>
+        <div style={{ padding: '2.5rem 2rem', borderRight: '1px solid rgba(var(--overlay-rgb), 0.07)', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center' }}>
           <AnimatePresence mode="wait" custom={dir}>
             {step === 0 && (
               <motion.div key={0} custom={dir} variants={zoomVariants} initial="enter" animate="center" exit="exit" transition={zoomTransitionIn} style={{ width: '100%' }}>
@@ -432,99 +347,66 @@ function ExplodeDemo() {
           </AnimatePresence>
         </div>
 
-        {/* RIGHT — atomic level info + stepper */}
+        {/* RIGHT — info + stepper */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-
-          {/* Level info (top, fills remaining height) */}
           <div style={{ flex: 1, padding: '3.5rem 2.5rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <AnimatePresence mode="wait">
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.22 }}
-              >
-                <span style={{
-                  fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.14em',
-                  textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.25)',
-                  fontFamily: 'monospace',
-                }}>
-                  {String(step + 1).padStart(2, '0')} / {DEMO_STEPS.length}
+              <motion.div key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
+                <span style={{ fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.25)', fontFamily: 'monospace' }}>
+                  {String(step + 1).padStart(2, '0')} / {steps.length}
                 </span>
-                <h4 style={{
-                  fontSize: '2rem', fontWeight: 800, color: current.color,
-                  letterSpacing: '-0.03em', lineHeight: 1.05,
-                  marginTop: '0.5rem', marginBottom: '0.3rem',
-                }}>
+                <h4 style={{ fontSize: '2rem', fontWeight: 800, color: current.color, letterSpacing: '-0.03em', lineHeight: 1.05, marginTop: '0.5rem', marginBottom: '0.3rem' }}>
                   {current.label}
                 </h4>
                 {current.component !== '—' && (
-                  <p style={{
-                    fontSize: '0.7rem', fontFamily: 'monospace',
-                    color: 'rgba(var(--fg-rgb), 0.32)', letterSpacing: '0.05em',
-                    marginBottom: '1.25rem',
-                  }}>
+                  <p style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: 'rgba(var(--fg-rgb), 0.32)', letterSpacing: '0.05em', marginBottom: '1.25rem' }}>
                     {current.component}
                   </p>
                 )}
-                <p style={{
-                  fontSize: '0.87rem', color: 'rgba(var(--fg-rgb), 0.5)',
-                  lineHeight: 1.72, marginTop: current.component === '—' ? '1.25rem' : 0,
-                }}>
+                <p style={{ fontSize: '0.87rem', color: 'rgba(var(--fg-rgb), 0.5)', lineHeight: 1.72, marginTop: current.component === '—' ? '1.25rem' : 0 }}>
                   {current.desc}
                 </p>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Separator */}
           <div style={{ height: '1px', background: 'rgba(var(--overlay-rgb), 0.07)', margin: '0 2rem' }} />
 
-          {/* Stepper (bottom) */}
           <div style={{ padding: '1.25rem 2rem 1.75rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-              {DEMO_STEPS.map((s, i) => (
-                <div key={i} style={{ display: 'contents' }}>
-                  <motion.button
-                    onClick={() => goTo(i as ExplodeStep)}
-                    whileHover={{ scale: 1.06, backgroundColor: `${s.color}28` }}
-                    whileTap={{ scale: 0.95 }}
-                    animate={{
-                      borderColor: i <= step ? s.color : 'rgba(148,163,184,0.18)',
-                      backgroundColor: i === step ? `${s.color}20` : i < step ? `${s.color}0C` : 'rgba(0,0,0,0)',
-                      color: i <= step ? s.color : 'rgba(148,163,184,0.45)',
-                    }}
-                    transition={{ duration: 0.25 }}
-                    style={{
-                      padding: '0.35rem 0.85rem', borderRadius: '9999px',
-                      fontSize: '0.65rem', fontWeight: i <= step ? 700 : 400,
-                      fontFamily: 'monospace', letterSpacing: '0.05em',
-                      cursor: 'pointer', border: '1.5px solid', whiteSpace: 'nowrap',
-                      flexShrink: 0,
-                    }}
-                  >
-                    {s.label}
-                  </motion.button>
-                  {i < 3 && (
-                    <div style={{ flex: 1, minWidth: '0.5rem', height: '2px', position: 'relative', background: 'rgba(var(--overlay-rgb), 0.1)' }}>
-                      <motion.div
-                        animate={{ scaleX: step > i ? 1 : 0 }}
-                        initial={{ scaleX: 0 }}
-                        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-                        style={{
-                          position: 'absolute', inset: 0,
-                          background: `linear-gradient(90deg, ${s.color}, ${DEMO_STEPS[i + 1].color})`,
-                          transformOrigin: 'left',
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
+              {steps.map((s, i) => {
+                const color = DEMO_STATIC[i].color;
+                return (
+                  <div key={i} style={{ display: 'contents' }}>
+                    <motion.button
+                      onClick={() => goTo(i as ExplodeStep)}
+                      whileHover={{ scale: 1.06, backgroundColor: `${color}28` }}
+                      whileTap={{ scale: 0.95 }}
+                      animate={{
+                        borderColor: i <= step ? color : 'rgba(148,163,184,0.18)',
+                        backgroundColor: i === step ? `${color}20` : i < step ? `${color}0C` : 'rgba(0,0,0,0)',
+                        color: i <= step ? color : 'rgba(148,163,184,0.45)',
+                      }}
+                      transition={{ duration: 0.25 }}
+                      style={{ padding: '0.35rem 0.85rem', borderRadius: '9999px', fontSize: '0.65rem', fontWeight: i <= step ? 700 : 400, fontFamily: 'monospace', letterSpacing: '0.05em', cursor: 'pointer', border: '1.5px solid', whiteSpace: 'nowrap', flexShrink: 0 }}
+                    >
+                      {s.label}
+                    </motion.button>
+                    {i < 3 && (
+                      <div style={{ flex: 1, minWidth: '0.5rem', height: '2px', position: 'relative', background: 'rgba(var(--overlay-rgb), 0.1)' }}>
+                        <motion.div
+                          animate={{ scaleX: step > i ? 1 : 0 }}
+                          initial={{ scaleX: 0 }}
+                          transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+                          style={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, ${color}, ${DEMO_STATIC[i + 1].color})`, transformOrigin: 'left' }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -534,8 +416,12 @@ function ExplodeDemo() {
 // ── Main export ───────────────────────────────────────────────
 
 export function ArchitectureSection() {
-  const ref = useReveal();
-  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
+  const ref       = useReveal();
+  const { t }     = useLocale();
+  const isInView  = useInView(ref, { once: true, margin: '-10% 0px' });
+  const { section, layers, stats, demoLabel, demoSteps } = t.architecture;
+
+  const mergedLayers = LAYERS_STATIC.map((l, i) => ({ ...l, label: layers[i].label, description: layers[i].description }));
 
   return (
     <section ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
@@ -543,18 +429,18 @@ export function ArchitectureSection() {
 
       <div style={{ maxWidth: '72rem', margin: '0 auto', position: 'relative' }}>
         <SectionTitle
-          number="05"
-          label="Architecture"
-          title="Design atomique"
-          subtitle="L'UI suit le pattern Atomic Design — chaque niveau est indépendant, testable, et réutilisable dans plusieurs contextes."
+          number={section.number}
+          label={section.label}
+          title={section.title}
+          subtitle={section.subtitle}
         />
 
         {/* Layer tree */}
         <div>
-          {LAYERS.map((layer, i) => (
+          {mergedLayers.map((layer, i) => (
             <div key={layer.level}>
               <LayerRow layer={layer} index={i} isInView={isInView} />
-              {i < LAYERS.length - 1 && <Connector index={i} isInView={isInView} />}
+              {i < mergedLayers.length - 1 && <Connector index={i} isInView={isInView} />}
             </div>
           ))}
         </div>
@@ -563,28 +449,18 @@ export function ArchitectureSection() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: LAYERS.length * 0.28 + 0.2 }}
-          style={{
-            marginTop: '3rem', display: 'flex', flexWrap: 'wrap', gap: '2rem',
-            padding: '1.5rem 2rem', borderRadius: '1rem',
-            background: 'var(--card-bg)', border: '1px solid rgba(var(--overlay-rgb), 0.07)',
-          }}
+          transition={{ duration: 0.5, delay: LAYERS_STATIC.length * 0.28 + 0.2 }}
+          style={{ marginTop: '3rem', display: 'flex', flexWrap: 'wrap', gap: '2rem', padding: '1.5rem 2rem', borderRadius: '1rem', background: 'var(--card-bg)', border: '1px solid rgba(var(--overlay-rgb), 0.07)' }}
         >
-          {[
-            { n: '4', label: 'Atomes' },
-            { n: '6', label: 'Molécules' },
-            { n: '13', label: 'Organismes' },
-            { n: '3', label: 'Pages' },
-          ].map(({ n, label }) => (
-            <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+          {STATS_N.map((n, i) => (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
               <span style={{ fontSize: '1.5rem', fontWeight: 800, background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{n}</span>
-              <span style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>{label}</span>
+              <span style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>{stats[i].label}</span>
             </div>
           ))}
         </motion.div>
 
-        {/* Interactive decomposition demo */}
-        <ExplodeDemo />
+        <ExplodeDemo demoLabel={demoLabel} steps={demoSteps} />
       </div>
     </section>
   );

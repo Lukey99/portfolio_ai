@@ -3,19 +3,15 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { AnimatedText, Button } from '@/components/atoms';
+import { useLocale } from '@/contexts/LocaleContext';
 import type { PersonalInfo } from '@/types/portfolio.types';
 
 interface HeroProps {
   info: PersonalInfo;
 }
 
-const stats = [
-  { value: '6+', label: "Années d'expérience" },
-  { value: '4',  label: 'Entreprises' },
-  { value: '925', label: 'TOEIC anglais' },
-];
-
 export function Hero({ info }: HeroProps) {
+  const { t } = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
   const y       = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
@@ -69,17 +65,17 @@ export function Hero({ info }: HeroProps) {
 
           <div className="a-fade-up d-9" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '5rem' }}>
             <Button href="#experience" variant="primary">
-              Voir mon parcours
+              {t.hero.ctaExperience}
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
             </Button>
             <Button href="#contact" variant="secondary">
-              Me contacter
+              {t.hero.ctaContact}
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </Button>
           </div>
 
           <div className="a-fade-up d-10" style={{ display: 'flex', flexWrap: 'wrap', gap: '2.5rem', paddingTop: '2rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.06)' }}>
-            {stats.map((s, i) => (
+            {t.hero.stats.map((s, i) => (
               <div key={i}>
                 <div style={{ fontSize: '2.5rem', fontWeight: 900, letterSpacing: '-0.03em', color: 'var(--fg)' }}>{s.value}</div>
                 <div style={{ fontSize: '0.82rem', color: 'rgba(var(--fg-rgb), 0.35)', marginTop: '0.25rem' }}>{s.label}</div>
@@ -91,7 +87,7 @@ export function Hero({ info }: HeroProps) {
 
       {/* Scroll indicator */}
       <div className="a-fade d-12" style={{ position: 'absolute', bottom: '2.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-        <span style={{ fontSize: '0.62rem', color: 'rgba(var(--overlay-rgb), 0.22)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>Scroll</span>
+        <span style={{ fontSize: '0.62rem', color: 'rgba(var(--overlay-rgb), 0.22)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>{t.hero.scrollLabel}</span>
         <div className="scroll-bounce" style={{ width: '1px', height: '3.5rem', background: 'linear-gradient(to bottom,rgba(139,92,246,0.7),transparent)' }} />
       </div>
     </section>

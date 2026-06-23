@@ -4,6 +4,7 @@ import './globals.css';
 import '@/styles/animations.scss';
 import { Header } from '@/components/organisms/Header';
 import { CustomCursor } from '@/components/organisms/CustomCursor';
+import { LocaleProvider } from '@/contexts/LocaleContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,9 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}` }} />
       </head>
       <body>
-        <CustomCursor />
-        <Header />
-        {children}
+        <LocaleProvider>
+          <CustomCursor />
+          <Header />
+          {children}
+        </LocaleProvider>
       </body>
     </html>
   );

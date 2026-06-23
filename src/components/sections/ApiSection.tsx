@@ -4,48 +4,18 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
+import { useLocale } from '@/contexts/LocaleContext';
 
-// ── Data ─────────────────────────────────────────────────────
-
-const ENDPOINTS = [
-  {
-    id: 'all',
-    path: '/api/portfolio/all',
-    label: 'Portfolio',
-    color: '#94a3b8',
-    desc: 'Intégralité des données du portfolio.',
-  },
-  {
-    id: 'experiences',
-    path: '/api/portfolio/experiences',
-    label: 'Expériences',
-    color: '#8b5cf6',
-    desc: 'Liste des expériences professionnelles.',
-  },
-  {
-    id: 'skills',
-    path: '/api/portfolio/skills',
-    label: 'Compétences',
-    color: '#22d3ee',
-    desc: 'Catégories de compétences techniques.',
-  },
-  {
-    id: 'education',
-    path: '/api/portfolio/education',
-    label: 'Formation',
-    color: '#f59e0b',
-    desc: 'Parcours académique et diplômes.',
-  },
-  {
-    id: 'projects',
-    path: '/api/portfolio/projects',
-    label: 'Projets',
-    color: '#10b981',
-    desc: 'Side projects et réalisations.',
-  },
+// Static data (paths, colors) — text comes from translations
+const ENDPOINTS_STATIC = [
+  { id: 'all',         path: '/api/portfolio/all',         color: '#94a3b8' },
+  { id: 'experiences', path: '/api/portfolio/experiences', color: '#8b5cf6' },
+  { id: 'skills',      path: '/api/portfolio/skills',      color: '#22d3ee' },
+  { id: 'education',   path: '/api/portfolio/education',   color: '#f59e0b' },
+  { id: 'projects',    path: '/api/portfolio/projects',    color: '#10b981' },
 ] as const;
 
-type EndpointId = typeof ENDPOINTS[number]['id'];
+type EndpointId = typeof ENDPOINTS_STATIC[number]['id'];
 type FetchState =
   | { status: 'idle' }
   | { status: 'loading' }
@@ -71,7 +41,7 @@ function JsonView({ data }: { data: unknown }) {
 
   for (const m of text.matchAll(TOKEN_RE)) {
     if (m.index! > last) nodes.push(text.slice(last, m.index));
-    const [full, key, str, num, kw, punct] = m;
+    const [full, key, str, num, kw] = m;
     const type = key ? 'key' : str ? 'string' : num ? 'number' : kw ? 'keyword' : 'punct';
     nodes.push(
       <span key={m.index} style={{ color: TOKEN_COLORS[type] }}>
@@ -89,8 +59,6 @@ function JsonView({ data }: { data: unknown }) {
   );
 }
 
-// ── Sub-components ────────────────────────────────────────────
-
 function LoadingDots() {
   return (
     <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', padding: '2rem' }}>
@@ -106,12 +74,17 @@ function LoadingDots() {
   );
 }
 
-// ── Main ─────────────────────────────────────────────────────
-
 export function ApiSection() {
-  const ref = useReveal();
-  const [activeId, setActiveId] = useState<EndpointId>('all');
+  const ref   = useReveal();
+  const { t } = useLocale();
+  const [activeId, setActiveId]     = useState<EndpointId>('all');
   const [fetchState, setFetchState] = useState<FetchState>({ status: 'idle' });
+
+  const ENDPOINTS = ENDPOINTS_STATIC.map((ep, i) => ({
+    ...ep,
+    label: t.api.endpoints[i].label,
+    desc:  t.api.endpoints[i].desc,
+  }));
 
   const active = ENDPOINTS.find(ep => ep.id === activeId)!;
 
@@ -119,7 +92,7 @@ export function ApiSection() {
     setFetchState({ status: 'loading' });
     const t0 = performance.now();
     try {
-      const res = await fetch(path);
+      const res  = await fetch(path);
       const data = await res.json();
       setFetchState({ status: 'done', data, ms: Math.round(performance.now() - t0) });
     } catch (e) {
@@ -130,23 +103,22 @@ export function ApiSection() {
   const handleSelect = useCallback((ep: typeof ENDPOINTS[number]) => {
     setActiveId(ep.id);
     fetchEndpoint(ep.path);
-  }, [fetchEndpoint]);
+  }, [fetchEndpoint]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetchEndpoint(ENDPOINTS[0].path);
+    fetchEndpoint(ENDPOINTS_STATIC[0].path);
   }, [fetchEndpoint]);
 
   return (
     <section id="api" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <SectionTitle
-          number="04"
-          label="API REST"
-          title="Démo API"
-          subtitle="Route handlers Next.js qui exposent les données du portfolio. Cliquez sur un endpoint pour exécuter un fetch en direct."
+          number={t.api.section.number}
+          label={t.api.section.label}
+          title={t.api.section.title}
+          subtitle={t.api.section.subtitle}
         />
 
-        {/* Frame — always dark (terminal aesthetic) */}
         <div style={{
           borderRadius: '1.25rem',
           border: '1px solid rgba(255,255,255,0.08)',
@@ -181,7 +153,6 @@ export function ApiSection() {
 
             <div style={{ flex: 1 }} />
 
-            {/* Status indicator */}
             <AnimatePresence mode="wait">
               {fetchState.status === 'done' && (
                 <motion.div
@@ -210,7 +181,7 @@ export function ApiSection() {
                 >
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#f87171' }} />
                   <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#f87171', fontFamily: 'monospace' }}>
-                    Erreur
+                    {t.api.errorLabel}
                   </span>
                 </motion.div>
               )}
@@ -270,7 +241,7 @@ export function ApiSection() {
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
-                    <p style={{ fontSize: '0.8rem' }}>Sélectionnez un endpoint</p>
+                    <p style={{ fontSize: '0.8rem' }}>{t.api.idleText}</p>
                   </motion.div>
                 )}
 

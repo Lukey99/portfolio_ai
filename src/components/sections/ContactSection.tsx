@@ -1,6 +1,7 @@
 'use client';
 
 import { useReveal } from '@/hooks/useReveal';
+import { useLocale } from '@/contexts/LocaleContext';
 import { ContactItem } from '@/components/molecules';
 import type { PersonalInfo } from '@/types/portfolio.types';
 
@@ -21,7 +22,8 @@ const MapIcon = () => (
 );
 
 export function ContactSection({ info }: { info: PersonalInfo }) {
-  const ref = useReveal();
+  const ref   = useReveal();
+  const { t } = useLocale();
 
   return (
     <section id="contact" ref={ref} style={{ padding: '7rem 1.5rem 5rem', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
@@ -36,13 +38,12 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
             01 — Contact
           </p>
           <h2 style={{ fontSize: 'clamp(2.25rem,6vw,4rem)', fontWeight: 900, color: 'var(--fg)', letterSpacing: '-0.03em' }}>
-            Travaillons ensemble
+            {t.contact.title}
           </h2>
         </div>
 
         {/* Email card CTA */}
         <div className="reveal reveal-s1" style={{ marginBottom: '4rem' }}>
-          {/* Gradient border wrapper */}
           <div style={{
             padding: '1px', borderRadius: '1.25rem',
             background: 'linear-gradient(135deg, rgba(139,92,246,0.6), rgba(34,211,238,0.4))',
@@ -57,7 +58,6 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
               position: 'relative',
               overflow: 'hidden',
             }}>
-              {/* Inner glow */}
               <div style={{
                 position: 'absolute', top: '-40px', left: '50%', transform: 'translateX(-50%)',
                 width: '400px', height: '200px',
@@ -65,7 +65,6 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
                 pointerEvents: 'none',
               }} />
 
-              {/* Mail icon badge */}
               <div style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 width: '3.5rem', height: '3.5rem', borderRadius: '1rem',
@@ -78,10 +77,9 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
               </div>
 
               <p style={{ fontSize: '0.8rem', color: 'rgba(var(--fg-rgb), 0.35)', marginBottom: '0.75rem' }}>
-                Mon adresse email
+                {t.contact.emailLabel}
               </p>
 
-              {/* Big email */}
               <p className="gradient-text" style={{
                 fontSize: 'clamp(1.15rem, 3.5vw, 1.8rem)',
                 fontWeight: 800,
@@ -92,7 +90,6 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
                 {info.email}
               </p>
 
-              {/* CTA button */}
               <a
                 href={`mailto:${info.email}`}
                 style={{
@@ -120,7 +117,7 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
-                Envoyer un email
+                {t.contact.emailCta}
               </a>
             </div>
           </div>
@@ -128,18 +125,18 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
 
         {/* Contact cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '1rem', marginBottom: '3rem' }}>
-          <ContactItem index={0} icon={<MailIcon />}  label="Email"       value={info.email}   href={`mailto:${info.email}`} />
-          <ContactItem index={1} icon={<PhoneIcon />} label="Téléphone"   value={info.phone}   href={`tel:${info.phone.replace(/\s/g,'')}`} />
-          <ContactItem index={2} icon={<MapIcon />}   label="Localisation" value={info.location} />
+          <ContactItem index={0} icon={<MailIcon />}  label={t.contact.emailItemLabel}    value={info.email}   href={`mailto:${info.email}`} />
+          <ContactItem index={1} icon={<PhoneIcon />} label={t.contact.phoneItemLabel}    value={info.phone}   href={`tel:${info.phone.replace(/\s/g,'')}`} />
+          <ContactItem index={2} icon={<MapIcon />}   label={t.contact.locationItemLabel} value={info.location} />
         </div>
 
         {/* Footer */}
         <div className="reveal reveal-s3" style={{ paddingTop: '2rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.05)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
           <p style={{ fontSize: '0.82rem', color: 'rgba(var(--fg-rgb), 0.22)' }}>
-            © {new Date().getFullYear()} Kévin Nguyen — Tous droits réservés
+            {t.contact.copyright}
           </p>
           <p style={{ fontSize: '0.75rem', color: 'rgba(var(--fg-rgb), 0.18)' }}>
-            Next.js · TypeScript · Framer Motion
+            {t.contact.builtWith}
           </p>
         </div>
       </div>

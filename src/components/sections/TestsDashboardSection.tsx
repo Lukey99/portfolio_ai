@@ -5,45 +5,18 @@ import { createPortal } from 'react-dom';
 import { motion, useInView, AnimatePresence } from 'motion/react';
 import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
+import { useLocale } from '@/contexts/LocaleContext';
 
-// ── Data ─────────────────────────────────────────────────────
+// ── Static data (scores, colors, counts — no translatable text) ───────────────
 
-const QUALITY = [
-  {
-    label: 'Couverture', score: 100, color: '#8b5cf6', desc: 'Tous les fichiers source testés',
-    popover: {
-      title: 'Couverture de code',
-      body: 'Tous les fichiers source publics ont au minimum un test unitaire, mesurée via @vitest/coverage-v8.',
-      items: ['46 suites · 252 tests au total', 'App · Atoms · Molecules · Organisms · Hooks · Service · Lib', 'E2E et benchmarks Organisms restent à compléter'],
-    },
-  },
-  {
-    label: 'Accessibilité', score: 95, color: '#22d3ee', desc: 'Score WCAG 2A/2AA via axe-core',
-    popover: {
-      title: 'Score accessibilité',
-      body: '0 violation critique détectée sur les 3 pages testées, conforme au standard WCAG 2.1 Niveau AA.',
-      items: ['9 tests unitaires via axe-core', '5 tests E2E dark + 5 tests E2E light', 'Alt texts + rôles ARIA vérifiés'],
-    },
-  },
-  {
-    label: 'Performance', score: 88, color: '#4ade80', desc: 'LCP, CLS, TTFB dans les cibles',
-    popover: {
-      title: 'Web Vitals',
-      body: "Core Web Vitals mesurés via PerformanceObserver dans Playwright sur la page d'accueil en local.",
-      items: ['LCP < 2.5s ✓ · CLS < 0.1 ✓', 'TTFB < 500ms ✓ · API < 200ms ✓', 'FCP non mesuré → 12pts manquants'],
-    },
-  },
-  {
-    label: 'Densité', score: 90, color: '#f59e0b', desc: 'Tests par composant exposé',
-    popover: {
-      title: 'Densité de tests',
-      body: "Ratio entre le nombre total de tests et les composants publics exposés dans l'application.",
-      items: ['~10 tests / composant en moyenne', '6 types de tests différents', 'E2E Organisms + benchmarks à compléter'],
-    },
-  },
+const QUALITY_STATIC = [
+  { score: 100, color: '#8b5cf6' },
+  { score: 95,  color: '#22d3ee' },
+  { score: 88,  color: '#4ade80' },
+  { score: 90,  color: '#f59e0b' },
 ] as const;
 
-const OVERALL = Math.round(QUALITY.reduce((s, q) => s + q.score, 0) / QUALITY.length);
+const OVERALL = Math.round(QUALITY_STATIC.reduce((s, q) => s + q.score, 0) / QUALITY_STATIC.length);
 
 const COVERAGE_LAYERS = [
   { label: 'App',       pct: 100, color: '#f87171' },
@@ -54,37 +27,37 @@ const COVERAGE_LAYERS = [
   { label: 'Organisms', pct: 100, color: '#4ade80' },
 ] as const;
 
-const PIPELINE = [
-  { label: 'Lint & Types', duration: '0.3s',  count: null, color: '#4ade80', detail: 'TypeScript strict + ESLint — 0 erreur' },
-  { label: 'Unit',          duration: '9s',    count: 252,  color: '#8b5cf6', detail: '46 fichiers · 252 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib' },
-  { label: 'API',           duration: '0.8s',  count: 12,   color: '#22d3ee', detail: '5 routes REST · données mockées' },
-  { label: 'A11y',          duration: '1.2s',  count: 14,   color: '#f59e0b', detail: 'axe-core + Playwright · dark & light mode · WCAG 2A + 2AA' },
-  { label: 'E2E',           duration: '12s',   count: 11,   color: '#10b981', detail: 'Playwright · 3 pages · navigation + contenu' },
-  { label: 'Perf',          duration: '8s',    count: 7,    color: '#f87171', detail: 'LCP < 2.5s · CLS < 0.1 · TTFB < 500ms' },
-] as const;
+const PIPELINE_STATIC = [
+  { label: 'Lint & Types', duration: '0.3s',  count: null as null, color: '#4ade80' },
+  { label: 'Unit',          duration: '9s',    count: 252,          color: '#8b5cf6' },
+  { label: 'API',           duration: '0.8s',  count: 12,           color: '#22d3ee' },
+  { label: 'A11y',          duration: '1.2s',  count: 14,           color: '#f59e0b' },
+  { label: 'E2E',           duration: '12s',   count: 11,           color: '#10b981' },
+  { label: 'Perf',          duration: '8s',    count: 7,            color: '#f87171' },
+];
 
 const TOTAL_DURATION = '31.3s';
-
-// Durées numériques (secondes) pour le gantt
 const PIPELINE_SECS: Record<string, number> = {
   'Lint & Types': 0.3, 'Unit': 9.0, 'API': 0.8, 'A11y': 1.2, 'E2E': 12, 'Perf': 8,
 };
 const TOTAL_SECS = Object.values(PIPELINE_SECS).reduce((s, v) => s + v, 0);
 
-// Axes d'amélioration pour le score
-const IMPROVEMENTS = [
-  { label: 'Densité',       gap: 10, priority: 'high',   color: '#f59e0b', action: 'Tests E2E & Bench Organisms',  detail: '15 Organisms couverts en unitaire. E2E et benchmarks manquants pour compléter la densité.' },
-  { label: 'Performance',   gap:  7, priority: 'medium', color: '#4ade80', action: 'Mesurer FCP & TTI',            detail: 'First Contentful Paint et Time to Interactive non encore mesurés.' },
-  { label: 'Accessibilité', gap:  5, priority: 'low',    color: '#22d3ee', action: 'Tests de navigation clavier',  detail: 'Focus trap, ordre de tabulation et raccourcis clavier à valider.' },
-] as const;
+type Priority = 'high' | 'medium' | 'low';
 
-// Lacunes de couverture identifiées
-const COVERAGE_GAPS = [
-  { name: 'Organisms',    layer: 'organism', missing: ['E2E', 'Bench'],         count: 15, priority: 'medium', note: 'Tests unitaires couverts (252 tests). E2E et benchmarks à compléter pour une couverture totale.' },
-  { name: 'SectionTitle', layer: 'molecule', missing: ['Unit', 'E2E', 'Bench'], count: 1,  priority: 'medium', note: 'Uniquement couvert en accessibilité. 2-3 tests unitaires seraient suffisants.' },
-  { name: 'AnimatedText', layer: 'atom',     missing: ['E2E', 'Bench'],         count: 1,  priority: 'low',    note: 'E2E et benchmark manquants. Composant fréquemment utilisé.' },
-  { name: 'useReveal',    layer: 'hook',     missing: ['A11y', 'E2E', 'Bench'], count: 1,  priority: 'low',    note: 'Hook sans rendu direct — A11y non applicable, Bench optionnel.' },
-] as const;
+const IMPROVEMENTS_STATIC: { label: string; gap: number; priority: Priority; color: string }[] = [
+  { label: 'Densité',       gap: 10, priority: 'high',   color: '#f59e0b' },
+  { label: 'Performance',   gap:  7, priority: 'medium', color: '#4ade80' },
+  { label: 'Accessibilité', gap:  5, priority: 'low',    color: '#22d3ee' },
+];
+
+type TestType = 'Unit' | 'API' | 'A11y' | 'E2E' | 'Bench';
+
+const COVERAGE_GAPS_STATIC: { name: string; layer: string; missing: TestType[]; count: number; priority: Priority }[] = [
+  { name: 'Organisms',    layer: 'organism', missing: ['E2E', 'Bench'],         count: 15, priority: 'medium' },
+  { name: 'SectionTitle', layer: 'molecule', missing: ['Unit', 'E2E', 'Bench'], count: 1,  priority: 'medium' },
+  { name: 'AnimatedText', layer: 'atom',     missing: ['E2E', 'Bench'],         count: 1,  priority: 'low'    },
+  { name: 'useReveal',    layer: 'hook',     missing: ['A11y', 'E2E', 'Bench'], count: 1,  priority: 'low'    },
+];
 
 const COMPONENTS = [
   { name: 'App layer ×9',    layer: 'app'      },
@@ -129,16 +102,39 @@ const LAYER_COLORS: Record<string, string> = {
   app: '#f87171', atom: '#22d3ee', molecule: '#8b5cf6', hook: '#a78bfa', api: '#10b981', organism: '#4ade80',
 };
 
+const GLOBAL_STATS_STATIC = [
+  { value: 252,     suffix: '',     color: '#8b5cf6' },
+  { value: 0,       suffix: '',     color: '#4ade80' },
+  { value: OVERALL, suffix: '/100', color: '#22d3ee' },
+  { value: 100,     suffix: '%',    color: '#f59e0b' },
+] as const;
+
+const WHY_REASONS_STATIC = [
+  { icon: '⚡', color: '#8b5cf6', stat: '0' },
+  { icon: '⏱', color: '#22d3ee', stat: '~10×' },
+  { icon: '📖', color: '#4ade80', stat: '252' },
+  { icon: '↺',  color: '#f59e0b', stat: '100%' },
+] as const;
+
+const WHY_TEST_TYPES_STATIC = [
+  { id: 'Unit',  color: '#8b5cf6', count: 252 },
+  { id: 'A11y',  color: '#f59e0b', count: 14  },
+  { id: 'API',   color: '#22d3ee', count: 12  },
+  { id: 'E2E',   color: '#10b981', count: 11  },
+  { id: 'Perf',  color: '#f87171', count: 7   },
+  { id: 'Bench', color: '#a78bfa', count: 8   },
+] as const;
+
 // ── Tabs ──────────────────────────────────────────────────────
 
 type DashTab = 'global' | 'score' | 'pipeline' | 'coverage' | 'why';
 
-const TABS: { id: DashTab; label: string; icon: string }[] = [
-  { id: 'global',   label: 'Vue globale',   icon: '◉' },
-  { id: 'score',    label: 'Score qualité', icon: '◎' },
-  { id: 'pipeline', label: 'Pipeline',      icon: '▶' },
-  { id: 'coverage', label: 'Couverture',    icon: '▦' },
-  { id: 'why',      label: 'Pourquoi ?',    icon: '◆' },
+const TABS_STATIC: { id: DashTab; icon: string }[] = [
+  { id: 'global',   icon: '◉' },
+  { id: 'score',    icon: '◎' },
+  { id: 'pipeline', icon: '▶' },
+  { id: 'coverage', icon: '▦' },
+  { id: 'why',      icon: '◆' },
 ];
 
 // ── Shared styles ─────────────────────────────────────────────
@@ -200,7 +196,6 @@ function ScoreRing({ score, color, size = 120, stroke = 10 }: { score: number; c
   );
 }
 
-
 function CoverageBar({ label, pct, color, delay }: { label: string; pct: number; color: string; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
@@ -233,7 +228,17 @@ function CoverageBar({ label, pct, color, delay }: { label: string; pct: number;
   );
 }
 
-function SubScoreCard({ q, parentInView, index }: { q: typeof QUALITY[number]; parentInView: boolean; index: number }) {
+// ── SubScoreCard ──────────────────────────────────────────────
+
+interface QualityMerged {
+  score: number;
+  color: string;
+  label: string;
+  desc: string;
+  popover: { title: string; body: string; items: readonly string[] };
+}
+
+function SubScoreCard({ q, parentInView, index }: { q: QualityMerged; parentInView: boolean; index: number }) {
   const count = useCount(q.score, parentInView, 900 + index * 100);
   const [hovered, setHovered] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
@@ -324,6 +329,7 @@ function MatrixBlock() {
   const inView = useInView(ref, { once: true });
   const [activeCol, setActiveCol] = useState<TestCol | null>(null);
   const [hoveredRow, setHoveredRow] = useState<string | null>(null);
+  const { t } = useLocale();
 
   return (
     <div ref={ref} style={{ overflowX: 'auto' }}>
@@ -331,7 +337,7 @@ function MatrixBlock() {
         <thead>
           <tr>
             <th style={{ width: '120px', paddingBottom: '0.75rem', textAlign: 'left' }}>
-              <span style={{ fontSize: '0.58rem', color: 'rgba(var(--fg-rgb), 0.3)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Composant</span>
+              <span style={{ fontSize: '0.58rem', color: 'rgba(var(--fg-rgb), 0.3)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t.testsDashboard.componentColLabel}</span>
             </th>
             {TEST_COLS.map((col) => {
               const isActive = activeCol === col;
@@ -344,7 +350,7 @@ function MatrixBlock() {
               );
             })}
             <th style={{ paddingBottom: '0.75rem', textAlign: 'right' }}>
-              <span style={{ fontSize: '0.58rem', color: 'rgba(var(--fg-rgb), 0.3)', fontWeight: 600 }}>Cov.</span>
+              <span style={{ fontSize: '0.58rem', color: 'rgba(var(--fg-rgb), 0.3)', fontWeight: 600 }}>{t.testsDashboard.covColLabel}</span>
             </th>
           </tr>
         </thead>
@@ -392,25 +398,26 @@ function MatrixBlock() {
         ))}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginLeft: 'auto' }}>
           <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#8b5cf6' }} />
-          <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.38)' }}>couvert</span>
+          <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.38)' }}>{t.testsDashboard.coveredLabel}</span>
           <div style={{ width: '10px', height: '10px', borderRadius: '50%', border: '1.5px solid rgba(var(--overlay-rgb), 0.2)', marginLeft: '0.5rem' }} />
-          <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.38)' }}>non couvert</span>
+          <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.38)' }}>{t.testsDashboard.notCoveredLabel}</span>
         </div>
       </div>
     </div>
   );
 }
 
-// ── Vue globale ───────────────────────────────────────────────
+// ── StatHeroCard ──────────────────────────────────────────────
 
-const GLOBAL_STATS = [
-  { value: 252,      suffix: '',     label: 'Tests',         color: '#8b5cf6', sub: '6 types · 0 skip'      },
-  { value: 0,        suffix: '',     label: 'Échecs',        color: '#4ade80', sub: 'Pipeline vert'         },
-  { value: OVERALL,  suffix: '/100', label: 'Score qualité', color: '#22d3ee', sub: 'Moyenne 4 axes'        },
-  { value: 100,      suffix: '%',    label: 'Cov. min',      color: '#f59e0b', sub: 'Tous fichiers couverts' },
-] as const;
+interface StatHeroCardData {
+  value: number;
+  suffix: string;
+  color: string;
+  label: string;
+  sub: string;
+}
 
-function StatHeroCard({ stat, inView, index }: { stat: typeof GLOBAL_STATS[number]; inView: boolean; index: number }) {
+function StatHeroCard({ stat, inView, index }: { stat: StatHeroCardData; inView: boolean; index: number }) {
   const count = useCount(stat.value, inView, 900 + index * 100);
   return (
     <motion.div
@@ -432,18 +439,34 @@ function StatHeroCard({ stat, inView, index }: { stat: typeof GLOBAL_STATS[numbe
   );
 }
 
+// ── Vue globale ───────────────────────────────────────────────
+
 function GlobalView() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const { t } = useLocale();
   const { grade, color: gradeColor } = scoreGrade(OVERALL);
-  const totalTests = PIPELINE.reduce((s, p) => s + (p.count ?? 0), 0);
+  const totalTests = PIPELINE_STATIC.reduce((s, p) => s + (p.count ?? 0), 0);
+
+  const quality: QualityMerged[] = QUALITY_STATIC.map((s, i) => ({
+    ...s,
+    label: t.testsDashboard.qualityItems[i].label,
+    desc: t.testsDashboard.qualityItems[i].desc,
+    popover: t.testsDashboard.qualityItems[i].popover,
+  }));
+
+  const globalStats: StatHeroCardData[] = GLOBAL_STATS_STATIC.map((s, i) => ({
+    ...s,
+    label: t.testsDashboard.globalStats[i].label,
+    sub: t.testsDashboard.globalStats[i].sub,
+  }));
 
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
       {/* Bandeau stats hero */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.875rem' }}>
-        {GLOBAL_STATS.map((stat, i) => (
+        {globalStats.map((stat, i) => (
           <StatHeroCard key={stat.label} stat={stat} inView={inView} index={i} />
         ))}
       </div>
@@ -453,9 +476,9 @@ function GlobalView() {
 
         {/* Axes qualité */}
         <div style={CARD}>
-          <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1.1rem' }}>Axes qualité</p>
+          <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1.1rem' }}>{t.testsDashboard.qualityAxesLabel}</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-            {QUALITY.map((q, i) => (
+            {quality.map((q, i) => (
               <motion.div key={q.label} initial={{ opacity: 0, x: -8 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.15 + i * 0.07 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.35rem' }}>
                   <span style={{ fontSize: '0.68rem', fontWeight: 600, color: 'rgba(var(--fg-rgb), 0.7)' }}>{q.label}</span>
@@ -476,18 +499,18 @@ function GlobalView() {
             <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: `${gradeColor}18`, border: `1px solid ${gradeColor}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <span style={{ fontSize: '0.75rem', fontWeight: 900, color: gradeColor }}>{grade}</span>
             </div>
-            <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>Mention globale · moyenne des 4 axes</span>
+            <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>{t.testsDashboard.globalGradeLabel}</span>
           </div>
         </div>
 
         {/* Pipeline */}
         <div style={CARD}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.1rem' }}>
-            <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)' }}>Pipeline CI/CD</p>
-            <span style={{ fontSize: '0.6rem', color: '#4ade80', fontWeight: 700, background: '#4ade8015', border: '1px solid #4ade8030', borderRadius: '999px', padding: '0.15rem 0.6rem' }}>6/6 vert</span>
+            <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)' }}>{t.testsDashboard.pipelineCiLabel}</p>
+            <span style={{ fontSize: '0.6rem', color: '#4ade80', fontWeight: 700, background: '#4ade8015', border: '1px solid #4ade8030', borderRadius: '999px', padding: '0.15rem 0.6rem' }}>{t.testsDashboard.pipelineGreenBadge}</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {PIPELINE.map((stage, i) => {
+            {PIPELINE_STATIC.map((stage, i) => {
               const pct = ((PIPELINE_SECS[stage.label] ?? 0) / TOTAL_SECS) * 100;
               return (
                 <motion.div key={stage.label} initial={{ opacity: 0, x: 8 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.1 + i * 0.07 }} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
@@ -502,8 +525,10 @@ function GlobalView() {
             })}
           </div>
           <div style={{ marginTop: '1rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>{totalTests} tests · {TOTAL_DURATION} total</span>
-            <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.3)', fontFamily: 'monospace' }}>main · il y a 2h</span>
+            <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>
+              {t.testsDashboard.pipelineSummaryTemplate.replace('{tests}', String(totalTests)).replace('{total}', TOTAL_DURATION)}
+            </span>
+            <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.3)', fontFamily: 'monospace' }}>{t.testsDashboard.pipelineTimestamp}</span>
           </div>
         </div>
       </div>
@@ -511,9 +536,10 @@ function GlobalView() {
       {/* Couverture full-width */}
       <div style={{ ...CARD }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)' }}>Couverture par couche atomique</p>
+          <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)' }}>{t.testsDashboard.coverageAtomicLabel}</p>
           <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>
-            Point faible : <span style={{ color: '#f59e0b', fontWeight: 700 }}>Organisms 12%</span>
+            {t.testsDashboard.coverageWeakPrefix}{' '}
+            <span style={{ color: '#f59e0b', fontWeight: 700 }}>{t.testsDashboard.coverageWeakHighlight}</span>
           </span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem 2.5rem' }}>
@@ -545,12 +571,26 @@ function GlobalView() {
 function ScoreView() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const { t } = useLocale();
   const count = useCount(OVERALL, inView, 1200);
   const { grade, color: gradeColor } = scoreGrade(OVERALL);
   const [expanded, setExpanded] = useState<number | null>(null);
 
-  const priorityColors: Record<string, string> = { high: '#f87171', medium: '#f59e0b', low: '#4ade80' };
-  const priorityLabels: Record<string, string> = { high: 'Priorité haute', medium: 'Priorité moyenne', low: 'Faible impact' };
+  const quality: QualityMerged[] = QUALITY_STATIC.map((s, i) => ({
+    ...s,
+    label: t.testsDashboard.qualityItems[i].label,
+    desc: t.testsDashboard.qualityItems[i].desc,
+    popover: t.testsDashboard.qualityItems[i].popover,
+  }));
+
+  const improvements = IMPROVEMENTS_STATIC.map((s, i) => ({
+    ...s,
+    action: t.testsDashboard.improvementItems[i].action,
+    detail: t.testsDashboard.improvementItems[i].detail,
+  }));
+
+  const priorityColors: Record<Priority, string> = { high: '#f87171', medium: '#f59e0b', low: '#4ade80' };
+  const { priorityLabels } = t.testsDashboard;
 
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
@@ -567,17 +607,17 @@ function ScoreView() {
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', flex: 1, minWidth: '260px' }}>
-          {QUALITY.map((q, i) => <SubScoreCard key={q.label} q={q} parentInView={inView} index={i} />)}
+          {quality.map((q, i) => <SubScoreCard key={q.label} q={q} parentInView={inView} index={i} />)}
         </div>
       </div>
 
       {/* Axes d'amélioration */}
       <div style={CARD}>
         <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1rem' }}>
-          Axes d'amélioration
+          {t.testsDashboard.improvementsLabel}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          {IMPROVEMENTS.map((imp, i) => {
+          {improvements.map((imp, i) => {
             const isOpen = expanded === i;
             const pc = priorityColors[imp.priority];
             return (
@@ -608,7 +648,7 @@ function ScoreView() {
           })}
         </div>
         <div style={{ marginTop: '1rem', padding: '0.65rem 0.85rem', background: 'rgba(var(--overlay-rgb), 0.04)', borderRadius: '0.5rem', fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.4)', lineHeight: 1.6 }}>
-          Score calculé comme la moyenne des 4 axes. Chaque point gagné sur la couverture ou la densité a le plus fort impact sur le score global.
+          {t.testsDashboard.scoreCalcNote}
         </div>
       </div>
     </div>
@@ -620,18 +660,26 @@ function ScoreView() {
 function PipelineView() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const { t } = useLocale();
   const [selected, setSelected] = useState<number | null>(null);
-  const totalTests = PIPELINE.reduce((s, p) => s + (p.count ?? 0), 0);
-  const slowest = PIPELINE.reduce((a, b) => (PIPELINE_SECS[a.label] ?? 0) >= (PIPELINE_SECS[b.label] ?? 0) ? a : b);
+  const totalTests = PIPELINE_STATIC.reduce((s, p) => s + (p.count ?? 0), 0);
+  const slowest = PIPELINE_STATIC.reduce((a, b) => (PIPELINE_SECS[a.label] ?? 0) >= (PIPELINE_SECS[b.label] ?? 0) ? a : b);
+
+  const pipeline = PIPELINE_STATIC.map((s, i) => ({
+    ...s,
+    detail: t.testsDashboard.pipelineDetails[i],
+  }));
+
+  const statsLabels = t.testsDashboard.pipelineStatsLabels;
 
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       {/* Stats header */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.875rem' }}>
         {[
-          { label: 'Durée totale', value: TOTAL_DURATION, color: '#8b5cf6' },
-          { label: 'Tests exécutés', value: String(totalTests), color: '#22d3ee' },
-          { label: 'Statut', value: '6/6 vert', color: '#4ade80' },
+          { label: statsLabels[0], value: TOTAL_DURATION, color: '#8b5cf6' },
+          { label: statsLabels[1], value: String(totalTests), color: '#22d3ee' },
+          { label: statsLabels[2], value: t.testsDashboard.pipelineGreenBadge, color: '#4ade80' },
         ].map(({ label, value, color }) => (
           <div key={label} style={{ ...CARD, textAlign: 'center', padding: '1rem' }}>
             <div style={{ fontSize: '1.4rem', fontWeight: 900, color, letterSpacing: '-0.03em' }}>{value}</div>
@@ -643,7 +691,7 @@ function PipelineView() {
       {/* Stages */}
       <div style={CARD}>
         <div style={{ display: 'flex', alignItems: 'stretch', gap: 0, overflowX: 'auto' }}>
-          {PIPELINE.map((stage, i) => {
+          {pipeline.map((stage, i) => {
             const isSelected = selected === i;
             return (
               <div key={stage.label} style={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0 }}>
@@ -664,9 +712,9 @@ function PipelineView() {
                     {stage.count !== null && <span style={{ marginLeft: '0.3rem', color: stage.color }}>·{stage.count}</span>}
                   </div>
                 </motion.button>
-                {i < PIPELINE.length - 1 && (
+                {i < pipeline.length - 1 && (
                   <div style={{ flexShrink: 0, width: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                    <motion.div initial={{ scaleX: 0 }} animate={inView ? { scaleX: 1 } : {}} transition={{ delay: i * 0.08 + 0.2, duration: 0.3 }} style={{ height: '1px', width: '100%', background: `linear-gradient(90deg, ${PIPELINE[i].color}60, ${PIPELINE[i + 1].color}60)`, transformOrigin: 'left' }} />
+                    <motion.div initial={{ scaleX: 0 }} animate={inView ? { scaleX: 1 } : {}} transition={{ delay: i * 0.08 + 0.2, duration: 0.3 }} style={{ height: '1px', width: '100%', background: `linear-gradient(90deg, ${pipeline[i].color}60, ${pipeline[i + 1].color}60)`, transformOrigin: 'left' }} />
                     <div style={{ position: 'absolute', fontSize: '0.55rem', color: 'rgba(var(--fg-rgb), 0.25)' }}>▶</div>
                   </div>
                 )}
@@ -677,9 +725,9 @@ function PipelineView() {
         <AnimatePresence>
           {selected !== null && (
             <motion.div initial={{ opacity: 0, height: 0, marginTop: 0 }} animate={{ opacity: 1, height: 'auto', marginTop: '0.75rem' }} exit={{ opacity: 0, height: 0, marginTop: 0 }} transition={{ duration: 0.25 }} style={{ overflow: 'hidden' }}>
-              <div style={{ background: `${PIPELINE[selected].color}12`, border: `1px solid ${PIPELINE[selected].color}40`, borderRadius: '0.6rem', padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: PIPELINE[selected].color, flexShrink: 0 }} />
-                <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.75)' }}>{PIPELINE[selected].detail}</span>
+              <div style={{ background: `${pipeline[selected].color}12`, border: `1px solid ${pipeline[selected].color}40`, borderRadius: '0.6rem', padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: pipeline[selected].color, flexShrink: 0 }} />
+                <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.75)' }}>{pipeline[selected].detail}</span>
               </div>
             </motion.div>
           )}
@@ -689,10 +737,10 @@ function PipelineView() {
       {/* Gantt durées */}
       <div style={CARD}>
         <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1rem' }}>
-          Répartition du temps CI
+          {t.testsDashboard.pipelineGanttLabel}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-          {PIPELINE.map((stage, i) => {
+          {pipeline.map((stage, i) => {
             const secs = PIPELINE_SECS[stage.label] ?? 0;
             const pct = (secs / TOTAL_SECS) * 100;
             const isSlowest = stage.label === slowest.label;
@@ -715,7 +763,9 @@ function PipelineView() {
           })}
         </div>
         <div style={{ marginTop: '0.875rem', padding: '0.6rem 0.85rem', background: `${slowest.color}0d`, border: `1px solid ${slowest.color}30`, borderRadius: '0.5rem', fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.6 }}>
-          <span style={{ color: slowest.color, fontWeight: 700 }}>{slowest.label}</span> est l'étape la plus longue ({slowest.duration} · {((PIPELINE_SECS[slowest.label] ?? 0) / TOTAL_SECS * 100).toFixed(0)}% du total). Candidat prioritaire pour la parallélisation.
+          <span style={{ color: slowest.color, fontWeight: 700 }}>{slowest.label}</span>{' '}
+          {t.testsDashboard.pipelineSlowestTemplate}{' '}
+          ({slowest.duration} · {((PIPELINE_SECS[slowest.label] ?? 0) / TOTAL_SECS * 100).toFixed(0)}% du total).
         </div>
       </div>
     </div>
@@ -724,24 +774,27 @@ function PipelineView() {
 
 // ── Vue Couverture ────────────────────────────────────────────
 
-const PRIORITY_META: Record<string, { color: string; label: string }> = {
-  high:   { color: '#f87171', label: 'Critique' },
-  medium: { color: '#f59e0b', label: 'Modéré'  },
-  low:    { color: '#4ade80', label: 'Faible'   },
-};
-
-const TEST_TYPE_COLORS: Record<string, string> = {
-  Unit: '#8b5cf6', E2E: '#10b981', A11y: '#f59e0b', Bench: '#22d3ee',
-};
-
 function CoverageView() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const { t } = useLocale();
+
+  const coverageGaps = COVERAGE_GAPS_STATIC.map((s, i) => ({
+    ...s,
+    note: t.testsDashboard.coverageGapNotes[i],
+  }));
+
+  const priorityMetaColors: Record<Priority, string> = { high: '#f87171', medium: '#f59e0b', low: '#4ade80' };
+  const priorityMetaLabels = t.testsDashboard.priorityMeta;
+
+  const TEST_TYPE_COLORS: Record<string, string> = {
+    Unit: '#8b5cf6', E2E: '#10b981', A11y: '#f59e0b', Bench: '#22d3ee',
+  };
 
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       <div style={CARD}>
-        <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1.25rem' }}>Par couche atomique</p>
+        <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1.25rem' }}>{t.testsDashboard.coverageLayerLabel}</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {COVERAGE_LAYERS.map((c, i) => <CoverageBar key={c.label} {...c} delay={i * 0.1} />)}
         </div>
@@ -750,22 +803,23 @@ function CoverageView() {
       {/* Lacunes identifiées */}
       <div style={CARD}>
         <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1rem' }}>
-          Lacunes identifiées
+          {t.testsDashboard.coverageGapsLabel}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
-          {COVERAGE_GAPS.map((gap, i) => {
-            const pm = PRIORITY_META[gap.priority];
+          {coverageGaps.map((gap, i) => {
+            const pc = priorityMetaColors[gap.priority];
+            const pl = priorityMetaLabels[gap.priority];
             return (
-              <motion.div key={gap.name} initial={{ opacity: 0, x: -8 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.08 + i * 0.07 }} style={{ padding: '0.75rem 1rem', background: `${pm.color}08`, border: `1px solid ${pm.color}22`, borderRadius: '0.7rem', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+              <motion.div key={gap.name} initial={{ opacity: 0, x: -8 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.08 + i * 0.07 }} style={{ padding: '0.75rem 1rem', background: `${pc}08`, border: `1px solid ${pc}22`, borderRadius: '0.7rem', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', flexWrap: 'wrap' }}>
                   <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--fg)' }}>{gap.name}</span>
                   <span style={{ fontSize: '0.57rem', color: 'rgba(var(--fg-rgb), 0.35)', background: 'rgba(var(--overlay-rgb), 0.06)', borderRadius: '4px', padding: '0.1rem 0.45rem' }}>{gap.layer}</span>
-                  <span style={{ fontSize: '0.57rem', color: pm.color, background: `${pm.color}18`, border: `1px solid ${pm.color}30`, borderRadius: '999px', padding: '0.1rem 0.5rem', marginLeft: 'auto' }}>{pm.label}</span>
+                  <span style={{ fontSize: '0.57rem', color: pc, background: `${pc}18`, border: `1px solid ${pc}30`, borderRadius: '999px', padding: '0.1rem 0.5rem', marginLeft: 'auto' }}>{pl}</span>
                 </div>
                 <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
-                  {gap.missing.map(t => (
-                    <span key={t} style={{ fontSize: '0.58rem', fontWeight: 600, color: TEST_TYPE_COLORS[t] ?? '#fff', background: `${TEST_TYPE_COLORS[t] ?? '#fff'}15`, border: `1px solid ${TEST_TYPE_COLORS[t] ?? '#fff'}30`, borderRadius: '4px', padding: '0.1rem 0.4rem', fontFamily: 'monospace' }}>
-                      {t} manquant
+                  {gap.missing.map(testType => (
+                    <span key={testType} style={{ fontSize: '0.58rem', fontWeight: 600, color: TEST_TYPE_COLORS[testType] ?? '#fff', background: `${TEST_TYPE_COLORS[testType] ?? '#fff'}15`, border: `1px solid ${TEST_TYPE_COLORS[testType] ?? '#fff'}30`, borderRadius: '4px', padding: '0.1rem 0.4rem', fontFamily: 'monospace' }}>
+                      {testType} {t.testsDashboard.missingLabel}
                     </span>
                   ))}
                 </div>
@@ -777,7 +831,7 @@ function CoverageView() {
       </div>
 
       <div style={CARD}>
-        <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1.25rem' }}>Par composant</p>
+        <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1.25rem' }}>{t.testsDashboard.coverageComponentLabel}</p>
         <MatrixBlock />
       </div>
     </div>
@@ -786,106 +840,31 @@ function CoverageView() {
 
 // ── Vue Pourquoi ─────────────────────────────────────────────
 
-const WHY_REASONS = [
-  {
-    icon: '⚡',
-    title: 'Déployer sans peur',
-    color: '#8b5cf6',
-    stat: '0',
-    statSuffix: 'régression',
-    statLabel: 'non détectée en production',
-    body: 'Un pipeline vert = un code déployable. Fini les vérifications manuelles avant chaque release : si les 252 tests passent, on ship.',
-  },
-  {
-    icon: '⏱',
-    title: 'Corriger au plus tôt',
-    color: '#22d3ee',
-    stat: '~10×',
-    statSuffix: '',
-    statLabel: 'moins cher à corriger en dev qu\'en prod',
-    body: 'Un bug attrapé par un test se corrige en minutes. Détecté en production, il coûte un hotfix, un rollback, et parfois une nuit blanche.',
-  },
-  {
-    icon: '📖',
-    title: 'Documentation vivante',
-    color: '#4ade80',
-    stat: '252',
-    statSuffix: 'cas',
-    statLabel: 'de comportement spécifiés',
-    body: 'Chaque test décrit ce qu\'un composant doit faire. Contrairement aux commentaires, les tests ne mentent pas : si le code change, le test échoue.',
-  },
-  {
-    icon: '↺',
-    title: 'Refactoriser librement',
-    color: '#f59e0b',
-    stat: '100%',
-    statSuffix: '',
-    statLabel: 'des couches refactorisables en confiance',
-    body: 'Changer l\'implémentation sans toucher les tests valide que le comportement est préservé. Les tests testent le quoi, pas le comment.',
-  },
-] as const;
-
-const WHY_TEST_TYPES = [
-  {
-    id: 'Unit', color: '#8b5cf6', count: 252, tool: 'Vitest + Testing Library',
-    points: [
-      'Rendu de chaque composant selon ses props et son état',
-      'Interactions : clics, saisie, toggle, navigation',
-      'Hooks et service — logique métier isolée du DOM',
-    ],
-  },
-  {
-    id: 'A11y', color: '#f59e0b', count: 14, tool: 'axe-core + Playwright',
-    points: [
-      'Conformité WCAG 2A et 2AA — 0 violation critique',
-      'Rôles ARIA, alt texts, hiérarchie des titres',
-      'Dark mode et light mode vérifiés indépendamment',
-    ],
-  },
-  {
-    id: 'API', color: '#22d3ee', count: 12, tool: 'Vitest + fetch mock',
-    points: [
-      '5 routes REST : codes HTTP et structure JSON',
-      'Erreurs réseau et cas limites gérés',
-      'Cohérence des données retournées par chaque endpoint',
-    ],
-  },
-  {
-    id: 'E2E', color: '#10b981', count: 11, tool: 'Playwright',
-    points: [
-      'Navigation complète sur les 3 pages en conditions réelles',
-      'Rendu des sections clés dans un vrai navigateur Chromium',
-      'Ancres, liens actifs et scroll behavior vérifiés',
-    ],
-  },
-  {
-    id: 'Perf', color: '#f87171', count: 7, tool: 'PerformanceObserver + Playwright',
-    points: [
-      'LCP < 2.5s · CLS < 0.1 · TTFB < 500ms',
-      'Temps de réponse API < 200ms mesuré en local',
-      'Core Web Vitals sur la page d\'accueil et tech',
-    ],
-  },
-  {
-    id: 'Bench', color: '#a78bfa', count: 8, tool: 'Vitest bench',
-    points: [
-      'Temps de rendu des atoms et molecules (cible < 1ms)',
-      'Benchmarks comparatifs entre variantes de composants',
-      'Détection de régressions de performance à la compilation',
-    ],
-  },
-] as const;
-
 function WhyView() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const { t } = useLocale();
+
+  const whyReasons = WHY_REASONS_STATIC.map((s, i) => ({
+    ...s,
+    title: t.testsDashboard.whyReasonItems[i].title,
+    statSuffix: t.testsDashboard.whyReasonItems[i].statSuffix,
+    statLabel: t.testsDashboard.whyReasonItems[i].statLabel,
+    body: t.testsDashboard.whyReasonItems[i].body,
+  }));
+
+  const whyTestTypes = WHY_TEST_TYPES_STATIC.map((s, i) => ({
+    ...s,
+    tool: t.testsDashboard.whyTestItems[i].tool,
+    points: t.testsDashboard.whyTestItems[i].points,
+  }));
 
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
       {/* 4 reason cards — 2 × 2 */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.875rem' }}>
-        {WHY_REASONS.map((r, i) => (
+        {whyReasons.map((r, i) => (
           <motion.div
             key={r.title}
             initial={{ opacity: 0, y: 12 }}
@@ -924,45 +903,37 @@ function WhyView() {
         style={{ ...CARD, padding: '1.25rem' }}
       >
         <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1rem' }}>
-          6 angles de tir
+          {t.testsDashboard.whyAnglesLabel}
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
-          {WHY_TEST_TYPES.map((t, i) => (
+          {whyTestTypes.map((wt, i) => (
             <motion.div
-              key={t.id}
+              key={wt.id}
               initial={{ opacity: 0, y: 8 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.48 + i * 0.06 }}
               style={{
                 padding: '0.875rem',
-                background: `${t.color}07`,
-                border: `1px solid ${t.color}22`,
+                background: `${wt.color}07`,
+                border: `1px solid ${wt.color}22`,
                 borderRadius: '0.75rem',
                 display: 'flex', flexDirection: 'column', gap: '0.5rem',
               }}
             >
-              {/* Badge + count */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem' }}>
                 <span style={{
                   fontSize: '0.65rem', fontWeight: 800, fontFamily: 'monospace',
-                  color: t.color, background: `${t.color}18`,
-                  border: `1px solid ${t.color}35`, borderRadius: '4px',
+                  color: wt.color, background: `${wt.color}18`,
+                  border: `1px solid ${wt.color}35`, borderRadius: '4px',
                   padding: '0.1rem 0.45rem',
-                }}>{t.id}</span>
-                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: t.color }}>{t.count}</span>
+                }}>{wt.id}</span>
+                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: wt.color }}>{wt.count}</span>
               </div>
-
-              {/* Tool */}
-              <span style={{
-                fontSize: '0.57rem', color: 'rgba(var(--fg-rgb), 0.3)',
-                fontFamily: 'monospace', lineHeight: 1.3,
-              }}>{t.tool}</span>
-
-              {/* Points */}
+              <span style={{ fontSize: '0.57rem', color: 'rgba(var(--fg-rgb), 0.3)', fontFamily: 'monospace', lineHeight: 1.3 }}>{wt.tool}</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginTop: '0.15rem' }}>
-                {t.points.map(pt => (
-                  <div key={pt} style={{ display: 'flex', gap: '0.4rem', alignItems: 'flex-start' }}>
-                    <div style={{ width: '3px', height: '3px', borderRadius: '50%', background: t.color, flexShrink: 0, marginTop: '0.35rem' }} />
+                {wt.points.map((pt, pi) => (
+                  <div key={pi} style={{ display: 'flex', gap: '0.4rem', alignItems: 'flex-start' }}>
+                    <div style={{ width: '3px', height: '3px', borderRadius: '50%', background: wt.color, flexShrink: 0, marginTop: '0.35rem' }} />
                     <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.5)', lineHeight: 1.55 }}>{pt}</span>
                   </div>
                 ))}
@@ -979,23 +950,28 @@ function WhyView() {
 
 export function TestsDashboardSection() {
   const ref = useReveal();
+  const { t } = useLocale();
   const [activeTab, setActiveTab] = useState<DashTab>('global');
-  const tabIndex = TABS.findIndex(t => t.id === activeTab);
+
+  const tabs = TABS_STATIC.map((tab, i) => ({
+    ...tab,
+    label: t.testsDashboard.tabs[i].label,
+  }));
 
   return (
     <section id="tests-dashboard" ref={ref} style={{ padding: '7rem 1.5rem' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <SectionTitle
-          number="03"
-          label="Quality Report"
-          title="Dashboard qualité"
-          subtitle="Score global, pipeline CI/CD et couverture par composant — vue complète de la fiabilité du code."
+          number={t.testsDashboard.section.number}
+          label={t.testsDashboard.section.label}
+          title={t.testsDashboard.section.title}
+          subtitle={t.testsDashboard.section.subtitle}
         />
 
         {/* Tab bar */}
         <div className="reveal" style={{ marginBottom: '1.75rem' }}>
           <div style={{ display: 'flex', gap: '0.375rem', background: 'var(--card-bg)', border: '1px solid rgba(var(--overlay-rgb), 0.09)', borderRadius: '0.875rem', padding: '0.3rem', width: 'fit-content' }}>
-            {TABS.map((tab, i) => {
+            {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
                 <button

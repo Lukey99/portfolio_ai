@@ -7,3 +7,4 @@ export { TestsSection } from './TestsSection';
 export { TestsDashboardSection } from './TestsDashboardSection';
 export { ArchitectureSection } from './ArchitectureSection';
 export { StorybookSection } from './StorybookSection';
+export { TechPageIntro } from './TechPageIntro';

@@ -7,6 +7,7 @@ vi.mock('@/components/sections', () => ({
   ApiSection:             () => <section data-testid="api" />,
   ArchitectureSection:    () => <section data-testid="architecture" />,
   StorybookSection:       () => <section data-testid="storybook" />,
+  TechPageIntro:          () => <h1>Tech</h1>,
 }));
 
 import { render, screen } from '@testing-library/react';

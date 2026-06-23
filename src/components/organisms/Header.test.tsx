@@ -1,5 +1,10 @@
 import { vi } from 'vitest';
 
+vi.mock('@/contexts/LocaleContext', async () => {
+  const { fr } = await import('@/lib/i18n/fr');
+  return { useLocale: () => ({ locale: 'fr' as const, t: fr, setLocale: () => {} }) };
+});
+
 vi.mock('next/navigation', () => ({
   usePathname: () => '/',
 }));

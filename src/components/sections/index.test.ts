@@ -15,6 +15,7 @@ import {
   TestsDashboardSection,
   ArchitectureSection,
   StorybookSection,
+  TechPageIntro,
 } from './index';
 
 describe('sections/index barrel', () => {
@@ -26,4 +27,5 @@ describe('sections/index barrel', () => {
   it('re-exporte TestsDashboardSection', () => { expect(TestsDashboardSection).toBeDefined(); });
   it('re-exporte ArchitectureSection',   () => { expect(ArchitectureSection).toBeDefined(); });
   it('re-exporte StorybookSection',      () => { expect(StorybookSection).toBeDefined(); });
+  it('re-exporte TechPageIntro',         () => { expect(TechPageIntro).toBeDefined(); });
 });

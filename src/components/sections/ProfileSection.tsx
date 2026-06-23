@@ -1,27 +1,29 @@
 'use client';
 
 import { useReveal } from '@/hooks/useReveal';
+import { useLocale } from '@/contexts/LocaleContext';
 import { SectionTitle } from '@/components/molecules';
 import type { PersonalInfo } from '@/types/portfolio.types';
 
 export function ProfileSection({ info }: { info: PersonalInfo }) {
-  const ref = useReveal();
+  const ref   = useReveal();
+  const { t } = useLocale();
 
   return (
     <section id="profile" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <SectionTitle
-          number="05"
-          label="Profil"
-          title="À propos de moi"
-          subtitle="Langues maîtrisées et centres d'intérêt qui façonnent ma vision du travail."
+          number={t.sections.profile.number}
+          label={t.sections.profile.label}
+          title={t.sections.profile.title}
+          subtitle={t.sections.profile.subtitle}
         />
 
         <div className="reveal reveal-s2" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: '1rem' }}>
           {/* Languages */}
           <div className="glass-card" style={{ padding: '1.5rem 1.75rem' }}>
             <h3 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span>🌐</span> Langues
+              <span>🌐</span> {t.profile.languagesHeading}
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {info.languages.map((l) => (
@@ -36,7 +38,7 @@ export function ProfileSection({ info }: { info: PersonalInfo }) {
           {/* Interests */}
           <div className="glass-card" style={{ padding: '1.5rem 1.75rem' }}>
             <h3 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span>✦</span> {"Centres d'intérêt"}
+              <span>✦</span> {t.profile.interestsHeading}
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {info.interests.map((interest) => (

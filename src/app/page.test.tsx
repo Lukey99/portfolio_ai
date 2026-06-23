@@ -1,5 +1,10 @@
 import { vi } from 'vitest';
 
+vi.mock('@/contexts/LocaleContext', async () => {
+  const { fr } = await import('@/lib/i18n/fr');
+  return { useLocale: () => ({ locale: 'fr' as const, t: fr, setLocale: () => {} }) };
+});
+
 vi.mock('@/components/templates/MainLayout', () => ({
   MainLayout: ({ hero, sections }: { hero: React.ReactNode; sections: React.ReactNode[] }) => (
     <main data-testid="main-layout" data-sections={sections.length}>

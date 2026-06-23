@@ -5,12 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '@/hooks/useTheme';
-
-const NAV_LINKS = [
-  { href: '/',        label: 'Portfolio' },
-  { href: '/tech',    label: 'Tech' },
-  { href: '/contact', label: 'Contact' },
-];
+import { useLocale } from '@/contexts/LocaleContext';
 
 const SunIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -25,12 +20,29 @@ const MoonIcon = () => (
   </svg>
 );
 
+const iconStyle: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  width: '2.25rem', height: '2.25rem', borderRadius: '0.6rem',
+  background: 'rgba(var(--overlay-rgb), 0.06)',
+  border: '1px solid rgba(var(--overlay-rgb), 0.1)',
+  color: 'rgba(var(--fg-rgb), 0.6)',
+  cursor: 'pointer',
+  transition: 'background 0.2s ease, color 0.2s ease, border-color 0.2s ease',
+};
+
 export function Header() {
-  const [scrolled, setScrolled]     = useState(false);
-  const [menuOpen, setMenuOpen]     = useState(false);
+  const [scrolled, setScrolled]       = useState(false);
+  const [menuOpen, setMenuOpen]       = useState(false);
   const [clickedHref, setClickedHref] = useState<string | null>(null);
-  const { theme, toggle } = useTheme();
-  const pathname = usePathname();
+  const { theme, toggle }             = useTheme();
+  const { t, locale, setLocale }      = useLocale();
+  const pathname                      = usePathname();
+
+  const NAV_LINKS = [
+    { href: '/',        label: t.header.navPortfolio },
+    { href: '/tech',    label: t.header.navTech },
+    { href: '/contact', label: t.header.navContact },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -47,6 +59,17 @@ export function Header() {
   const isActive = (href: string) => {
     if (clickedHref !== null) return clickedHref === href;
     return href === '/' ? pathname === '/' : pathname.startsWith(href);
+  };
+
+  const hoverOn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const el = e.currentTarget;
+    el.style.background = 'rgba(var(--overlay-rgb), 0.1)';
+    el.style.color = 'var(--fg)';
+  };
+  const hoverOff = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const el = e.currentTarget;
+    el.style.background = 'rgba(var(--overlay-rgb), 0.06)';
+    el.style.color = 'rgba(var(--fg-rgb), 0.6)';
   };
 
   return (
@@ -99,29 +122,28 @@ export function Header() {
           </nav>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            {/* Locale switcher */}
+            <button
+              onClick={() => setLocale(locale === 'fr' ? 'en' : 'fr')}
+              aria-label={`Switch to ${locale === 'fr' ? 'English' : 'French'}`}
+              style={{
+                ...iconStyle,
+                fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.06em',
+                fontFamily: 'monospace',
+              }}
+              onMouseEnter={hoverOn}
+              onMouseLeave={hoverOff}
+            >
+              {t.common.switchLocale}
+            </button>
+
             {/* Theme toggle */}
             <button
               onClick={toggle}
-              aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                width: '2.25rem', height: '2.25rem', borderRadius: '0.6rem',
-                background: 'rgba(var(--overlay-rgb), 0.06)',
-                border: '1px solid rgba(var(--overlay-rgb), 0.1)',
-                color: 'rgba(var(--fg-rgb), 0.6)',
-                cursor: 'pointer',
-                transition: 'background 0.2s ease, color 0.2s ease, border-color 0.2s ease',
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget;
-                el.style.background = 'rgba(var(--overlay-rgb), 0.1)';
-                el.style.color = 'var(--fg)';
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget;
-                el.style.background = 'rgba(var(--overlay-rgb), 0.06)';
-                el.style.color = 'rgba(var(--fg-rgb), 0.6)';
-              }}
+              aria-label={theme === 'dark' ? t.header.themeLight : t.header.themeDark}
+              style={iconStyle}
+              onMouseEnter={hoverOn}
+              onMouseLeave={hoverOff}
             >
               {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
             </button>
@@ -138,14 +160,14 @@ export function Header() {
                 transition: 'opacity 0.2s ease, transform 0.2s ease',
               }}
             >
-              Me contacter
+              {t.common.contactCta}
             </Link>
 
             {/* Hamburger — mobile */}
             <button
               className="flex md:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
-              aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+              aria-label={menuOpen ? t.header.menuClose : t.header.menuOpen}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 padding: '0.4rem', color: 'var(--fg)', alignItems: 'center',
@@ -219,7 +241,7 @@ export function Header() {
                   borderRadius: '0.75rem', background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
                 }}
               >
-                Me contacter
+                {t.common.contactCta}
               </Link>
             </div>
           </motion.div>

@@ -3,6 +3,7 @@
 import { motion, useInView } from 'motion/react';
 import { useReveal } from '@/hooks/useReveal';
 import { SectionTitle } from '@/components/molecules';
+import { useLocale } from '@/contexts/LocaleContext';
 import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { Tag } from '@/components/atoms/Tag';
@@ -50,11 +51,10 @@ interface ShowcaseBlock {
   name: string;
   category: 'Atom' | 'Molecule';
   path: string;
-  description: string;
   stories: { label: string; node: React.ReactNode }[];
 }
 
-// ── Showcases ─────────────────────────────────────────────────
+// ── Showcases (static: no description text) ───────────────────
 
 const SHOWCASES: ShowcaseBlock[] = [
   // ── Atoms ──────────────────────────────────────────────────
@@ -62,7 +62,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'Button',
     category: 'Atom',
     path: 'src/components/atoms/Button.tsx',
-    description: 'Bouton primaire (gradient) ou secondaire (outline) ; accepte href ou onClick.',
     stories: [
       { label: 'primary', node: <Button href="#" variant="primary">Voir mon parcours →</Button> },
       { label: 'secondary', node: <Button href="#" variant="secondary">Me contacter</Button> },
@@ -72,7 +71,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'Badge',
     category: 'Atom',
     path: 'src/components/atoms/Badge.tsx',
-    description: 'Étiquette inline pour typer un contenu : accent violet, cyan ou neutre.',
     stories: [
       { label: 'accent', node: <Badge variant="accent">CDI</Badge> },
       { label: 'cyan', node: <Badge variant="cyan">Alternance</Badge> },
@@ -83,7 +81,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'Tag',
     category: 'Atom',
     path: 'src/components/atoms/Tag.tsx',
-    description: 'Chip technologie utilisé dans les cartes de projets et compétences.',
     stories: [
       {
         label: 'default',
@@ -102,7 +99,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'GradientText',
     category: 'Atom',
     path: 'src/components/atoms/GradientText.tsx',
-    description: 'Span avec dégradé violet → cyan, utilisé pour les titres et noms clés.',
     stories: [
       {
         label: 'heading',
@@ -127,7 +123,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'TimelineCard',
     category: 'Molecule',
     path: 'src/components/molecules/TimelineCard.tsx',
-    description: 'Carte avec badge, période, titre, sous-titre et liste de points. Utilisé dans les Timelines.',
     stories: [
       {
         label: 'full-time',
@@ -164,7 +159,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'ShowcaseCard',
     category: 'Molecule',
     path: 'src/components/molecules/ShowcaseCard.tsx',
-    description: 'Carte avec tilt 3D au survol, liste de réalisations et tags technologiques.',
     stories: [
       {
         label: 'default',
@@ -188,7 +182,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'CredentialCard',
     category: 'Molecule',
     path: 'src/components/molecules/CredentialCard.tsx',
-    description: 'Carte de formation avec icône diplôme, institution, titre et détail optionnel.',
     stories: [
       {
         label: 'with-detail',
@@ -208,7 +201,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'ContactItem',
     category: 'Molecule',
     path: 'src/components/molecules/ContactItem.tsx',
-    description: 'Ligne de contact avec icône, label et valeur — cliquable si un href est fourni.',
     stories: [
       {
         label: 'with-link',
@@ -244,7 +236,6 @@ const SHOWCASES: ShowcaseBlock[] = [
     name: 'BentoCell',
     category: 'Molecule',
     path: 'src/components/molecules/BentoCell.tsx',
-    description: 'Bento card avec icône emoji, nom de catégorie et liste de tags technologiques.',
     stories: [
       {
         label: 'default',
@@ -270,10 +261,12 @@ const CATEGORY_COLOR: Record<'Atom' | 'Molecule', string> = {
 
 function ComponentShowcase({
   block,
+  description,
   index,
   isInView,
 }: {
   block: ShowcaseBlock;
+  description: string;
   index: number;
   isInView: boolean;
 }) {
@@ -316,7 +309,7 @@ function ComponentShowcase({
             {block.name}
           </h3>
           <p style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.4)', lineHeight: 1.5 }}>
-            {block.description}
+            {description}
           </p>
         </div>
         <span
@@ -445,11 +438,16 @@ function GroupLabel({
 // ── Main export ───────────────────────────────────────────────
 
 export function StorybookSection() {
-  const ref = useReveal();
+  const ref     = useReveal();
+  const { t }   = useLocale();
   const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
-  const atoms = SHOWCASES.filter(b => b.category === 'Atom');
-  const molecules = SHOWCASES.filter(b => b.category === 'Molecule');
+  const allBlocks = SHOWCASES.map((block, i) => ({
+    block,
+    description: t.storybook.showcaseDescriptions[i] ?? '',
+  }));
+  const atoms     = allBlocks.filter(b => b.block.category === 'Atom');
+  const molecules = allBlocks.filter(b => b.block.category === 'Molecule');
 
   return (
     <section
@@ -476,13 +474,13 @@ export function StorybookSection() {
 
       <div style={{ maxWidth: '72rem', margin: '0 auto', position: 'relative' }}>
         <SectionTitle
-          number="06"
-          label="Storybook"
-          title="Bibliothèque de composants"
-          subtitle="Chaque composant est documenté et isolé — variants, props, états interactifs et données d'exemple réalistes."
+          number={t.storybook.section.number}
+          label={t.storybook.section.label}
+          title={t.storybook.section.title}
+          subtitle={t.storybook.section.subtitle}
         />
 
-        <GroupLabel label="Atomes" count={atoms.length} color="#22d3ee" isInView={isInView} delay={0.05} />
+        <GroupLabel label={t.storybook.atomsLabel} count={atoms.length} color="#22d3ee" isInView={isInView} delay={0.05} />
         <div
           style={{
             display: 'grid',
@@ -491,12 +489,12 @@ export function StorybookSection() {
             marginBottom: '3.5rem',
           }}
         >
-          {atoms.map((block, i) => (
-            <ComponentShowcase key={block.name} block={block} index={i} isInView={isInView} />
+          {atoms.map(({ block, description }, i) => (
+            <ComponentShowcase key={block.name} block={block} description={description} index={i} isInView={isInView} />
           ))}
         </div>
 
-        <GroupLabel label="Molécules" count={molecules.length} color="#8b5cf6" isInView={isInView} delay={0.1} />
+        <GroupLabel label={t.storybook.moleculesLabel} count={molecules.length} color="#8b5cf6" isInView={isInView} delay={0.1} />
         <div
           style={{
             display: 'grid',
@@ -505,8 +503,8 @@ export function StorybookSection() {
             marginBottom: '3rem',
           }}
         >
-          {molecules.map((block, i) => (
-            <ComponentShowcase key={block.name} block={block} index={i} isInView={isInView} />
+          {molecules.map(({ block, description }, i) => (
+            <ComponentShowcase key={block.name} block={block} description={description} index={i} isInView={isInView} />
           ))}
         </div>
 
@@ -528,10 +526,10 @@ export function StorybookSection() {
         >
           <div>
             <p style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.35rem' }}>
-              Explorer le Storybook complet
+              {t.storybook.exploreTitle}
             </p>
             <p style={{ fontSize: '0.82rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>
-              Lancer en local :{' '}
+              {t.storybook.exploreLaunch}{' '}
               <code
                 style={{
                   fontFamily: 'monospace',
@@ -573,7 +571,7 @@ export function StorybookSection() {
               e.currentTarget.style.transform = 'scale(1)';
             }}
           >
-            Voir le repo
+            {t.storybook.exploreRepoBtn}
             <ExternalIcon />
           </a>
         </motion.div>

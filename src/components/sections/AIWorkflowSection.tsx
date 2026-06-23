@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { useReveal } from '@/hooks/useReveal';
+import { useLocale } from '@/contexts/LocaleContext';
 import { SectionTitle } from '@/components/molecules';
 
 const TOOLS = [
@@ -30,50 +31,14 @@ const TOOLS = [
   },
 ];
 
-const WORKFLOW = [
-  {
-    icon: '🔍',
-    title: 'Audits de code',
-    desc: 'Détection automatique des bugs, anti-patterns et dérives qualité avant chaque merge.',
-    metric: '–75%',
-    metricLabel: 'de temps sur les revues',
-    progress: 75,
-    from: '#8b5cf6',
-    to: '#22d3ee',
-  },
-  {
-    icon: '🧪',
-    title: 'Rédaction de tests',
-    desc: "Génération de tests unitaires et e2e couvrant les cas limites identifiés à l'audit.",
-    metric: '3×',
-    metricLabel: 'plus de couverture de code',
-    progress: 85,
-    from: '#22d3ee',
-    to: '#8b5cf6',
-  },
-  {
-    icon: '⚡',
-    title: 'Optimisations',
-    desc: 'Analyse du bundle, des perfs de rendu et des requêtes réseau pour livrer plus vite.',
-    metric: '+60%',
-    metricLabel: 'de gains de performance',
-    progress: 60,
-    from: '#8b5cf6',
-    to: '#22d3ee',
-  },
-  {
-    icon: '🔀',
-    title: 'Pull Requests',
-    desc: 'Descriptions générées, review assistée et suggestions de refactor dans le cycle PR.',
-    metric: '–50%',
-    metricLabel: 'sur le cycle de merge',
-    progress: 50,
-    from: '#22d3ee',
-    to: '#8b5cf6',
-  },
+const WORKFLOW_STATIC = [
+  { icon: '🔍', metric: '–75%', progress: 75, from: '#8b5cf6', to: '#22d3ee' },
+  { icon: '🧪', metric: '3×',   progress: 85, from: '#22d3ee', to: '#8b5cf6' },
+  { icon: '⚡', metric: '+60%', progress: 60, from: '#8b5cf6', to: '#22d3ee' },
+  { icon: '🔀', metric: '–50%', progress: 50, from: '#22d3ee', to: '#8b5cf6' },
 ];
 
-function WorkflowCard({ item, index }: { item: typeof WORKFLOW[0]; index: number }) {
+function WorkflowCard({ item, index }: { item: { icon: string; metric: string; progress: number; from: string; to: string; title: string; desc: string; metricLabel: string }; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-60px 0px 0px 0px' });
 
@@ -106,7 +71,6 @@ function WorkflowCard({ item, index }: { item: typeof WORKFLOW[0]; index: number
           </span>
         </div>
 
-        {/* Animated progress bar */}
         <div style={{ height: '3px', borderRadius: '9999px', background: 'rgba(var(--overlay-rgb), 0.06)', overflow: 'hidden' }}>
           <motion.div
             style={{
@@ -125,7 +89,7 @@ function WorkflowCard({ item, index }: { item: typeof WORKFLOW[0]; index: number
   );
 }
 
-function ProductivityCounter() {
+function ProductivityCounter({ label, desc }: { label: string; desc: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-60px 0px 0px 0px' });
   const [display, setDisplay] = useState('1.0×');
@@ -157,7 +121,6 @@ function ProductivityCounter() {
 
   return (
     <div ref={ref} className="reveal reveal-s3" style={{ marginBottom: '2.5rem' }}>
-      {/* Gradient border wrapper */}
       <div style={{
         padding: '1px', borderRadius: '1.25rem',
         background: 'linear-gradient(135deg, rgba(139,92,246,0.55), rgba(34,211,238,0.38))',
@@ -172,7 +135,6 @@ function ProductivityCounter() {
           position: 'relative',
           overflow: 'hidden',
         }}>
-          {/* Inner ambient glow */}
           <div style={{
             position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)',
             width: '600px', height: '260px',
@@ -186,7 +148,7 @@ function ProductivityCounter() {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Gain de productivité estimé
+            {label}
           </motion.p>
 
           <motion.div
@@ -205,7 +167,7 @@ function ProductivityCounter() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            plus productif sur les tâches récurrentes de développement
+            {desc}
           </motion.p>
         </div>
       </div>
@@ -214,16 +176,20 @@ function ProductivityCounter() {
 }
 
 export function AIWorkflowSection() {
-  const ref = useReveal();
+  const ref   = useReveal();
+  const { t } = useLocale();
+  const { section, productivityLabel, productivityDesc, workflow } = t.aiWorkflow;
+
+  const items = WORKFLOW_STATIC.map((s, i) => ({ ...s, ...workflow[i] }));
 
   return (
     <section id="ai-workflow" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
         <SectionTitle
-          number="01"
-          label="IA & Workflow"
-          title="Productivité augmentée"
-          subtitle="J'intègre Cursor et Claude Code dans mon workflow quotidien pour automatiser les tâches répétitives et me concentrer sur ce qui crée de la valeur."
+          number={section.number}
+          label={section.label}
+          title={section.title}
+          subtitle={section.subtitle}
         />
 
         {/* Tool pills */}
@@ -244,13 +210,11 @@ export function AIWorkflowSection() {
           ))}
         </div>
 
-        {/* Animated productivity counter */}
-        <ProductivityCounter />
+        <ProductivityCounter label={productivityLabel} desc={productivityDesc} />
 
-        {/* 4 workflow cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem' }}>
-          {WORKFLOW.map((item, i) => (
-            <WorkflowCard key={item.title} item={item} index={i} />
+          {items.map((item, i) => (
+            <WorkflowCard key={i} item={item} index={i} />
           ))}
         </div>
       </div>
