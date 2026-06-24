@@ -568,6 +568,35 @@ function GlobalView() {
   );
 }
 
+// ── Mobile sub-score row (compact list alternative to SubScoreCard) ──
+
+function MobileSubScoreRow({ q, inView, index }: { q: QualityMerged; inView: boolean; index: number }) {
+  const count = useCount(q.score, inView, 900 + index * 100);
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -8 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ delay: 0.2 + index * 0.07 }}
+      style={{
+        display: 'flex', alignItems: 'center', gap: '0.75rem',
+        padding: '0.6rem 0',
+        borderBottom: index < 3 ? '1px solid rgba(var(--overlay-rgb), 0.05)' : 'none',
+      }}
+    >
+      <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.7)', flex: 1 }}>{q.label}</span>
+      <div style={{ width: '52px', height: '4px', background: 'rgba(var(--overlay-rgb), 0.1)', borderRadius: '999px', overflow: 'hidden', flexShrink: 0 }}>
+        <motion.div
+          initial={{ width: 0 }}
+          animate={inView ? { width: `${q.score}%` } : {}}
+          transition={{ delay: 0.25 + index * 0.07, duration: 0.7, ease: 'easeOut' }}
+          style={{ height: '100%', background: q.color, borderRadius: '999px', boxShadow: `0 0 4px ${q.color}60` }}
+        />
+      </div>
+      <span style={{ fontSize: '0.8rem', fontWeight: 800, color: q.color, fontFamily: 'monospace', width: '28px', textAlign: 'right', flexShrink: 0 }}>{count}</span>
+    </motion.div>
+  );
+}
+
 // ── Vue Score qualité ─────────────────────────────────────────
 
 function ScoreView() {
@@ -597,22 +626,56 @@ function ScoreView() {
 
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-      {/* Rings */}
-      <div style={{ ...CARD, display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '1.5rem' : '2.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-        <div style={{ position: 'relative', flexShrink: 0 }}>
-          <ScoreRing score={OVERALL} color={gradeColor} size={160} stroke={12} />
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <motion.div initial={{ opacity: 0, scale: 0.7 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.5, duration: 0.5 }} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2.8rem', fontWeight: 900, color: gradeColor, lineHeight: 1, letterSpacing: '-0.04em' }}>{count}</div>
-              <div style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.35)', marginTop: '0.2rem' }}>/ 100</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 900, color: gradeColor, marginTop: '0.3rem' }}>{grade}</div>
-            </motion.div>
+      {/* Rings — mobile: compact header row + subscores list; desktop: ring + 2×2 grid */}
+      {isMobile ? (
+        <div style={{ ...CARD, padding: '1.1rem' }}>
+          {/* Compact header: small ring left + score/grade right */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ position: 'relative', flexShrink: 0 }}>
+              <ScoreRing score={OVERALL} color={gradeColor} size={88} stroke={7} />
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <motion.div initial={{ opacity: 0, scale: 0.7 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.5, duration: 0.5 }} style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 900, color: gradeColor, lineHeight: 1 }}>{count}</div>
+                  <div style={{ fontSize: '0.65rem', fontWeight: 900, color: gradeColor }}>{grade}</div>
+                </motion.div>
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '0.25rem' }}>Score global</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.15rem' }}>
+                <span style={{ fontSize: '2.25rem', fontWeight: 900, color: gradeColor, lineHeight: 1, letterSpacing: '-0.04em' }}>{count}</span>
+                <span style={{ fontSize: '0.85rem', color: gradeColor, opacity: 0.6 }}>/100</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginTop: '0.3rem' }}>
+                <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: `${gradeColor}18`, border: `1px solid ${gradeColor}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: '0.58rem', fontWeight: 900, color: gradeColor }}>{grade}</span>
+                </div>
+                <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.38)' }}>{t.testsDashboard.globalGradeLabel}</span>
+              </div>
+            </div>
+          </div>
+          {/* Subscores compact list */}
+          <div style={{ borderTop: '1px solid rgba(var(--overlay-rgb), 0.07)', paddingTop: '0.65rem' }}>
+            {quality.map((q, i) => <MobileSubScoreRow key={q.label} q={q} inView={inView} index={i} />)}
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '1rem', flex: 1, width: isMobile ? '100%' : 'auto' }}>
-          {quality.map((q, i) => <SubScoreCard key={q.label} q={q} parentInView={inView} index={i} />)}
+      ) : (
+        <div style={{ ...CARD, display: 'flex', gap: '2.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <ScoreRing score={OVERALL} color={gradeColor} size={160} stroke={12} />
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <motion.div initial={{ opacity: 0, scale: 0.7 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.5, duration: 0.5 }} style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2.8rem', fontWeight: 900, color: gradeColor, lineHeight: 1, letterSpacing: '-0.04em' }}>{count}</div>
+                <div style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.35)', marginTop: '0.2rem' }}>/ 100</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 900, color: gradeColor, marginTop: '0.3rem' }}>{grade}</div>
+              </motion.div>
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', flex: 1, minWidth: '260px' }}>
+            {quality.map((q, i) => <SubScoreCard key={q.label} q={q} parentInView={inView} index={i} />)}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Axes d'amélioration */}
       <div style={CARD}>
@@ -866,8 +929,8 @@ function WhyView() {
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
-      {/* 4 reason cards — 2 × 2 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.875rem' }}>
+      {/* 4 reason cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '0.875rem' }}>
         {whyReasons.map((r, i) => (
           <motion.div
             key={r.title}
@@ -973,26 +1036,41 @@ export function TestsDashboardSection() {
           subtitle={t.testsDashboard.section.subtitle}
         />
 
-        {/* Tab bar */}
-        <div className="reveal" style={{ marginBottom: '1.75rem', overflowX: 'auto' }}>
-          <div style={{ display: 'flex', gap: '0.375rem', background: 'var(--card-bg)', border: '1px solid rgba(var(--overlay-rgb), 0.09)', borderRadius: '0.875rem', padding: '0.3rem', width: 'fit-content', minWidth: 0 }}>
+        {/* Tab bar — mobile: full-width icon+label column; desktop: fit-content inline */}
+        <div className="reveal" style={{ marginBottom: '1.75rem' }}>
+          <div style={{
+            display: 'flex',
+            gap: '0.25rem',
+            background: 'var(--card-bg)',
+            border: '1px solid rgba(var(--overlay-rgb), 0.09)',
+            borderRadius: '0.875rem',
+            padding: '0.3rem',
+            width: isMobile ? '100%' : 'fit-content',
+          }}>
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
+              const shortLabel = tab.label.split(' ')[0].length > 5
+                ? tab.label.split(' ')[0].slice(0, 5) + '.'
+                : tab.label.split(' ')[0];
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   style={{
                     position: 'relative',
-                    padding: '0.45rem 1rem',
+                    flex: isMobile ? 1 : 'none',
+                    padding: isMobile ? '0.5rem 0.15rem' : '0.45rem 1rem',
                     borderRadius: '0.6rem',
                     border: 'none',
                     background: 'transparent',
                     cursor: 'pointer',
-                    fontSize: '0.72rem',
                     fontWeight: isActive ? 700 : 500,
                     color: isActive ? 'var(--fg)' : 'rgba(var(--fg-rgb), 0.45)',
                     transition: 'color 0.2s',
+                    display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    alignItems: 'center',
+                    gap: isMobile ? '0.2rem' : '0.3rem',
                     whiteSpace: 'nowrap',
                   }}
                 >
@@ -1003,7 +1081,10 @@ export function TestsDashboardSection() {
                       transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                     />
                   )}
-                  <span style={{ position: 'relative', zIndex: 1 }}>{tab.icon} {tab.label}</span>
+                  <span style={{ position: 'relative', zIndex: 1, fontSize: isMobile ? '0.9rem' : '0.72rem' }}>{tab.icon}</span>
+                  <span style={{ position: 'relative', zIndex: 1, fontSize: isMobile ? '0.48rem' : '0.72rem', lineHeight: 1.2 }}>
+                    {isMobile ? shortLabel : tab.label}
+                  </span>
                 </button>
               );
             })}
