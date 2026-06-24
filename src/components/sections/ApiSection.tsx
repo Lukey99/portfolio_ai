@@ -6,6 +6,8 @@ import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
 // Static data (paths, colors) — text comes from translations
 const ENDPOINTS_STATIC = [
   { id: 'all',         path: '/api/portfolio/all',         color: '#94a3b8' },
@@ -92,7 +94,7 @@ export function ApiSection() {
     setFetchState({ status: 'loading' });
     const t0 = performance.now();
     try {
-      const res  = await fetch(path);
+      const res  = await fetch(BASE_PATH + path);
       const data = await res.json();
       setFetchState({ status: 'done', data, ms: Math.round(performance.now() - t0) });
     } catch (e) {
