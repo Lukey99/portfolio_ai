@@ -35,7 +35,7 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
   }
 
   return (
-    <section id="contact" ref={ref} style={{ padding: '7rem 1.5rem 5rem', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+    <section id="contact" ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem clamp(2rem,6vw,5rem)', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
       {/* Background glow */}
       <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '700px', height: '350px', background: 'radial-gradient(ellipse at center, rgba(139,92,246,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
 

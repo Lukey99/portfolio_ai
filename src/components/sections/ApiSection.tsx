@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { motion, AnimatePresence } from 'motion/react';
 import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
@@ -77,8 +78,9 @@ function LoadingDots() {
 }
 
 export function ApiSection() {
-  const ref   = useReveal();
-  const { t } = useLocale();
+  const ref       = useReveal();
+  const { t }     = useLocale();
+  const isMobile  = useIsMobile();
   const [activeId, setActiveId]     = useState<EndpointId>('all');
   const [fetchState, setFetchState] = useState<FetchState>({ status: 'idle' });
 
@@ -112,7 +114,7 @@ export function ApiSection() {
   }, [fetchEndpoint]);
 
   return (
-    <section id="api" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
+    <section id="api" ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <SectionTitle
           number={t.api.section.number}
@@ -139,21 +141,23 @@ export function ApiSection() {
             padding: '0.9rem 1.5rem',
             borderBottom: '1px solid rgba(var(--overlay-rgb), 0.07)',
             background: 'rgba(var(--overlay-rgb), 0.025)',
+            minWidth: 0,
           }}>
             <span style={{
               fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em',
               padding: '0.2rem 0.55rem', borderRadius: '4px',
               background: 'rgba(34,211,238,0.12)', color: '#22d3ee',
               border: '1px solid rgba(34,211,238,0.22)', fontFamily: 'monospace',
+              flexShrink: 0,
             }}>
               GET
             </span>
-            <span style={{ fontSize: '0.78rem', fontFamily: 'monospace', color: 'rgba(var(--fg-rgb), 0.55)' }}>
-              <span style={{ color: 'rgba(var(--fg-rgb), 0.5)' }}>localhost:3000</span>
+            <span style={{ fontSize: '0.78rem', fontFamily: 'monospace', color: 'rgba(var(--fg-rgb), 0.55)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+              {!isMobile && <span style={{ color: 'rgba(var(--fg-rgb), 0.5)' }}>localhost:3000</span>}
               <span style={{ color: active.color, fontWeight: 600 }}>{active.path}</span>
             </span>
 
-            <div style={{ flex: 1 }} />
+            <div style={{ flexShrink: 0 }} />
 
             <AnimatePresence mode="wait">
               {fetchState.status === 'done' && (
@@ -190,10 +194,14 @@ export function ApiSection() {
             </AnimatePresence>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', minHeight: '420px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '240px 1fr', minHeight: isMobile ? 'auto' : '420px' }}>
 
             {/* LEFT — endpoint list */}
-            <div style={{ borderRight: '1px solid rgba(var(--overlay-rgb), 0.07)', padding: '1rem 0' }}>
+            <div style={{
+              borderRight: isMobile ? 'none' : '1px solid rgba(var(--overlay-rgb), 0.07)',
+              borderBottom: isMobile ? '1px solid rgba(var(--overlay-rgb), 0.07)' : 'none',
+              padding: isMobile ? '0.75rem 0' : '1rem 0',
+            }}>
               <p style={{ padding: '0 1rem 0.65rem', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.5)' }}>
                 Endpoints
               </p>
@@ -226,7 +234,7 @@ export function ApiSection() {
             </div>
 
             {/* RIGHT — response panel */}
-            <div style={{ overflow: 'hidden', position: 'relative', minHeight: '320px', maxHeight: '480px' }}>
+            <div style={{ overflow: 'hidden', position: 'relative', minHeight: isMobile ? '220px' : '320px', maxHeight: isMobile ? '320px' : '480px' }}>
               <AnimatePresence mode="wait">
                 {fetchState.status === 'idle' && (
                   <motion.div

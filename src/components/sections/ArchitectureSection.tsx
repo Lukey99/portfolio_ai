@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useInView } from 'motion/react';
 import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 // ── Static layer data (colors, component names) ───────────────
 
@@ -48,19 +49,20 @@ const STATS_N = ['4', '6', '13', '3'];
 // ── Sub-components ────────────────────────────────────────────
 
 function LayerRow({ layer, index, isInView }: { layer: typeof LAYERS_STATIC[0] & { label: string; description: string }; index: number; isInView: boolean }) {
+  const isMobile = useIsMobile();
   return (
     <motion.div
       initial={{ opacity: 0, x: -24 }}
       animate={isInView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
-      style={{ display: 'grid', gridTemplateColumns: '10rem 1fr', gap: '1.5rem', alignItems: 'flex-start' }}
+      style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '10rem 1fr', gap: isMobile ? '0.5rem' : '1.5rem', alignItems: 'flex-start' }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', paddingTop: '0.25rem' }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', alignItems: isMobile ? 'center' : 'flex-start', gap: '0.35rem', paddingTop: '0.25rem', flexWrap: 'wrap' }}>
         <span style={{
           display: 'inline-block', padding: '0.3rem 0.75rem', borderRadius: '9999px',
           fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
           color: layer.color, background: layer.bg, border: `1px solid ${layer.border}`,
-          alignSelf: 'flex-start',
+          flexShrink: 0,
         }}>
           {layer.label}
         </span>
@@ -68,7 +70,7 @@ function LayerRow({ layer, index, isInView }: { layer: typeof LAYERS_STATIC[0] &
           {layer.description}
         </span>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', paddingTop: '0.2rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', paddingTop: isMobile ? 0 : '0.2rem' }}>
         {layer.components.map((comp, ci) => (
           <motion.span
             key={comp}
@@ -76,10 +78,11 @@ function LayerRow({ layer, index, isInView }: { layer: typeof LAYERS_STATIC[0] &
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.3, delay: index * 0.28 + 0.18 + ci * 0.05 }}
             style={{
-              padding: '0.3rem 0.7rem', borderRadius: '0.4rem',
-              fontSize: '0.8rem', fontWeight: 500,
+              padding: '0.25rem 0.55rem', borderRadius: '0.4rem',
+              fontSize: isMobile ? '0.7rem' : '0.8rem', fontWeight: 500,
               color: 'rgba(var(--fg-rgb), 0.75)', background: 'var(--card-bg)',
               border: `1px solid ${layer.border}`, fontFamily: 'monospace', letterSpacing: '-0.01em',
+              maxWidth: '100%', wordBreak: 'break-all',
             }}
           >
             {comp}
@@ -299,6 +302,7 @@ const zoomTransitionIn  = { duration: 0.42, ease: 'easeOut' as const };
 function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: string; desc: string }[] }) {
   const [step, setStep] = useState<ExplodeStep>(0);
   const [dir, setDir]   = useState<1 | -1>(1);
+  const isMobile        = useIsMobile();
   const current         = { ...DEMO_STATIC[step], ...steps[step] };
 
   function goTo(i: ExplodeStep) {
@@ -317,10 +321,10 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
         <div style={{ height: '1px', flex: 1, background: 'rgba(var(--overlay-rgb), 0.08)' }} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', background: 'var(--card-bg)', borderRadius: '1.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.07)', marginBottom: '2.5rem', overflow: 'hidden', minHeight: '480px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', background: 'var(--card-bg)', borderRadius: '1.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.07)', marginBottom: '2.5rem', overflow: 'hidden', minHeight: isMobile ? 'auto' : '480px' }}>
 
         {/* LEFT — zoom view */}
-        <div style={{ padding: '2.5rem 2rem', borderRight: '1px solid rgba(var(--overlay-rgb), 0.07)', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <div style={{ padding: isMobile ? '1.5rem 1rem' : '2.5rem 2rem', borderRight: isMobile ? 'none' : '1px solid rgba(var(--overlay-rgb), 0.07)', borderBottom: isMobile ? '1px solid rgba(var(--overlay-rgb), 0.07)' : 'none', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center' }}>
           <AnimatePresence mode="wait" custom={dir}>
             {step === 0 && (
               <motion.div key={0} custom={dir} variants={zoomVariants} initial="enter" animate="center" exit="exit" transition={zoomTransitionIn} style={{ width: '100%' }}>
@@ -372,8 +376,8 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
 
           <div style={{ height: '1px', background: 'rgba(var(--overlay-rgb), 0.07)', margin: '0 2rem' }} />
 
-          <div style={{ padding: '1.25rem 2rem 1.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <div style={{ padding: isMobile ? '1rem' : '1.25rem 2rem 1.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', overflowX: 'auto', paddingBottom: '0.25rem' }}>
               {steps.map((s, i) => {
                 const color = DEMO_STATIC[i].color;
                 return (
@@ -424,7 +428,7 @@ export function ArchitectureSection() {
   const mergedLayers = LAYERS_STATIC.map((l, i) => ({ ...l, label: layers[i].label, description: layers[i].description }));
 
   return (
-    <section ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+    <section ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', top: '30%', right: '-10%', width: '500px', height: '400px', background: 'radial-gradient(ellipse at center, rgba(34,211,238,0.04) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
       <div style={{ maxWidth: '72rem', margin: '0 auto', position: 'relative' }}>

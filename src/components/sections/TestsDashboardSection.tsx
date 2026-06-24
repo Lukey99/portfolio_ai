@@ -6,6 +6,7 @@ import { motion, useInView, AnimatePresence } from 'motion/react';
 import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 // ── Static data (scores, colors, counts — no translatable text) ───────────────
 
@@ -444,6 +445,7 @@ function StatHeroCard({ stat, inView, index }: { stat: StatHeroCardData; inView:
 function GlobalView() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const isMobile = useIsMobile();
   const { t } = useLocale();
   const { grade, color: gradeColor } = scoreGrade(OVERALL);
   const totalTests = PIPELINE_STATIC.reduce((s, p) => s + (p.count ?? 0), 0);
@@ -465,14 +467,14 @@ function GlobalView() {
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
       {/* Bandeau stats hero */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.875rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isMobile ? 2 : 4}, 1fr)`, gap: '0.875rem' }}>
         {globalStats.map((stat, i) => (
           <StatHeroCard key={stat.label} stat={stat} inView={inView} index={i} />
         ))}
       </div>
 
       {/* Corps principal */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '1.25rem' }}>
 
         {/* Axes qualité */}
         <div style={CARD}>
@@ -542,7 +544,7 @@ function GlobalView() {
             <span style={{ color: '#f59e0b', fontWeight: 700 }}>{t.testsDashboard.coverageWeakHighlight}</span>
           </span>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem 2.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '0.7rem 2.5rem' }}>
           {COVERAGE_LAYERS.map((c, i) => (
             <motion.div key={c.label} initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.25 + i * 0.07 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.3rem' }}>
@@ -571,6 +573,7 @@ function GlobalView() {
 function ScoreView() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const isMobile = useIsMobile();
   const { t } = useLocale();
   const count = useCount(OVERALL, inView, 1200);
   const { grade, color: gradeColor } = scoreGrade(OVERALL);
@@ -595,7 +598,7 @@ function ScoreView() {
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       {/* Rings */}
-      <div style={{ ...CARD, display: 'flex', gap: '2.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div style={{ ...CARD, display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '1.5rem' : '2.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
         <div style={{ position: 'relative', flexShrink: 0 }}>
           <ScoreRing score={OVERALL} color={gradeColor} size={160} stroke={12} />
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -606,7 +609,7 @@ function ScoreView() {
             </motion.div>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', flex: 1, minWidth: '260px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '1rem', flex: 1, width: isMobile ? '100%' : 'auto' }}>
           {quality.map((q, i) => <SubScoreCard key={q.label} q={q} parentInView={inView} index={i} />)}
         </div>
       </div>
@@ -843,6 +846,7 @@ function CoverageView() {
 function WhyView() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const isMobile = useIsMobile();
   const { t } = useLocale();
 
   const whyReasons = WHY_REASONS_STATIC.map((s, i) => ({
@@ -905,7 +909,7 @@ function WhyView() {
         <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1rem' }}>
           {t.testsDashboard.whyAnglesLabel}
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isMobile ? 2 : 3}, 1fr)`, gap: '0.75rem' }}>
           {whyTestTypes.map((wt, i) => (
             <motion.div
               key={wt.id}
@@ -951,6 +955,7 @@ function WhyView() {
 export function TestsDashboardSection() {
   const ref = useReveal();
   const { t } = useLocale();
+  const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState<DashTab>('global');
 
   const tabs = TABS_STATIC.map((tab, i) => ({
@@ -959,7 +964,7 @@ export function TestsDashboardSection() {
   }));
 
   return (
-    <section id="tests-dashboard" ref={ref} style={{ padding: '7rem 1.5rem' }}>
+    <section id="tests-dashboard" ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <SectionTitle
           number={t.testsDashboard.section.number}
@@ -969,8 +974,8 @@ export function TestsDashboardSection() {
         />
 
         {/* Tab bar */}
-        <div className="reveal" style={{ marginBottom: '1.75rem' }}>
-          <div style={{ display: 'flex', gap: '0.375rem', background: 'var(--card-bg)', border: '1px solid rgba(var(--overlay-rgb), 0.09)', borderRadius: '0.875rem', padding: '0.3rem', width: 'fit-content' }}>
+        <div className="reveal" style={{ marginBottom: '1.75rem', overflowX: 'auto' }}>
+          <div style={{ display: 'flex', gap: '0.375rem', background: 'var(--card-bg)', border: '1px solid rgba(var(--overlay-rgb), 0.09)', borderRadius: '0.875rem', padding: '0.3rem', width: 'fit-content', minWidth: 0 }}>
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
@@ -1006,7 +1011,7 @@ export function TestsDashboardSection() {
         </div>
 
         {/* Views */}
-        <div className="reveal" style={{ maxHeight: '680px', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(var(--overlay-rgb), 0.15) transparent' }}>
+        <div className="reveal" style={{ maxHeight: isMobile ? 'none' : '680px', overflowY: isMobile ? 'visible' : 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(var(--overlay-rgb), 0.15) transparent' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}

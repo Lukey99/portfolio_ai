@@ -146,7 +146,7 @@ export function TestsSection() {
   }));
 
   return (
-    <section id="tests" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
+    <section id="tests" ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <SectionTitle
           number={t.tests.section.number}

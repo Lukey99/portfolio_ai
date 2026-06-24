@@ -183,7 +183,7 @@ export function AIWorkflowSection() {
   const items = WORKFLOW_STATIC.map((s, i) => ({ ...s, ...workflow[i] }));
 
   return (
-    <section id="ai-workflow" ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
+    <section id="ai-workflow" ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
         <SectionTitle
           number={section.number}

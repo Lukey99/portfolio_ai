@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'motion/react';
 import { useReveal } from '@/hooks/useReveal';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { SectionTitle } from '@/components/molecules';
 import { useLocale } from '@/contexts/LocaleContext';
 import { Button } from '@/components/atoms/Button';
@@ -438,8 +439,9 @@ function GroupLabel({
 // ── Main export ───────────────────────────────────────────────
 
 export function StorybookSection() {
-  const ref     = useReveal();
-  const { t }   = useLocale();
+  const ref      = useReveal();
+  const { t }    = useLocale();
+  const isMobile = useIsMobile();
   const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
   const allBlocks = SHOWCASES.map((block, i) => ({
@@ -453,7 +455,7 @@ export function StorybookSection() {
     <section
       ref={ref}
       style={{
-        padding: '7rem 1.5rem 8rem',
+        padding: 'clamp(3rem,8vw,7rem) 1.5rem clamp(3rem,8vw,8rem)',
         backgroundColor: 'var(--bg)',
         position: 'relative',
         overflow: 'hidden',
@@ -498,7 +500,7 @@ export function StorybookSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(400px, 1fr))',
             gap: '1.25rem',
             marginBottom: '3rem',
           }}
