@@ -25,7 +25,7 @@ const iconStyle: React.CSSProperties = {
   width: '2.25rem', height: '2.25rem', borderRadius: '0.6rem',
   background: 'rgba(var(--overlay-rgb), 0.06)',
   border: '1px solid rgba(var(--overlay-rgb), 0.1)',
-  color: 'rgba(var(--fg-rgb), 0.6)',
+  color: 'rgba(var(--fg-rgb), 0.8)',
   cursor: 'pointer',
   transition: 'background 0.2s ease, color 0.2s ease, border-color 0.2s ease',
 };
@@ -69,7 +69,7 @@ export function Header() {
   const hoverOff = (e: React.MouseEvent<HTMLButtonElement>) => {
     const el = e.currentTarget;
     el.style.background = 'rgba(var(--overlay-rgb), 0.06)';
-    el.style.color = 'rgba(var(--fg-rgb), 0.6)';
+    el.style.color = 'rgba(var(--fg-rgb), 0.8)';
   };
 
   return (

@@ -22,7 +22,7 @@ export function SectionTitle({ number, label, title, subtitle }: SectionTitlePro
       </h2>
 
       {subtitle && (
-        <p className="reveal reveal-s2" style={{ marginTop: '1rem', color: 'rgba(var(--fg-rgb), 0.65)', fontSize: '1rem', maxWidth: '36rem', lineHeight: 1.75 }}>
+        <p className="reveal reveal-s2" style={{ marginTop: '1rem', color: 'rgba(var(--fg-rgb), 0.75)', fontSize: '1rem', maxWidth: '36rem', lineHeight: 1.75 }}>
           {subtitle}
         </p>
       )}
