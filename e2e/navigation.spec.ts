@@ -23,10 +23,10 @@ test.describe('Navigation', () => {
     await expect(page.locator('#experience')).toBeInViewport({ ratio: 0.2 });
   });
 
-  test('la page contact a un lien mailto valide', async ({ page }) => {
+  test('le bouton email est visible et cliquable sur la page contact', async ({ page }) => {
     await page.goto('/contact/');
-    const emailBtn = page.getByRole('link', { name: 'Envoyer un email' });
-    await expect(emailBtn).toHaveAttribute('href', /^mailto:/);
+    const emailBtn = page.getByRole('button', { name: 'Envoyer un email' });
+    await expect(emailBtn).toBeVisible();
   });
 
   test('le CTA "Me contacter" dans le header pointe vers /contact/', async ({ page }) => {

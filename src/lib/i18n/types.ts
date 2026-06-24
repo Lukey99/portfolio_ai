@@ -85,6 +85,7 @@ export interface Translations {
     title: string;
     emailLabel: string;
     emailCta: string;
+    emailCopied: string;
     emailItemLabel: string;
     phoneItemLabel: string;
     locationItemLabel: string;

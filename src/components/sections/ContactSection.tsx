@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
 import { ContactItem } from '@/components/molecules';
@@ -24,6 +25,14 @@ const MapIcon = () => (
 export function ContactSection({ info }: { info: PersonalInfo }) {
   const ref   = useReveal();
   const { t } = useLocale();
+  const [copied, setCopied] = useState(false);
+
+  function handleCopyEmail() {
+    navigator.clipboard.writeText(info.email).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
 
   return (
     <section id="contact" ref={ref} style={{ padding: '7rem 1.5rem 5rem', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
@@ -90,35 +99,43 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
                 {info.email}
               </p>
 
-              <a
-                href={`mailto:${info.email}`}
+              <button
+                onClick={handleCopyEmail}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
                   padding: '0.9rem 2.25rem', borderRadius: '9999px',
-                  background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
+                  background: copied
+                    ? 'linear-gradient(135deg,#22c55e,#16a34a)'
+                    : 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
                   color: '#fff', fontWeight: 700, fontSize: '0.95rem',
-                  textDecoration: 'none',
+                  border: 'none', cursor: 'pointer',
                   boxShadow: '0 4px 24px rgba(139,92,246,0.4)',
-                  transition: 'opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease',
+                  transition: 'opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease',
                 }}
                 onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLAnchorElement;
+                  const el = e.currentTarget;
                   el.style.opacity = '0.88';
                   el.style.transform = 'scale(1.04)';
                   el.style.boxShadow = '0 8px 36px rgba(139,92,246,0.55)';
                 }}
                 onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLAnchorElement;
+                  const el = e.currentTarget;
                   el.style.opacity = '1';
                   el.style.transform = 'scale(1)';
                   el.style.boxShadow = '0 4px 24px rgba(139,92,246,0.4)';
                 }}
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-                {t.contact.emailCta}
-              </a>
+                {copied ? (
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                ) : (
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                )}
+                {copied ? t.contact.emailCopied : t.contact.emailCta}
+              </button>
             </div>
           </div>
         </div>
