@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 interface ButtonProps {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary';
@@ -11,6 +13,13 @@ export function Button({ children, variant = 'primary', href, onClick, className
   const cls = `btn btn--${variant} ${className}`;
 
   if (href) {
+    if (href.startsWith('/') && !target) {
+      return (
+        <Link href={href} className={cls}>
+          {children}
+        </Link>
+      );
+    }
     return (
       <a href={href} className={cls} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>
         {children}
