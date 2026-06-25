@@ -38,10 +38,19 @@ describe('Error', () => {
     expect(link.getAttribute('href')).toBe('/');
   });
 
-  it('log l\'erreur en console', () => {
+  it('log l\'erreur en console uniquement en mode développement', () => {
+    vi.stubEnv('NODE_ENV', 'development');
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     render(<ErrorPage error={mockError} reset={mockReset} />);
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(mockError);
+    spy.mockRestore();
+    vi.unstubAllEnvs();
+  });
+
+  it('ne log pas l\'erreur en console hors mode développement', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    render(<ErrorPage error={mockError} reset={mockReset} />);
+    expect(spy).not.toHaveBeenCalled();
     spy.mockRestore();
   });
 });

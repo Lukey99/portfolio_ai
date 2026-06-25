@@ -4,8 +4,12 @@
  * prefixed /portfolio_ai/ but dev server serves from /) — filtered out below.
  */
 import { test, expect, Page } from '@playwright/test';
+import { join } from 'path';
+import { tmpdir } from 'os';
+import { mkdirSync } from 'fs';
 
-const SC = 'C:/Users/Lukey/AppData/Local/Temp/claude/d--Kevin-Nguyen-Documents-Dev-Claude/b5e5bfaf-ddda-49f3-a115-41ed7415b7b5/scratchpad';
+const SC = join(tmpdir(), 'portfolio-audit');
+mkdirSync(SC, { recursive: true });
 
 const PLACEHOLDERS = [
   'lorem ipsum', 'kevin@example.com', 'github.com/kevin-nguyen',

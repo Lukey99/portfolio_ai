@@ -9,7 +9,7 @@ interface ErrorProps {
 
 export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
-    console.error(error);
+    if (process.env.NODE_ENV === 'development') console.error(error);
   }, [error]);
 
   return (
@@ -97,7 +97,7 @@ export default function Error({ error, reset }: ErrorProps) {
               gap: '0.5rem',
               padding: '0.875rem 2rem',
               borderRadius: '9999px',
-              background: 'linear-gradient(135deg, #8b5cf6, #22d3ee)',
+              background: 'var(--gradient)',
               color: '#fff',
               fontWeight: 700,
               fontSize: '0.9rem',

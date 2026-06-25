@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
@@ -27,18 +27,13 @@ const GitHubIcon = () => (
 );
 
 // Shared style for icon buttons in the header bar
+// Hover states are handled by the .header-icon-btn CSS class in globals.css
 const iconBtnStyle: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   width: '2.25rem', height: '2.25rem', borderRadius: '0.6rem',
-  background: 'rgba(var(--overlay-rgb), 0.06)',
   border: '1px solid rgba(var(--overlay-rgb), 0.1)',
-  color: 'rgba(var(--fg-rgb), 0.8)',
   cursor: 'pointer',
-  transition: 'background 0.2s ease, color 0.2s ease, border-color 0.2s ease',
 };
-
-const hoverOn  = (e: React.MouseEvent<HTMLElement>) => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(var(--overlay-rgb), 0.1)'; el.style.color = 'var(--fg)'; };
-const hoverOff = (e: React.MouseEvent<HTMLElement>) => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(var(--overlay-rgb), 0.06)'; el.style.color = 'rgba(var(--fg-rgb), 0.8)'; };
 
 export function Header() {
   const [scrolled, setScrolled]       = useState(false);
@@ -47,6 +42,7 @@ export function Header() {
   const { theme, toggle }             = useTheme();
   const { t, locale, setLocale }      = useLocale();
   const pathname                      = usePathname();
+  const firstMenuLinkRef              = useRef<HTMLAnchorElement>(null);
 
   const NAV_LINKS = [
     { href: '/',        label: t.header.navPortfolio },
@@ -65,6 +61,19 @@ export function Header() {
     setMenuOpen(false);
     setClickedHref(null);
   }, [pathname]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      firstMenuLinkRef.current?.focus();
+    }
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
 
   const isActive = (href: string) => {
     if (clickedHref !== null) return clickedHref === href;
@@ -127,9 +136,8 @@ export function Header() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
+              className="header-icon-btn"
               style={iconBtnStyle}
-              onMouseEnter={hoverOn}
-              onMouseLeave={hoverOff}
             >
               <GitHubIcon />
             </a>
@@ -138,9 +146,8 @@ export function Header() {
             <button
               onClick={() => setLocale(locale === 'fr' ? 'en' : 'fr')}
               aria-label={`Switch to ${locale === 'fr' ? 'English' : 'French'}`}
+              className="header-icon-btn"
               style={{ ...iconBtnStyle, fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.06em', fontFamily: 'monospace' }}
-              onMouseEnter={hoverOn}
-              onMouseLeave={hoverOff}
             >
               {t.common.switchLocale}
             </button>
@@ -149,9 +156,8 @@ export function Header() {
             <button
               onClick={toggle}
               aria-label={theme === 'dark' ? t.header.themeLight : t.header.themeDark}
+              className="header-icon-btn"
               style={iconBtnStyle}
-              onMouseEnter={hoverOn}
-              onMouseLeave={hoverOff}
             >
               {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
             </button>
@@ -164,7 +170,7 @@ export function Header() {
                 alignItems: 'center', gap: '0.35rem',
                 padding: '0.5rem 1.2rem', borderRadius: '9999px',
                 fontSize: '0.82rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
-                background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
+                background: 'var(--gradient)',
                 transition: 'opacity 0.2s ease, transform 0.2s ease',
               }}
             >
@@ -176,6 +182,8 @@ export function Header() {
               className="flex md:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? t.header.menuClose : t.header.menuOpen}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 padding: '0.4rem', color: 'var(--fg)', alignItems: 'center',
@@ -206,6 +214,10 @@ export function Header() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label={t.header.menuOpen}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
@@ -228,6 +240,7 @@ export function Header() {
               >
                 <Link
                   href={link.href}
+                  ref={i === 0 ? firstMenuLinkRef : undefined}
                   style={{
                     display: 'block', padding: '0.9rem 1rem', marginBottom: '0.15rem',
                     fontSize: '1rem', fontWeight: 500, textDecoration: 'none', borderRadius: '0.75rem',
@@ -246,7 +259,7 @@ export function Header() {
                 style={{
                   display: 'block', padding: '0.9rem 1rem', textAlign: 'center',
                   fontSize: '0.9rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
-                  borderRadius: '0.75rem', background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
+                  borderRadius: '0.75rem', background: 'var(--gradient)',
                 }}
               >
                 {t.common.contactCta}

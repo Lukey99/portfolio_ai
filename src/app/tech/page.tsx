@@ -1,5 +1,16 @@
 import type React from 'react';
-import { AIWorkflowSection, TestsSection, TestsDashboardSection, ApiSection, ArchitectureSection, StorybookSection, TechPageIntro } from '@/components/sections';
+import dynamic from 'next/dynamic';
+import { AIWorkflowSection, TestsSection, ApiSection, StorybookSection, TechPageIntro } from '@/components/sections';
+
+const TestsDashboardSection = dynamic(
+  () => import('@/components/sections/TestsDashboardSection').then(m => ({ default: m.TestsDashboardSection })),
+  { loading: () => <div style={{ minHeight: '400px' }} /> },
+);
+
+const ArchitectureSection = dynamic(
+  () => import('@/components/sections/ArchitectureSection').then(m => ({ default: m.ArchitectureSection })),
+  { loading: () => <div style={{ minHeight: '200px' }} /> },
+);
 
 export const metadata = {
   title: 'Tech — Kévin Nguyen',

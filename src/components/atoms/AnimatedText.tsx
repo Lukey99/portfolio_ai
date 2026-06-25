@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
+import { clsx } from 'clsx';
 import type { CSSProperties } from 'react';
 
 interface AnimatedTextProps {
@@ -33,7 +34,7 @@ export function AnimatedText({ text, className, style, delay = 0, gradient = fal
     setMounted(true);
   }, []);
 
-  const cls = [gradient ? 'gradient-text' : '', className].filter(Boolean).join(' ');
+  const cls = clsx(gradient && 'gradient-text', className);
 
   if (!mounted) {
     return (
