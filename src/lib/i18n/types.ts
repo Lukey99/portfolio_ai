@@ -170,7 +170,6 @@ export interface Translations {
     pipelineTimestamp: string;
     coverageAtomicLabel: string;
     coverageWeakPrefix: string;
-    coverageWeakHighlight: string;
 
     // Pipeline view
     pipelineStatsLabels: [string, string, string];

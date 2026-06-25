@@ -456,7 +456,6 @@ export const fr: Translations = {
     pipelineTimestamp: "main · il y a 2h",
     coverageAtomicLabel: 'Couverture par couche atomique',
     coverageWeakPrefix: 'Point faible :',
-    coverageWeakHighlight: 'Organisms 12%',
     pipelineStatsLabels: ['Durée totale', 'Tests exécutés', 'Statut'],
     pipelineGanttLabel: 'Répartition du temps CI',
     pipelineSlowestTemplate: "est l'étape la plus longue",

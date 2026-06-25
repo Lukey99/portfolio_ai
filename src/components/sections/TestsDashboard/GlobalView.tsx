@@ -110,7 +110,9 @@ export function GlobalView() {
           <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)' }}>{t.testsDashboard.coverageAtomicLabel}</p>
           <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>
             {t.testsDashboard.coverageWeakPrefix}{' '}
-            <span style={{ color: '#f59e0b', fontWeight: 700 }}>{t.testsDashboard.coverageWeakHighlight}</span>
+            <span style={{ color: '#f59e0b', fontWeight: 700 }}>
+              {(() => { const w = [...COVERAGE_LAYERS].sort((a, b) => a.pct - b.pct)[0]; return `${w.label} ${w.pct}%`; })()}
+            </span>
           </span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '0.7rem 2.5rem' }}>

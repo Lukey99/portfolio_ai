@@ -16,13 +16,13 @@ export const QUALITY_STATIC = [
 export const OVERALL = Math.round(QUALITY_STATIC.reduce((s, q) => s + q.score, 0) / QUALITY_STATIC.length);
 
 export const COVERAGE_LAYERS = [
-  { label: 'App',       pct: 100, color: '#f87171' },
+  { label: 'App',       pct: 80,  color: '#f87171' },
   { label: 'Atoms',     pct: 100, color: '#22d3ee' },
-  { label: 'Molecules', pct: 100, color: '#8b5cf6' },
-  { label: 'Hooks',     pct: 100, color: '#a78bfa' },
+  { label: 'Molecules', pct: 72,  color: '#8b5cf6' },
+  { label: 'Hooks',     pct: 68,  color: '#a78bfa' },
   { label: 'API',       pct: 100, color: '#10b981' },
-  { label: 'Organisms', pct: 100, color: '#4ade80' },
-] as const;
+  { label: 'Organisms', pct: 12,  color: '#4ade80' },
+];
 
 export const PIPELINE_STATIC = [
   { label: 'Lint & Types', duration: '0.3s',  count: null as null, color: '#4ade80' },
