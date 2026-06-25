@@ -29,7 +29,7 @@ export const PIPELINE_STATIC = [
   { label: 'Unit',          duration: '9s',    count: 245,          color: '#8b5cf6' },
   { label: 'API',           duration: '0.8s',  count: 12,           color: '#22d3ee' },
   { label: 'A11y',          duration: '1.2s',  count: 10,           color: '#f59e0b' },
-  { label: 'E2E',           duration: '12s',   count: 11,           color: '#10b981' },
+  { label: 'E2E',           duration: '12s',   count: 21,           color: '#10b981' },
   { label: 'Perf',          duration: '8s',    count: 7,            color: '#f87171' },
 ];
 
@@ -111,9 +111,9 @@ export const WHY_REASONS_STATIC = [
 
 export const WHY_TEST_TYPES_STATIC = [
   { id: 'Unit',  color: '#8b5cf6', count: 245 },
-  { id: 'A11y',  color: '#f59e0b', count: 10  },
+  { id: 'A11y',  color: '#f59e0b', count: 19  },
   { id: 'API',   color: '#22d3ee', count: 12  },
-  { id: 'E2E',   color: '#10b981', count: 11  },
+  { id: 'E2E',   color: '#10b981', count: 21  },
   { id: 'Perf',  color: '#f87171', count: 7   },
   { id: 'Bench', color: '#a78bfa', count: 8   },
 ] as const;

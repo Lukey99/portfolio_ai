@@ -16,7 +16,7 @@ const UNIT_SUITES_STATIC = [
   { category: 'Molecule', file: 'SectionTitle.test.tsx',  path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: 'rgba(167,139,250,0.10)', border: 'rgba(167,139,250,0.22)', count: 5 },
   { category: 'Molecule', file: 'TimelineCard.test.tsx',  path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: 'rgba(167,139,250,0.10)', border: 'rgba(167,139,250,0.22)', count: 3 },
   { category: 'Molecule', file: 'ContactItem.test.tsx',   path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: 'rgba(167,139,250,0.10)', border: 'rgba(167,139,250,0.22)', count: 4 },
-  { category: 'Route',    file: 'api.test.ts',            path: 'src/app/api/portfolio/',        colorVar: '#10b981',           bg: 'rgba(16,185,129,0.07)',  border: 'rgba(16,185,129,0.20)',  count: 11 },
+  { category: 'Route',    file: 'api.test.ts',            path: 'src/app/api/portfolio/',        colorVar: '#10b981',           bg: 'rgba(16,185,129,0.07)',  border: 'rgba(16,185,129,0.20)',  count: 12 },
 ] as const;
 
 const E2E_SUITES_STATIC = [
