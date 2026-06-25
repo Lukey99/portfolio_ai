@@ -353,13 +353,13 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
 
         {/* RIGHT — info + stepper */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ flex: 1, padding: '3.5rem 2.5rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ flex: 1, padding: isMobile ? '1.25rem 1.25rem 1rem' : '3.5rem 2.5rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <AnimatePresence mode="wait">
               <motion.div key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
                 <span style={{ fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.25)', fontFamily: 'monospace' }}>
                   {String(step + 1).padStart(2, '0')} / {steps.length}
                 </span>
-                <h4 style={{ fontSize: '2rem', fontWeight: 800, color: current.color, letterSpacing: '-0.03em', lineHeight: 1.05, marginTop: '0.5rem', marginBottom: '0.3rem' }}>
+                <h4 style={{ fontSize: isMobile ? '1.4rem' : '2rem', fontWeight: 800, color: current.color, letterSpacing: '-0.03em', lineHeight: 1.05, marginTop: '0.5rem', marginBottom: '0.3rem' }}>
                   {current.label}
                 </h4>
                 {current.component !== '—' && (
@@ -367,24 +367,24 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
                     {current.component}
                   </p>
                 )}
-                <p style={{ fontSize: '0.87rem', color: 'rgba(var(--fg-rgb), 0.5)', lineHeight: 1.72, marginTop: current.component === '—' ? '1.25rem' : 0 }}>
+                <p style={{ fontSize: isMobile ? '0.8rem' : '0.87rem', color: 'rgba(var(--fg-rgb), 0.5)', lineHeight: 1.65, marginTop: current.component === '—' ? '1.25rem' : 0 }}>
                   {current.desc}
                 </p>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          <div style={{ height: '1px', background: 'rgba(var(--overlay-rgb), 0.07)', margin: '0 2rem' }} />
+          <div style={{ height: '1px', background: 'rgba(var(--overlay-rgb), 0.07)', margin: isMobile ? '0 1.25rem' : '0 2rem' }} />
 
-          <div style={{ padding: isMobile ? '1rem' : '1.25rem 2rem 1.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', overflowX: 'auto', paddingBottom: '0.25rem' }}>
-              {steps.map((s, i) => {
-                const color = DEMO_STATIC[i].color;
-                return (
-                  <div key={i} style={{ display: 'contents' }}>
+          <div style={{ padding: isMobile ? '0.85rem 1.25rem 1.25rem' : '1.25rem 2rem 1.75rem' }}>
+            {isMobile ? (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem' }}>
+                {steps.map((s, i) => {
+                  const color = DEMO_STATIC[i].color;
+                  return (
                     <motion.button
+                      key={i}
                       onClick={() => goTo(i as ExplodeStep)}
-                      whileHover={{ scale: 1.06, backgroundColor: `${color}28` }}
                       whileTap={{ scale: 0.95 }}
                       animate={{
                         borderColor: i <= step ? color : 'rgba(148,163,184,0.18)',
@@ -392,24 +392,48 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
                         color: i <= step ? color : 'rgba(148,163,184,0.45)',
                       }}
                       transition={{ duration: 0.25 }}
-                      style={{ padding: '0.35rem 0.85rem', borderRadius: '9999px', fontSize: '0.65rem', fontWeight: i <= step ? 700 : 400, fontFamily: 'monospace', letterSpacing: '0.05em', cursor: 'pointer', border: '1.5px solid', whiteSpace: 'nowrap', flexShrink: 0 }}
+                      style={{ padding: '0.45rem 0.5rem', borderRadius: '0.5rem', fontSize: '0.62rem', fontWeight: i <= step ? 700 : 400, fontFamily: 'monospace', letterSpacing: '0.03em', cursor: 'pointer', border: '1.5px solid', textAlign: 'center' as const }}
                     >
                       {s.label}
                     </motion.button>
-                    {i < 3 && (
-                      <div style={{ flex: 1, minWidth: '0.5rem', height: '2px', position: 'relative', background: 'rgba(var(--overlay-rgb), 0.1)' }}>
-                        <motion.div
-                          animate={{ scaleX: step > i ? 1 : 0 }}
-                          initial={{ scaleX: 0 }}
-                          transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-                          style={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, ${color}, ${DEMO_STATIC[i + 1].color})`, transformOrigin: 'left' }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', overflowX: 'auto', paddingBottom: '0.25rem' }}>
+                {steps.map((s, i) => {
+                  const color = DEMO_STATIC[i].color;
+                  return (
+                    <div key={i} style={{ display: 'contents' }}>
+                      <motion.button
+                        onClick={() => goTo(i as ExplodeStep)}
+                        whileHover={{ scale: 1.06, backgroundColor: `${color}28` }}
+                        whileTap={{ scale: 0.95 }}
+                        animate={{
+                          borderColor: i <= step ? color : 'rgba(148,163,184,0.18)',
+                          backgroundColor: i === step ? `${color}20` : i < step ? `${color}0C` : 'rgba(0,0,0,0)',
+                          color: i <= step ? color : 'rgba(148,163,184,0.45)',
+                        }}
+                        transition={{ duration: 0.25 }}
+                        style={{ padding: '0.35rem 0.85rem', borderRadius: '9999px', fontSize: '0.65rem', fontWeight: i <= step ? 700 : 400, fontFamily: 'monospace', letterSpacing: '0.05em', cursor: 'pointer', border: '1.5px solid', whiteSpace: 'nowrap', flexShrink: 0 }}
+                      >
+                        {s.label}
+                      </motion.button>
+                      {i < 3 && (
+                        <div style={{ flex: 1, minWidth: '0.5rem', height: '2px', position: 'relative', background: 'rgba(var(--overlay-rgb), 0.1)' }}>
+                          <motion.div
+                            animate={{ scaleX: step > i ? 1 : 0 }}
+                            initial={{ scaleX: 0 }}
+                            transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+                            style={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, ${color}, ${DEMO_STATIC[i + 1].color})`, transformOrigin: 'left' }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
