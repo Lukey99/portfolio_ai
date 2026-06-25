@@ -182,6 +182,7 @@ export const en: Translations = {
     emailItemLabel: 'Email',
     phoneItemLabel: 'Phone',
     locationItemLabel: 'Location',
+    githubItemLabel: 'GitHub',
     copyright: `© ${new Date().getFullYear()} Kévin Nguyen — All rights reserved`,
     builtWith: 'Next.js · TypeScript · Framer Motion',
   },

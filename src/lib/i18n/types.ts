@@ -89,6 +89,7 @@ export interface Translations {
     emailItemLabel: string;
     phoneItemLabel: string;
     locationItemLabel: string;
+    githubItemLabel: string;
     copyright: string;
     builtWith: string;
   };
