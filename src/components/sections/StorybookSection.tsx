@@ -207,8 +207,8 @@ const SHOWCASES: ShowcaseBlock[] = [
           <ContactItem
             icon={<EmailIcon />}
             label="Email"
-            value="kevin@example.com"
-            href="mailto:kevin@example.com"
+            value="kevinngn.2802@gmail.com"
+            href="mailto:kevinngn.2802@gmail.com"
             index={0}
           />
         ),
@@ -223,8 +223,8 @@ const SHOWCASES: ShowcaseBlock[] = [
           <ContactItem
             icon={<GithubIcon />}
             label="GitHub"
-            value="github.com/kevin-nguyen"
-            href="https://github.com"
+            value="github.com/Lukey99"
+            href="https://github.com/Lukey99"
             index={0}
           />
         ),

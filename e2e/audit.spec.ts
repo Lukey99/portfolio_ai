@@ -30,7 +30,9 @@ test('desktop — home', async ({ page }) => {
   await page.waitForTimeout(1200);
   await page.screenshot({ path: `${SC}/audit-desktop-home.png`, fullPage: true });
   const text = await page.locator('body').innerText();
-  const hits = PLACEHOLDERS.filter(p => text.toLowerCase().includes(p.toLowerCase()));
+  const hits = PLACEHOLDERS.filter(p =>
+    p === 'NaN' ? text.includes('NaN') : text.toLowerCase().includes(p.toLowerCase())
+  );
   expect(hits, `Placeholder text found: ${hits.join(', ')}`).toHaveLength(0);
   expect(errs, `JS errors: ${errs.join(' | ')}`).toHaveLength(0);
 });
@@ -42,7 +44,9 @@ test('desktop — tech', async ({ page }) => {
   await page.waitForTimeout(1200);
   await page.screenshot({ path: `${SC}/audit-desktop-tech.png`, fullPage: true });
   const text = await page.locator('body').innerText();
-  const hits = PLACEHOLDERS.filter(p => text.toLowerCase().includes(p.toLowerCase()));
+  const hits = PLACEHOLDERS.filter(p =>
+    p === 'NaN' ? text.includes('NaN') : text.toLowerCase().includes(p.toLowerCase())
+  );
   expect(hits, `Placeholder text found: ${hits.join(', ')}`).toHaveLength(0);
   expect(errs, `JS errors: ${errs.join(' | ')}`).toHaveLength(0);
 });
@@ -54,7 +58,9 @@ test('desktop — contact', async ({ page }) => {
   await page.waitForTimeout(1200);
   await page.screenshot({ path: `${SC}/audit-desktop-contact.png`, fullPage: true });
   const text = await page.locator('body').innerText();
-  const hits = PLACEHOLDERS.filter(p => text.toLowerCase().includes(p.toLowerCase()));
+  const hits = PLACEHOLDERS.filter(p =>
+    p === 'NaN' ? text.includes('NaN') : text.toLowerCase().includes(p.toLowerCase())
+  );
   expect(hits, `Placeholder text found: ${hits.join(', ')}`).toHaveLength(0);
   expect(errs, `JS errors: ${errs.join(' | ')}`).toHaveLength(0);
 });
@@ -100,12 +106,13 @@ test('mobile — contact', async ({ browser }) => {
 test('navigation — header links work', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('networkidle');
-  await page.click('a[href*="/tech"]');
-  await page.waitForLoadState('networkidle');
+  // Next.js App Router navigates client-side (no network requests), so we wait for URL change
+  await page.locator('nav a[href*="/tech"]').first().click();
+  await page.waitForURL('**/tech/**', { timeout: 8000 });
   expect(page.url()).toContain('tech');
 
-  await page.click('a[href*="/contact"]');
-  await page.waitForLoadState('networkidle');
+  await page.locator('nav a[href*="/contact"]').first().click();
+  await page.waitForURL('**/contact/**', { timeout: 8000 });
   expect(page.url()).toContain('contact');
 });
 
