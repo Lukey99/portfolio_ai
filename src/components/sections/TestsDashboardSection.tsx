@@ -30,9 +30,9 @@ const COVERAGE_LAYERS = [
 
 const PIPELINE_STATIC = [
   { label: 'Lint & Types', duration: '0.3s',  count: null as null, color: '#4ade80' },
-  { label: 'Unit',          duration: '9s',    count: 252,          color: '#8b5cf6' },
+  { label: 'Unit',          duration: '9s',    count: 245,          color: '#8b5cf6' },
   { label: 'API',           duration: '0.8s',  count: 12,           color: '#22d3ee' },
-  { label: 'A11y',          duration: '1.2s',  count: 14,           color: '#f59e0b' },
+  { label: 'A11y',          duration: '1.2s',  count: 10,           color: '#f59e0b' },
   { label: 'E2E',           duration: '12s',   count: 11,           color: '#10b981' },
   { label: 'Perf',          duration: '8s',    count: 7,            color: '#f87171' },
 ];
@@ -104,7 +104,7 @@ const LAYER_COLORS: Record<string, string> = {
 };
 
 const GLOBAL_STATS_STATIC = [
-  { value: 252,     suffix: '',     color: '#8b5cf6' },
+  { value: 245,     suffix: '',     color: '#8b5cf6' },
   { value: 0,       suffix: '',     color: '#4ade80' },
   { value: OVERALL, suffix: '/100', color: '#22d3ee' },
   { value: 100,     suffix: '%',    color: '#f59e0b' },
@@ -113,7 +113,7 @@ const GLOBAL_STATS_STATIC = [
 const WHY_REASONS_STATIC = [
   { icon: '⚡', color: '#8b5cf6', stat: '0' },
   { icon: '⏱', color: '#22d3ee', stat: '~10×' },
-  { icon: '📖', color: '#4ade80', stat: '252' },
+  { icon: '📖', color: '#4ade80', stat: '245' },
   { icon: '↺',  color: '#f59e0b', stat: '100%' },
 ] as const;
 
