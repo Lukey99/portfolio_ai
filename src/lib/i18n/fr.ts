@@ -200,28 +200,26 @@ export const fr: Translations = {
       title: 'Productivité augmentée',
       subtitle: "J'intègre Cursor et Claude Code dans mon workflow quotidien pour automatiser les tâches répétitives et me concentrer sur ce qui crée de la valeur.",
     },
-    productivityLabel: 'Gain de productivité estimé',
-    productivityDesc: 'plus productif sur les tâches récurrentes de développement',
     workflow: [
       {
         title: 'Audits de code',
         desc: 'Détection automatique des bugs, anti-patterns et dérives qualité avant chaque merge.',
-        metricLabel: 'de temps sur les revues',
+        benefit: 'Qualité homogène à chaque merge, sans supervision manuelle',
       },
       {
         title: 'Rédaction de tests',
         desc: "Génération de tests unitaires et e2e couvrant les cas limites identifiés à l'audit.",
-        metricLabel: 'plus de couverture de code',
+        benefit: 'Couverture étendue aux cas limites, générée en quelques secondes',
       },
       {
         title: 'Optimisations',
         desc: 'Analyse du bundle, des perfs de rendu et des requêtes réseau pour livrer plus vite.',
-        metricLabel: 'de gains de performance',
+        benefit: 'Bundle, rendu et réseau analysés à chaque livraison',
       },
       {
         title: 'Pull Requests',
         desc: 'Descriptions générées, review assistée et suggestions de refactor dans le cycle PR.',
-        metricLabel: 'sur le cycle de merge',
+        benefit: 'Descriptions auto-générées et cycle de merge documenté',
       },
     ],
   },

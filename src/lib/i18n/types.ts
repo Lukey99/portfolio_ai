@@ -102,9 +102,7 @@ export interface Translations {
   // ── Tech: AI Workflow ────────────────────────────────────────
   aiWorkflow: {
     section: SectionTitleData;
-    productivityLabel: string;
-    productivityDesc: string;
-    workflow: { title: string; desc: string; metricLabel: string }[];
+    workflow: { title: string; desc: string; benefit: string }[];
   };
 
   // ── Tech: API ────────────────────────────────────────────────
