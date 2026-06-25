@@ -414,7 +414,7 @@ export const en: Translations = {
         popover: {
           title: 'Code coverage',
           body: 'All public source files have at least one unit test, measured via @vitest/coverage-v8.',
-          items: ['46 suites · 252 tests total', 'App · Atoms · Molecules · Organisms · Hooks · Service · Lib', 'E2E and Organism benchmarks still to complete'],
+          items: ['46 suites · 245 unit tests', 'App · Atoms · Molecules · Organisms · Hooks · Service · Lib', 'E2E and Organism benchmarks still to complete'],
         },
       },
       {
@@ -461,7 +461,7 @@ export const en: Translations = {
     pipelineSlowestTemplate: 'is the slowest step',
     pipelineDetails: [
       'TypeScript strict + ESLint — 0 errors',
-      '46 files · 252 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
+      '46 files · 245 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
       '5 REST routes · mocked data',
       'axe-core + Playwright · dark & light mode · WCAG 2A + 2AA',
       'Playwright · 3 pages · navigation + content',
@@ -476,7 +476,7 @@ export const en: Translations = {
     covColLabel: 'Cov.',
     missingLabel: 'missing',
     coverageGapNotes: [
-      'Unit tests covered (252 tests). E2E and benchmarks to complete for full coverage.',
+      'Unit tests covered (245 tests). E2E and benchmarks to complete for full coverage.',
       'Only covered by accessibility tests. 2-3 unit tests would be sufficient.',
       'E2E and benchmark missing. Frequently used component.',
       'Hook with no direct rendering — A11y not applicable, Bench optional.',
@@ -496,7 +496,7 @@ export const en: Translations = {
         title: 'Deploy without fear',
         statSuffix: 'regression',
         statLabel: 'undetected in production',
-        body: 'A green pipeline = deployable code. No more manual checks before every release: if the 252 tests pass, we ship.',
+        body: 'A green pipeline = deployable code. No more manual checks before every release: if the 245 unit tests pass, we ship.',
       },
       {
         title: 'Fix early',

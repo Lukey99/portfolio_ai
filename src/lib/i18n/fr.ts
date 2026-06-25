@@ -414,7 +414,7 @@ export const fr: Translations = {
         popover: {
           title: 'Couverture de code',
           body: 'Tous les fichiers source publics ont au minimum un test unitaire, mesurée via @vitest/coverage-v8.',
-          items: ['46 suites · 252 tests au total', 'App · Atoms · Molecules · Organisms · Hooks · Service · Lib', 'E2E et benchmarks Organisms restent à compléter'],
+          items: ['46 suites · 245 tests unitaires', 'App · Atoms · Molecules · Organisms · Hooks · Service · Lib', 'E2E et benchmarks Organisms restent à compléter'],
         },
       },
       {
@@ -461,7 +461,7 @@ export const fr: Translations = {
     pipelineSlowestTemplate: "est l'étape la plus longue",
     pipelineDetails: [
       'TypeScript strict + ESLint — 0 erreur',
-      '46 fichiers · 252 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
+      '46 fichiers · 245 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
       '5 routes REST · données mockées',
       'axe-core + Playwright · dark & light mode · WCAG 2A + 2AA',
       'Playwright · 3 pages · navigation + contenu',
@@ -476,7 +476,7 @@ export const fr: Translations = {
     covColLabel: 'Cov.',
     missingLabel: 'manquant',
     coverageGapNotes: [
-      'Tests unitaires couverts (252 tests). E2E et benchmarks à compléter pour une couverture totale.',
+      'Tests unitaires couverts (245 tests). E2E et benchmarks à compléter pour une couverture totale.',
       'Uniquement couvert en accessibilité. 2-3 tests unitaires seraient suffisants.',
       'E2E et benchmark manquants. Composant fréquemment utilisé.',
       'Hook sans rendu direct — A11y non applicable, Bench optionnel.',
@@ -496,7 +496,7 @@ export const fr: Translations = {
         title: 'Déployer sans peur',
         statSuffix: 'régression',
         statLabel: 'non détectée en production',
-        body: 'Un pipeline vert = un code déployable. Fini les vérifications manuelles avant chaque release : si les 252 tests passent, on ship.',
+        body: 'Un pipeline vert = un code déployable. Fini les vérifications manuelles avant chaque release : si les 245 tests unitaires passent, on ship.',
       },
       {
         title: 'Corriger au plus tôt',

@@ -82,9 +82,9 @@ export const MATRIX: Record<string, Partial<Record<TestCol, boolean>>> = {
   'useReveal':      { Unit: true },
   'usePortfolio':   { Unit: true },
   'API Routes':     { API: true, E2E: true, Bench: true },
-  'Hero':           { Unit: true },
-  'Header':         { Unit: true },
-  'Organisms ×13':  { Unit: true },
+  'Hero':           { Unit: true, A11y: true },
+  'Header':         { Unit: true, A11y: true },
+  'Organisms ×13':  { Unit: true, A11y: true },
 };
 
 export const COL_COLORS: Record<TestCol, string> = {
@@ -110,8 +110,8 @@ export const WHY_REASONS_STATIC = [
 ] as const;
 
 export const WHY_TEST_TYPES_STATIC = [
-  { id: 'Unit',  color: '#8b5cf6', count: 252 },
-  { id: 'A11y',  color: '#f59e0b', count: 14  },
+  { id: 'Unit',  color: '#8b5cf6', count: 245 },
+  { id: 'A11y',  color: '#f59e0b', count: 10  },
   { id: 'API',   color: '#22d3ee', count: 12  },
   { id: 'E2E',   color: '#10b981', count: 11  },
   { id: 'Perf',  color: '#f87171', count: 7   },
