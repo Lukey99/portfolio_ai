@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, useInView, AnimatePresence } from 'motion/react';
-import { CARD } from './data';
+import { CARD, mix } from './data';
 import type { QualityMerged, StatHeroCardData } from './data';
 
 export type { QualityMerged, StatHeroCardData };
@@ -31,10 +31,10 @@ export function useCount(target: number, active: boolean, duration = 1000) {
 // ── scoreGrade ────────────────────────────────────────────────
 
 export function scoreGrade(s: number) {
-  if (s >= 90) return { grade: 'A', color: '#4ade80' };
-  if (s >= 80) return { grade: 'B', color: '#8b5cf6' };
-  if (s >= 70) return { grade: 'C', color: '#f59e0b' };
-  return { grade: 'D', color: '#f87171' };
+  if (s >= 90) return { grade: 'A', color: 'var(--t-organism)' };
+  if (s >= 80) return { grade: 'B', color: 'var(--t-unit)' };
+  if (s >= 70) return { grade: 'C', color: 'var(--t-a11y)' };
+  return { grade: 'D', color: 'var(--t-perf)' };
 }
 
 // ── ScoreRing ─────────────────────────────────────────────────
@@ -121,7 +121,7 @@ export function SubScoreCard({ q, parentInView, index }: { q: QualityMerged; par
       style={{
         position: 'relative',
         background: 'var(--card-bg)',
-        border: `1px solid ${hovered ? q.color + '50' : 'rgba(var(--overlay-rgb), 0.09)'}`,
+        border: `1px solid ${hovered ? mix(q.color, 31) : 'rgba(var(--overlay-rgb), 0.09)'}`,
         borderRadius: '0.75rem', padding: '1rem',
         display: 'flex', alignItems: 'center', gap: '0.85rem',
         cursor: 'help', transition: 'border-color 0.2s',
@@ -155,14 +155,14 @@ export function SubScoreCard({ q, parentInView, index }: { q: QualityMerged; par
               zIndex: 9999,
               width: '240px',
               background: 'var(--menu-bg)',
-              border: `1px solid ${q.color}35`,
+              border: `1px solid ${mix(q.color, 21)}`,
               borderRadius: '0.85rem',
               padding: '1rem 1.1rem',
-              boxShadow: `0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px ${q.color}15`,
+              boxShadow: `0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px ${mix(q.color, 8)}`,
               pointerEvents: 'none',
             }}
           >
-            <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: 'var(--menu-bg)', borderRight: `1px solid ${q.color}35`, borderBottom: `1px solid ${q.color}35` }} />
+            <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: 'var(--menu-bg)', borderRight: `1px solid ${mix(q.color, 21)}`, borderBottom: `1px solid ${mix(q.color, 21)}` }} />
             <div style={{ fontSize: '0.72rem', fontWeight: 800, color: q.color, marginBottom: '0.45rem' }}>{q.popover.title}</div>
             <div style={{ fontSize: '0.63rem', color: 'rgba(var(--fg-rgb), 0.6)', lineHeight: 1.55, marginBottom: '0.6rem' }}>{q.popover.body}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.28rem' }}>
@@ -199,7 +199,7 @@ export function StatHeroCard({ stat, inView, index }: { stat: StatHeroCardData; 
         {stat.suffix && <span style={{ fontSize: '0.85rem', fontWeight: 700, color: stat.color, opacity: 0.7 }}>{stat.suffix}</span>}
       </div>
       <div style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>{stat.sub}</div>
-      <div style={{ marginTop: '0.5rem', height: '2px', background: `linear-gradient(90deg, ${stat.color}60, ${stat.color}10)`, borderRadius: '999px' }} />
+      <div style={{ marginTop: '0.5rem', height: '2px', background: `linear-gradient(90deg, ${mix(stat.color, 38)}, ${mix(stat.color, 6)})`, borderRadius: '999px' }} />
     </motion.div>
   );
 }
@@ -225,7 +225,7 @@ export function MobileSubScoreRow({ q, inView, index }: { q: QualityMerged; inVi
           initial={{ width: 0 }}
           animate={inView ? { width: `${q.score}%` } : {}}
           transition={{ delay: 0.25 + index * 0.07, duration: 0.7, ease: 'easeOut' }}
-          style={{ height: '100%', background: q.color, borderRadius: '999px', boxShadow: `0 0 4px ${q.color}60` }}
+          style={{ height: '100%', background: q.color, borderRadius: '999px', boxShadow: `0 0 4px ${mix(q.color, 38)}` }}
         />
       </div>
       <span style={{ fontSize: '0.8rem', fontWeight: 800, color: q.color, fontFamily: 'monospace', width: '28px', textAlign: 'right', flexShrink: 0 }}>{count}</span>

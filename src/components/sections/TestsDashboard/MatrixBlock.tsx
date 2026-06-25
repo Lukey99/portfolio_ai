@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { useLocale } from '@/contexts/LocaleContext';
-import { COMPONENTS, TEST_COLS, MATRIX, COL_COLORS, LAYER_COLORS } from './data';
+import { COMPONENTS, TEST_COLS, MATRIX, COL_COLORS, LAYER_COLORS, mix } from './data';
 import type { TestCol } from './data';
 
 export function MatrixBlock() {
@@ -25,7 +25,7 @@ export function MatrixBlock() {
               const isActive = activeCol === col;
               return (
                 <th key={col} style={{ paddingBottom: '0.75rem', textAlign: 'center' }}>
-                  <button onClick={() => setActiveCol(isActive ? null : col)} style={{ fontSize: '0.62rem', fontWeight: 700, color: isActive ? COL_COLORS[col] : 'rgba(var(--fg-rgb), 0.45)', background: isActive ? `${COL_COLORS[col]}18` : 'transparent', border: `1px solid ${isActive ? COL_COLORS[col] + '50' : 'rgba(var(--overlay-rgb), 0.12)'}`, borderRadius: '999px', padding: '0.2rem 0.6rem', cursor: 'pointer', transition: 'all 0.2s', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  <button onClick={() => setActiveCol(isActive ? null : col)} style={{ fontSize: '0.62rem', fontWeight: 700, color: isActive ? COL_COLORS[col] : 'rgba(var(--fg-rgb), 0.45)', background: isActive ? mix(COL_COLORS[col], 9) : 'transparent', border: `1px solid ${isActive ? mix(COL_COLORS[col], 31) : 'rgba(var(--overlay-rgb), 0.12)'}`, borderRadius: '999px', padding: '0.2rem 0.6rem', cursor: 'pointer', transition: 'all 0.2s', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     {col}
                   </button>
                 </th>
@@ -58,7 +58,7 @@ export function MatrixBlock() {
                         initial={{ scale: 0 }}
                         animate={inView ? { scale: 1, opacity: dim ? 0.15 : 1 } : {}}
                         transition={{ delay: ri * 0.04 + ci * 0.03 + 0.1, duration: 0.25, type: 'spring', stiffness: 300 }}
-                        style={{ width: '20px', height: '20px', borderRadius: '50%', margin: '0 auto', background: isCovered ? COL_COLORS[col] : 'transparent', border: isCovered ? 'none' : '1.5px solid rgba(var(--overlay-rgb), 0.15)', boxShadow: isCovered && isHovered ? `0 0 8px ${COL_COLORS[col]}80` : 'none', transition: 'box-shadow 0.15s' }}
+                        style={{ width: '20px', height: '20px', borderRadius: '50%', margin: '0 auto', background: isCovered ? COL_COLORS[col] : 'transparent', border: isCovered ? 'none' : '1.5px solid rgba(var(--overlay-rgb), 0.15)', boxShadow: isCovered && isHovered ? `0 0 8px ${mix(COL_COLORS[col], 50)}` : 'none', transition: 'box-shadow 0.15s' }}
                       />
                     </td>
                   );
@@ -79,7 +79,7 @@ export function MatrixBlock() {
           </div>
         ))}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginLeft: 'auto' }}>
-          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#8b5cf6' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--t-unit)' }} />
           <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.38)' }}>{t.testsDashboard.coveredLabel}</span>
           <div style={{ width: '10px', height: '10px', borderRadius: '50%', border: '1.5px solid rgba(var(--overlay-rgb), 0.2)', marginLeft: '0.5rem' }} />
           <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.38)' }}>{t.testsDashboard.notCoveredLabel}</span>

@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { useLocale } from '@/contexts/LocaleContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { CARD, WHY_REASONS_STATIC, WHY_TEST_TYPES_STATIC } from './data';
+import { CARD, WHY_REASONS_STATIC, WHY_TEST_TYPES_STATIC, mix } from './data';
 
 export function WhyView() {
   const ref = useRef<HTMLDivElement>(null);
@@ -59,13 +59,13 @@ export function WhyView() {
             style={{
               ...CARD, padding: '1.25rem',
               display: 'flex', flexDirection: 'column', gap: '0.75rem',
-              borderTop: `2px solid ${r.color}40`,
+              borderTop: `2px solid ${mix(r.color, 25)}`,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <span style={{
                 width: '2rem', height: '2rem', borderRadius: '0.5rem',
-                background: `${r.color}18`, border: `1px solid ${r.color}30`,
+                background: mix(r.color, 9), border: `1px solid ${mix(r.color, 19)}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '0.95rem', flexShrink: 0,
               }}>{r.icon}</span>
@@ -115,14 +115,14 @@ export function WhyView() {
                     width: '84%',
                     scrollSnapAlign: 'start',
                     padding: '1rem',
-                    background: `${wt.color}07`,
-                    border: `1px solid ${wt.color}22`,
+                    background: mix(wt.color, 4),
+                    border: `1px solid ${mix(wt.color, 13)}`,
                     borderRadius: '0.75rem',
                     display: 'flex', flexDirection: 'column', gap: '0.6rem',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 800, fontFamily: 'monospace', color: wt.color, background: `${wt.color}18`, border: `1px solid ${wt.color}35`, borderRadius: '4px', padding: '0.15rem 0.55rem' }}>{wt.id}</span>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 800, fontFamily: 'monospace', color: wt.color, background: mix(wt.color, 9), border: `1px solid ${mix(wt.color, 21)}`, borderRadius: '4px', padding: '0.15rem 0.55rem' }}>{wt.id}</span>
                     <span style={{ fontSize: '0.65rem', fontWeight: 700, color: wt.color }}>{wt.count}</span>
                   </div>
                   <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.35)', fontFamily: 'monospace', lineHeight: 1.35 }}>{wt.tool}</span>
@@ -157,10 +157,10 @@ export function WhyView() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.48 + i * 0.06 }}
-                style={{ padding: '0.875rem', background: `${wt.color}07`, border: `1px solid ${wt.color}22`, borderRadius: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+                style={{ padding: '0.875rem', background: mix(wt.color, 4), border: `1px solid ${mix(wt.color, 13)}`, borderRadius: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem' }}>
-                  <span style={{ fontSize: '0.65rem', fontWeight: 800, fontFamily: 'monospace', color: wt.color, background: `${wt.color}18`, border: `1px solid ${wt.color}35`, borderRadius: '4px', padding: '0.1rem 0.45rem' }}>{wt.id}</span>
+                  <span style={{ fontSize: '0.65rem', fontWeight: 800, fontFamily: 'monospace', color: wt.color, background: mix(wt.color, 9), border: `1px solid ${mix(wt.color, 21)}`, borderRadius: '4px', padding: '0.1rem 0.45rem' }}>{wt.id}</span>
                   <span style={{ fontSize: '0.6rem', fontWeight: 700, color: wt.color }}>{wt.count}</span>
                 </div>
                 <span style={{ fontSize: '0.57rem', color: 'rgba(var(--fg-rgb), 0.3)', fontFamily: 'monospace', lineHeight: 1.3 }}>{wt.tool}</span>

@@ -1,4 +1,13 @@
 import type { CSSProperties } from 'react';
+import {
+  UNIT_TOTAL, A11Y_E2E, A11Y_TOTAL, API_COUNT,
+  E2E_TOTAL, PERF_TOTAL, BENCH_TOTAL,
+} from '@/lib/generated/test-stats';
+
+// ── Color helper ──────────────────────────────────────────────
+/** Returns a color-mix() opacity variant — replaces hex-alpha suffixes like #8b5cf640 */
+export const mix = (color: string, pct: number): string =>
+  `color-mix(in srgb, ${color} ${pct}%, transparent)`;
 
 // ── Static data (no translatable text) ───────────────────────
 
@@ -7,30 +16,30 @@ export type TestType = 'Unit' | 'API' | 'A11y' | 'E2E' | 'Bench';
 export type DashTab  = 'global' | 'score' | 'pipeline' | 'coverage' | 'why';
 
 export const QUALITY_STATIC = [
-  { score: 100, color: '#8b5cf6' },
-  { score: 95,  color: '#22d3ee' },
-  { score: 88,  color: '#4ade80' },
-  { score: 90,  color: '#f59e0b' },
+  { score: 100, color: 'var(--t-unit)' },
+  { score: 95,  color: 'var(--t-api)' },
+  { score: 88,  color: 'var(--t-organism)' },
+  { score: 90,  color: 'var(--t-a11y)' },
 ] as const;
 
 export const OVERALL = Math.round(QUALITY_STATIC.reduce((s, q) => s + q.score, 0) / QUALITY_STATIC.length);
 
 export const COVERAGE_LAYERS = [
-  { label: 'App',       pct: 80,  color: '#f87171' },
-  { label: 'Atoms',     pct: 100, color: '#22d3ee' },
-  { label: 'Molecules', pct: 72,  color: '#8b5cf6' },
-  { label: 'Hooks',     pct: 68,  color: '#a78bfa' },
-  { label: 'API',       pct: 100, color: '#10b981' },
-  { label: 'Organisms', pct: 12,  color: '#4ade80' },
+  { label: 'App',       pct: 80,  color: 'var(--t-perf)' },
+  { label: 'Atoms',     pct: 100, color: 'var(--t-api)' },
+  { label: 'Molecules', pct: 72,  color: 'var(--t-unit)' },
+  { label: 'Hooks',     pct: 68,  color: 'var(--t-bench)' },
+  { label: 'API',       pct: 100, color: 'var(--t-e2e)' },
+  { label: 'Organisms', pct: 12,  color: 'var(--t-organism)' },
 ];
 
 export const PIPELINE_STATIC = [
-  { label: 'Lint & Types', duration: '0.3s',  count: null as null, color: '#4ade80' },
-  { label: 'Unit',          duration: '9s',    count: 245,          color: '#8b5cf6' },
-  { label: 'API',           duration: '0.8s',  count: 12,           color: '#22d3ee' },
-  { label: 'A11y',          duration: '1.2s',  count: 10,           color: '#f59e0b' },
-  { label: 'E2E',           duration: '12s',   count: 21,           color: '#10b981' },
-  { label: 'Perf',          duration: '8s',    count: 7,            color: '#f87171' },
+  { label: 'Lint & Types', duration: '0.3s',  count: null as null, color: 'var(--t-organism)' },
+  { label: 'Unit',          duration: '9s',    count: UNIT_TOTAL,   color: 'var(--t-unit)' },
+  { label: 'API',           duration: '0.8s',  count: API_COUNT,    color: 'var(--t-api)' },
+  { label: 'A11y',          duration: '1.2s',  count: A11Y_E2E,     color: 'var(--t-a11y)' },
+  { label: 'E2E',           duration: '12s',   count: E2E_TOTAL,    color: 'var(--t-e2e)' },
+  { label: 'Perf',          duration: '8s',    count: PERF_TOTAL,   color: 'var(--t-perf)' },
 ];
 
 export const TOTAL_DURATION = '31.3s';
@@ -40,9 +49,9 @@ export const PIPELINE_SECS: Record<string, number> = {
 export const TOTAL_SECS = Object.values(PIPELINE_SECS).reduce((s, v) => s + v, 0);
 
 export const IMPROVEMENTS_STATIC: { label: string; gap: number; priority: Priority; color: string }[] = [
-  { label: 'Densité',       gap: 10, priority: 'high',   color: '#f59e0b' },
-  { label: 'Performance',   gap:  7, priority: 'medium', color: '#4ade80' },
-  { label: 'Accessibilité', gap:  5, priority: 'low',    color: '#22d3ee' },
+  { label: 'Densité',       gap: 10, priority: 'high',   color: 'var(--t-a11y)' },
+  { label: 'Performance',   gap:  7, priority: 'medium', color: 'var(--t-organism)' },
+  { label: 'Accessibilité', gap:  5, priority: 'low',    color: 'var(--t-api)' },
 ];
 
 export const COVERAGE_GAPS_STATIC: { name: string; layer: string; missing: TestType[]; count: number; priority: Priority }[] = [
@@ -88,35 +97,35 @@ export const MATRIX: Record<string, Partial<Record<TestCol, boolean>>> = {
 };
 
 export const COL_COLORS: Record<TestCol, string> = {
-  Unit: '#8b5cf6', API: '#22d3ee', A11y: '#f59e0b', E2E: '#10b981', Bench: '#a78bfa',
+  Unit: 'var(--t-unit)', API: 'var(--t-api)', A11y: 'var(--t-a11y)', E2E: 'var(--t-e2e)', Bench: 'var(--t-bench)',
 };
 
 export const LAYER_COLORS: Record<string, string> = {
-  app: '#f87171', atom: '#22d3ee', molecule: '#8b5cf6', hook: '#a78bfa', api: '#10b981', organism: '#4ade80',
+  app: 'var(--t-perf)', atom: 'var(--t-api)', molecule: 'var(--t-unit)', hook: 'var(--t-bench)', api: 'var(--t-e2e)', organism: 'var(--t-organism)',
 };
 
 export const GLOBAL_STATS_STATIC = [
-  { value: 245,     suffix: '',     color: '#8b5cf6' },
-  { value: 0,       suffix: '',     color: '#4ade80' },
-  { value: OVERALL, suffix: '/100', color: '#22d3ee' },
-  { value: 100,     suffix: '%',    color: '#f59e0b' },
+  { value: UNIT_TOTAL, suffix: '',     color: 'var(--t-unit)' },
+  { value: 0,          suffix: '',     color: 'var(--t-organism)' },
+  { value: OVERALL,    suffix: '/100', color: 'var(--t-api)' },
+  { value: 100,        suffix: '%',    color: 'var(--t-a11y)' },
 ] as const;
 
 export const WHY_REASONS_STATIC = [
-  { icon: '⚡', color: '#8b5cf6', stat: '0' },
-  { icon: '⏱', color: '#22d3ee', stat: '~10×' },
-  { icon: '📖', color: '#4ade80', stat: '245' },
-  { icon: '↺',  color: '#f59e0b', stat: '100%' },
-] as const;
+  { icon: '⚡', color: 'var(--t-unit)',     stat: '0' },
+  { icon: '⏱', color: 'var(--t-api)',      stat: '9s' },
+  { icon: '📖', color: 'var(--t-organism)', stat: String(UNIT_TOTAL) },
+  { icon: '↺',  color: 'var(--t-a11y)',    stat: '100%' },
+];
 
 export const WHY_TEST_TYPES_STATIC = [
-  { id: 'Unit',  color: '#8b5cf6', count: 245 },
-  { id: 'A11y',  color: '#f59e0b', count: 19  },
-  { id: 'API',   color: '#22d3ee', count: 12  },
-  { id: 'E2E',   color: '#10b981', count: 21  },
-  { id: 'Perf',  color: '#f87171', count: 7   },
-  { id: 'Bench', color: '#a78bfa', count: 8   },
-] as const;
+  { id: 'Unit',  color: 'var(--t-unit)',     count: UNIT_TOTAL  },
+  { id: 'A11y',  color: 'var(--t-a11y)',     count: A11Y_TOTAL  },
+  { id: 'API',   color: 'var(--t-api)',      count: API_COUNT   },
+  { id: 'E2E',   color: 'var(--t-e2e)',      count: E2E_TOTAL   },
+  { id: 'Perf',  color: 'var(--t-perf)',     count: PERF_TOTAL  },
+  { id: 'Bench', color: 'var(--t-bench)',    count: BENCH_TOTAL },
+];
 
 export const TABS_STATIC: { id: DashTab; icon: string }[] = [
   { id: 'global',   icon: '◉' },

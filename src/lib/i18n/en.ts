@@ -501,7 +501,7 @@ export const en: Translations = {
       {
         title: 'Fix early',
         statSuffix: '',
-        statLabel: 'cheaper to fix in dev than in prod',
+        statLabel: 'to detect a regression in the CI pipeline',
         body: 'A bug caught by a test is fixed in minutes. Detected in production, it costs a hotfix, a rollback, and sometimes an all-nighter.',
       },
       {
@@ -521,49 +521,49 @@ export const en: Translations = {
       {
         tool: 'Vitest + Testing Library',
         points: [
-          'Rendering each component according to its props and state',
-          'Interactions: clicks, input, toggle, navigation',
-          'Hooks and service — business logic isolated from the DOM',
+          'Validate each component in isolation — catch regressions without opening a browser',
+          'Document expected behaviour: tests are the living spec for the component',
+          'Test hooks and services without a DOM — feedback in 9s, not 60s',
         ],
       },
       {
         tool: 'axe-core + Playwright',
         points: [
-          'WCAG 2A and 2AA compliance — 0 critical violations',
-          'ARIA roles, alt texts, heading hierarchy',
-          'Dark mode and light mode verified independently',
+          'Ensure no one is excluded — 0 WCAG violation = 0 person left behind',
+          'Auto-detect missing ARIA, forgotten alt texts and insufficient colour contrasts',
+          'Both themes (dark/light) are validated: contrasts don\'t drift based on the theme',
         ],
       },
       {
         tool: 'Vitest + fetch mock',
         points: [
-          '5 REST routes: HTTP codes and JSON structure',
-          'Network errors and edge cases handled',
-          'Consistency of data returned by each endpoint',
+          'Decouple data format validation from display logic',
+          'Ensure each route returns the right HTTP code and the expected exact structure',
+          'Catch a schema change before it reaches the components that render it',
         ],
       },
       {
         tool: 'Playwright',
         points: [
-          'Full navigation across 3 pages in real conditions',
-          'Rendering of key sections in a real Chromium browser',
-          'Anchors, active links and scroll behaviour verified',
+          'Reproduce a real user journey — navigation, transitions, Next.js hydration',
+          'Detect what unit tests miss: routing bugs, broken anchors, scroll issues',
+          'A real Chromium, not a mock — if it passes here, it passes for the user',
         ],
       },
       {
         tool: 'PerformanceObserver + Playwright',
         points: [
-          'LCP < 2.5s · CLS < 0.1 · TTFB < 500ms',
-          'API response time < 200ms measured locally',
-          'Core Web Vitals on the home and tech pages',
+          'Measure LCP, CLS and TTFB automatically — don\'t wait for a complaint to investigate',
+          'Prevent silent regression of Core Web Vitals after every refactor',
+          'API response time < 200ms validated each run: no surprises in production',
         ],
       },
       {
         tool: 'Vitest bench',
         points: [
-          'Render time of atoms and molecules (target < 1ms)',
-          'Comparative benchmarks between component variants',
-          'Detection of performance regressions at build time',
+          'Detect in 3s if a component became much slower to render — before the PR merges',
+          'Compare variants objectively: reproducible numbers, not subjective impression',
+          'Badge, Button, Tag, SectionTitle, TimelineCard — all confirmed < 1ms to render',
         ],
       },
     ],

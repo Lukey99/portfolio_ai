@@ -6,7 +6,7 @@ import { useLocale } from '@/contexts/LocaleContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import {
   CARD, OVERALL, QUALITY_STATIC, PIPELINE_STATIC, PIPELINE_SECS,
-  TOTAL_SECS, COVERAGE_LAYERS, GLOBAL_STATS_STATIC,
+  TOTAL_SECS, COVERAGE_LAYERS, GLOBAL_STATS_STATIC, mix,
 } from './data';
 import type { QualityMerged, StatHeroCardData } from './data';
 import { scoreGrade, StatHeroCard } from './primitives';
@@ -60,14 +60,14 @@ export function GlobalView() {
                     initial={{ width: 0 }}
                     animate={inView ? { width: `${q.score}%` } : {}}
                     transition={{ delay: 0.2 + i * 0.07, duration: 0.7, ease: 'easeOut' }}
-                    style={{ height: '100%', background: q.color, borderRadius: '999px', boxShadow: `0 0 6px ${q.color}60` }}
+                    style={{ height: '100%', background: q.color, borderRadius: '999px', boxShadow: `0 0 6px ${mix(q.color, 38)}` }}
                   />
                 </div>
               </motion.div>
             ))}
           </div>
           <div style={{ marginTop: '1.1rem', paddingTop: '0.875rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.07)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: `${gradeColor}18`, border: `1px solid ${gradeColor}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: mix(gradeColor, 9), border: `1px solid ${mix(gradeColor, 25)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <span style={{ fontSize: '0.75rem', fontWeight: 900, color: gradeColor }}>{grade}</span>
             </div>
             <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>{t.testsDashboard.globalGradeLabel}</span>
@@ -78,7 +78,7 @@ export function GlobalView() {
         <div style={CARD}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.1rem' }}>
             <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)' }}>{t.testsDashboard.pipelineCiLabel}</p>
-            <span style={{ fontSize: '0.6rem', color: '#4ade80', fontWeight: 700, background: '#4ade8015', border: '1px solid #4ade8030', borderRadius: '999px', padding: '0.15rem 0.6rem' }}>{t.testsDashboard.pipelineGreenBadge}</span>
+            <span style={{ fontSize: '0.6rem', color: 'var(--t-organism)', fontWeight: 700, background: mix('var(--t-organism)', 8), border: `1px solid ${mix('var(--t-organism)', 19)}`, borderRadius: '999px', padding: '0.15rem 0.6rem' }}>{t.testsDashboard.pipelineGreenBadge}</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {PIPELINE_STATIC.map((stage, i) => {

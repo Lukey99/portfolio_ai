@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'motion/react';
 import { useLocale } from '@/contexts/LocaleContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { CARD, OVERALL, QUALITY_STATIC, IMPROVEMENTS_STATIC } from './data';
+import { CARD, OVERALL, QUALITY_STATIC, IMPROVEMENTS_STATIC, mix } from './data';
 import type { Priority, QualityMerged } from './data';
 import { useCount, scoreGrade, ScoreRing, SubScoreCard, MobileSubScoreRow } from './primitives';
 
@@ -30,7 +30,7 @@ export function ScoreView() {
     detail: t.testsDashboard.improvementItems[i].detail,
   }));
 
-  const priorityColors: Record<Priority, string> = { high: '#f87171', medium: '#f59e0b', low: '#4ade80' };
+  const priorityColors: Record<Priority, string> = { high: 'var(--t-perf)', medium: 'var(--t-a11y)', low: 'var(--t-organism)' };
   const { priorityLabels } = t.testsDashboard;
 
   return (
@@ -54,7 +54,7 @@ export function ScoreView() {
                 <span style={{ fontSize: '0.85rem', color: gradeColor, opacity: 0.6 }}>/100</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginTop: '0.3rem' }}>
-                <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: `${gradeColor}18`, border: `1px solid ${gradeColor}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: mix(gradeColor, 9), border: `1px solid ${mix(gradeColor, 25)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ fontSize: '0.58rem', fontWeight: 900, color: gradeColor }}>{grade}</span>
                 </div>
                 <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.38)' }}>{t.testsDashboard.globalGradeLabel}</span>
@@ -96,11 +96,11 @@ export function ScoreView() {
               <motion.div key={imp.label} initial={{ opacity: 0, x: -8 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.1 + i * 0.07 }}>
                 <button
                   onClick={() => setExpanded(isOpen ? null : i)}
-                  style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.7rem 0.85rem', background: isOpen ? `${imp.color}0c` : 'transparent', border: `1px solid ${isOpen ? imp.color + '30' : 'rgba(var(--overlay-rgb), 0.07)'}`, borderRadius: '0.6rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s' }}
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.7rem 0.85rem', background: isOpen ? mix(imp.color, 5) : 'transparent', border: `1px solid ${isOpen ? mix(imp.color, 19) : 'rgba(var(--overlay-rgb), 0.07)'}`, borderRadius: '0.6rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s' }}
                 >
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: pc, flexShrink: 0, boxShadow: `0 0 5px ${pc}` }} />
                   <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--fg)', flex: 1 }}>{imp.action}</span>
-                  <span style={{ fontSize: '0.58rem', color: pc, background: `${pc}18`, border: `1px solid ${pc}30`, borderRadius: '999px', padding: '0.1rem 0.5rem', flexShrink: 0 }}>
+                  <span style={{ fontSize: '0.58rem', color: pc, background: mix(pc, 9), border: `1px solid ${mix(pc, 19)}`, borderRadius: '999px', padding: '0.1rem 0.5rem', flexShrink: 0 }}>
                     {priorityLabels[imp.priority]}
                   </span>
                   <span style={{ fontSize: '0.62rem', color: imp.color, fontFamily: 'monospace', fontWeight: 700, marginLeft: '0.25rem' }}>+{imp.gap}pts</span>
@@ -109,7 +109,7 @@ export function ScoreView() {
                 <AnimatePresence>
                   {isOpen && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} style={{ overflow: 'hidden' }}>
-                      <div style={{ padding: '0.6rem 0.85rem 0.6rem 2rem', fontSize: '0.65rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.6, borderLeft: `2px solid ${imp.color}30`, marginLeft: '0.85rem', marginTop: '0.25rem' }}>
+                      <div style={{ padding: '0.6rem 0.85rem 0.6rem 2rem', fontSize: '0.65rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.6, borderLeft: `2px solid ${mix(imp.color, 19)}`, marginLeft: '0.85rem', marginTop: '0.25rem' }}>
                         {imp.detail}
                       </div>
                     </motion.div>

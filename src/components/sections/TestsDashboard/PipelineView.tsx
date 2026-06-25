@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'motion/react';
 import { useLocale } from '@/contexts/LocaleContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { CARD, PIPELINE_STATIC, PIPELINE_SECS, TOTAL_SECS, TOTAL_DURATION } from './data';
+import { CARD, PIPELINE_STATIC, PIPELINE_SECS, TOTAL_SECS, TOTAL_DURATION, mix } from './data';
 
 export function PipelineView() {
   const ref = useRef<HTMLDivElement>(null);
@@ -27,9 +27,9 @@ export function PipelineView() {
       {/* Stats header */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.875rem' }}>
         {[
-          { label: statsLabels[0], value: TOTAL_DURATION, color: '#8b5cf6' },
-          { label: statsLabels[1], value: String(totalTests), color: '#22d3ee' },
-          { label: statsLabels[2], value: t.testsDashboard.pipelineGreenBadge, color: '#4ade80' },
+          { label: statsLabels[0], value: TOTAL_DURATION, color: 'var(--t-unit)' },
+          { label: statsLabels[1], value: String(totalTests), color: 'var(--t-api)' },
+          { label: statsLabels[2], value: t.testsDashboard.pipelineGreenBadge, color: 'var(--t-organism)' },
         ].map(({ label, value, color }) => (
           <div key={label} style={{ ...CARD, textAlign: 'center', padding: '1rem' }}>
             <div style={{ fontSize: '1.4rem', fontWeight: 900, color, letterSpacing: '-0.03em' }}>{value}</div>
@@ -53,8 +53,8 @@ export function PipelineView() {
                     onClick={() => setSelected(isSelected ? null : i)}
                     style={{
                       width: '100%', display: 'flex', alignItems: 'center', gap: '0.65rem',
-                      background: isSelected ? `${stage.color}12` : 'transparent',
-                      border: `1px solid ${isSelected ? stage.color + '40' : 'rgba(var(--overlay-rgb), 0.07)'}`,
+                      background: isSelected ? mix(stage.color, 7) : 'transparent',
+                      border: `1px solid ${isSelected ? mix(stage.color, 25) : 'rgba(var(--overlay-rgb), 0.07)'}`,
                       borderRadius: '0.65rem', padding: '0.65rem 0.85rem',
                       cursor: 'pointer', transition: 'background 0.2s, border-color 0.2s',
                     }}
@@ -69,7 +69,7 @@ export function PipelineView() {
                   <AnimatePresence>
                     {isSelected && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} style={{ overflow: 'hidden' }}>
-                        <div style={{ background: `${stage.color}12`, border: `1px solid ${stage.color}40`, borderRadius: '0.6rem', padding: '0.65rem 0.85rem', margin: '0.2rem 0', display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+                        <div style={{ background: mix(stage.color, 7), border: `1px solid ${mix(stage.color, 25)}`, borderRadius: '0.6rem', padding: '0.65rem 0.85rem', margin: '0.2rem 0', display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                           <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: stage.color, flexShrink: 0, marginTop: '0.35rem' }} />
                           <span style={{ fontSize: '0.7rem', color: 'rgba(var(--fg-rgb), 0.7)', lineHeight: 1.55 }}>{stage.detail}</span>
                         </div>
@@ -92,7 +92,7 @@ export function PipelineView() {
                       animate={inView ? { opacity: 1, y: 0 } : {}}
                       transition={{ delay: i * 0.08, duration: 0.4 }}
                       onClick={() => setSelected(isSelected ? null : i)}
-                      style={{ flex: 1, background: isSelected ? `${stage.color}18` : 'var(--card-bg)', border: `1px solid ${isSelected ? stage.color + '60' : 'rgba(var(--overlay-rgb), 0.09)'}`, borderRadius: '0.75rem', padding: '0.9rem 0.75rem', cursor: 'pointer', textAlign: 'center', transition: 'background 0.2s, border-color 0.2s', minWidth: '72px' }}
+                      style={{ flex: 1, background: isSelected ? mix(stage.color, 9) : 'var(--card-bg)', border: `1px solid ${isSelected ? mix(stage.color, 38) : 'rgba(var(--overlay-rgb), 0.09)'}`, borderRadius: '0.75rem', padding: '0.9rem 0.75rem', cursor: 'pointer', textAlign: 'center', transition: 'background 0.2s, border-color 0.2s', minWidth: '72px' }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', marginBottom: '0.45rem' }}>
                         <motion.div initial={{ scale: 0 }} animate={inView ? { scale: 1 } : {}} transition={{ delay: i * 0.08 + 0.3, type: 'spring', stiffness: 300 }} style={{ width: '7px', height: '7px', borderRadius: '50%', background: stage.color, boxShadow: `0 0 6px ${stage.color}` }} />
@@ -106,7 +106,7 @@ export function PipelineView() {
                     </motion.button>
                     {i < pipeline.length - 1 && (
                       <div style={{ flexShrink: 0, width: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                        <motion.div initial={{ scaleX: 0 }} animate={inView ? { scaleX: 1 } : {}} transition={{ delay: i * 0.08 + 0.2, duration: 0.3 }} style={{ height: '1px', width: '100%', background: `linear-gradient(90deg, ${pipeline[i].color}60, ${pipeline[i + 1].color}60)`, transformOrigin: 'left' }} />
+                        <motion.div initial={{ scaleX: 0 }} animate={inView ? { scaleX: 1 } : {}} transition={{ delay: i * 0.08 + 0.2, duration: 0.3 }} style={{ height: '1px', width: '100%', background: `linear-gradient(90deg, ${mix(pipeline[i].color, 38)}, ${mix(pipeline[i + 1].color, 38)})`, transformOrigin: 'left' }} />
                         <div style={{ position: 'absolute', fontSize: '0.55rem', color: 'rgba(var(--fg-rgb), 0.25)' }}>▶</div>
                       </div>
                     )}
@@ -117,7 +117,7 @@ export function PipelineView() {
             <AnimatePresence>
               {selected !== null && (
                 <motion.div initial={{ opacity: 0, height: 0, marginTop: 0 }} animate={{ opacity: 1, height: 'auto', marginTop: '0.75rem' }} exit={{ opacity: 0, height: 0, marginTop: 0 }} transition={{ duration: 0.25 }} style={{ overflow: 'hidden' }}>
-                  <div style={{ background: `${pipeline[selected].color}12`, border: `1px solid ${pipeline[selected].color}40`, borderRadius: '0.6rem', padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <div style={{ background: mix(pipeline[selected].color, 7), border: `1px solid ${mix(pipeline[selected].color, 25)}`, borderRadius: '0.6rem', padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                     <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: pipeline[selected].color, flexShrink: 0 }} />
                     <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.75)' }}>{pipeline[selected].detail}</span>
                   </div>
@@ -147,7 +147,7 @@ export function PipelineView() {
                       initial={{ width: 0 }}
                       animate={inView ? { width: `${pct}%` } : {}}
                       transition={{ delay: 0.2 + i * 0.06, duration: 0.6, ease: 'easeOut' }}
-                      style={{ height: '100%', background: stage.color, borderRadius: '999px', boxShadow: isSlowest ? `0 0 8px ${stage.color}80` : 'none' }}
+                      style={{ height: '100%', background: stage.color, borderRadius: '999px', boxShadow: isSlowest ? `0 0 8px ${mix(stage.color, 50)}` : 'none' }}
                     />
                   </div>
                   <span style={{ fontSize: '0.62rem', fontFamily: 'monospace', color: isSlowest ? stage.color : 'rgba(var(--fg-rgb), 0.45)', fontWeight: isSlowest ? 700 : 400, width: '36px', textAlign: 'right', flexShrink: 0 }}>{pct.toFixed(0)}%</span>
@@ -156,7 +156,7 @@ export function PipelineView() {
             );
           })}
         </div>
-        <div style={{ marginTop: '0.875rem', padding: '0.6rem 0.85rem', background: `${slowest.color}0d`, border: `1px solid ${slowest.color}30`, borderRadius: '0.5rem', fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.6 }}>
+        <div style={{ marginTop: '0.875rem', padding: '0.6rem 0.85rem', background: mix(slowest.color, 5), border: `1px solid ${mix(slowest.color, 19)}`, borderRadius: '0.5rem', fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.6 }}>
           <span style={{ color: slowest.color, fontWeight: 700 }}>{slowest.label}</span>{' '}
           {t.testsDashboard.pipelineSlowestTemplate}{' '}
           ({slowest.duration} · {((PIPELINE_SECS[slowest.label] ?? 0) / TOTAL_SECS * 100).toFixed(0)}% du total).

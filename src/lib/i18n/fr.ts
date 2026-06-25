@@ -501,7 +501,7 @@ export const fr: Translations = {
       {
         title: 'Corriger au plus tôt',
         statSuffix: '',
-        statLabel: "moins cher à corriger en dev qu'en prod",
+        statLabel: 'pour détecter une régression dans le pipeline CI',
         body: "Un bug attrapé par un test se corrige en minutes. Détecté en production, il coûte un hotfix, un rollback, et parfois une nuit blanche.",
       },
       {
@@ -521,49 +521,49 @@ export const fr: Translations = {
       {
         tool: 'Vitest + Testing Library',
         points: [
-          'Rendu de chaque composant selon ses props et son état',
-          'Interactions : clics, saisie, toggle, navigation',
-          'Hooks et service — logique métier isolée du DOM',
+          'Valider chaque composant isolément — détecter une régression sans ouvrir le navigateur',
+          'Documenter le comportement attendu : les tests sont la spec vivante du composant',
+          'Tester hooks et services sans DOM — feedback en 9s, pas en 60s',
         ],
       },
       {
         tool: 'axe-core + Playwright',
         points: [
-          'Conformité WCAG 2A et 2AA — 0 violation critique',
-          'Rôles ARIA, alt texts, hiérarchie des titres',
-          'Dark mode et light mode vérifiés indépendamment',
+          'Garantir que personne n\'est exclu — 0 violation WCAG = 0 personne laissée de côté',
+          'Détecter automatiquement les ARIA manquants, alt texts oubliés et contrastes insuffisants',
+          'Les deux thèmes (dark/light) sont validés : les contrastes ne varient pas selon le thème',
         ],
       },
       {
         tool: 'Vitest + fetch mock',
         points: [
-          '5 routes REST : codes HTTP et structure JSON',
-          'Erreurs réseau et cas limites gérés',
-          'Cohérence des données retournées par chaque endpoint',
+          'Découpler la validation du format de données de la logique d\'affichage',
+          'S\'assurer que chaque route retourne le bon code HTTP et la structure exacte attendue',
+          'Attraper un changement de schéma avant qu\'il n\'atteigne les composants qui l\'affichent',
         ],
       },
       {
         tool: 'Playwright',
         points: [
-          'Navigation complète sur les 3 pages en conditions réelles',
-          'Rendu des sections clés dans un vrai navigateur Chromium',
-          'Ancres, liens actifs et scroll behavior vérifiés',
+          'Reproduire le parcours utilisateur réel — navigation, transitions, hydratation Next.js',
+          'Détecter ce que les tests unitaires ne voient pas : bug de routing, d\'anchor, de scroll',
+          'Un vrai Chromium, pas un mock — si ça passe ici, ça passe chez l\'utilisateur',
         ],
       },
       {
         tool: 'PerformanceObserver + Playwright',
         points: [
-          'LCP < 2.5s · CLS < 0.1 · TTFB < 500ms',
-          'Temps de réponse API < 200ms mesuré en local',
-          "Core Web Vitals sur la page d'accueil et tech",
+          'Mesurer LCP, CLS et TTFB automatiquement — ne pas attendre une plainte pour investiguer',
+          'Éviter la régression silencieuse des Core Web Vitals après chaque refactorisation',
+          'Temps de réponse API < 200ms validé à chaque run : pas de surprise en prod',
         ],
       },
       {
         tool: 'Vitest bench',
         points: [
-          'Temps de rendu des atoms et molecules (cible < 1ms)',
-          'Benchmarks comparatifs entre variantes de composants',
-          'Détection de régressions de performance à la compilation',
+          'Détecter en 3s si un composant est devenu bien plus lent à rendre — avant que la PR merge',
+          'Comparer variantes objectivement : chiffres reproductibles, pas d\'impression subjective',
+          'Badge, Button, Tag, SectionTitle, TimelineCard — tous confirmés < 1ms au rendu',
         ],
       },
     ],

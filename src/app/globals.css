@@ -18,6 +18,15 @@
   --violet-soft:     #c4b5fd;
   --cyan-soft:       #67e8f9;
   --violet-mid:      #a78bfa;
+
+  /* Test & layer palette — semantic test-type colors */
+  --t-unit:     var(--violet);      /* Vitest unit — purple */
+  --t-api:      var(--cyan);        /* API routes  — cyan   */
+  --t-bench:    var(--violet-mid);  /* Vitest bench — light purple */
+  --t-a11y:     #f59e0b;            /* A11y — amber  */
+  --t-e2e:      #10b981;            /* E2E  — emerald */
+  --t-perf:     #f87171;            /* Perf — rose   */
+  --t-organism: #4ade80;            /* Layer: organisms — lime */
 }
 
 html.light {
