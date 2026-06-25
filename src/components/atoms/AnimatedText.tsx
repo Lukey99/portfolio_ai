@@ -33,35 +33,19 @@ export function AnimatedText({ text, className, style, delay = 0, gradient = fal
     setMounted(true);
   }, []);
 
-  const gradientStyle: CSSProperties = gradient
-    ? {
-        background: 'linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
-      }
-    : {};
+  const cls = [gradient ? 'gradient-text' : '', className].filter(Boolean).join(' ');
 
-  const combinedStyle: CSSProperties = { ...gradientStyle, ...style };
-
-  // Render static text before client mount to avoid blank page on SSR
   if (!mounted) {
     return (
-      <span className={className} style={combinedStyle} aria-label={text}>
+      <span className={cls} style={style} aria-label={text}>
         {text}
       </span>
     );
   }
 
-  const letters = text.split('');
-
   return (
-    <span
-      className={className}
-      style={combinedStyle}
-      aria-label={text}
-    >
-      {letters.map((letter, i) => (
+    <span className={cls} style={style} aria-label={text}>
+      {text.split('').map((letter, i) => (
         <span
           key={i}
           aria-hidden="true"

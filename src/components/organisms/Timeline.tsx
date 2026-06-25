@@ -29,14 +29,14 @@ export function Timeline<T extends { id: string }>({
   const ref = useReveal();
 
   return (
-    <section id={sectionId} ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
+    <section id={sectionId} ref={ref} className="section--fixed">
       <div style={{ maxWidth, margin: '0 auto' }}>
         <SectionTitle {...title} />
         <div className="timeline" style={{ paddingLeft: '2.5rem' }}>
           <div className="timeline__track">
             <div className="timeline__fill" />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div className="timeline-list">
             {items.map((item, i) => (
               <Fragment key={item.id}>
                 {renderItem(item, i)}

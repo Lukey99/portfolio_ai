@@ -40,24 +40,19 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
   }
 
   return (
-    <section id="contact" ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem clamp(2rem,6vw,5rem)', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
-      {/* Background glow */}
-      <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '700px', height: '350px', background: 'radial-gradient(ellipse at center, rgba(139,92,246,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+    <section id="contact" ref={ref} className="contact-section">
+      <div className="section-glow section-glow--violet-bottom" />
 
-      <div style={{ maxWidth: '64rem', margin: '0 auto', position: 'relative' }}>
+      <div className="container" style={{ position: 'relative' }}>
 
         {/* Header */}
-        <div className="reveal" style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <p style={{ fontSize: '0.7rem', color: 'rgba(var(--fg-rgb), 0.3)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
-            01 — Contact
-          </p>
-          <h2 style={{ fontSize: 'clamp(2.25rem,6vw,4rem)', fontWeight: 900, color: 'var(--fg)', letterSpacing: '-0.03em' }}>
-            {t.contact.title}
-          </h2>
+        <div className="reveal contact-header">
+          <p className="contact-eyebrow">01 — Contact</p>
+          <h2 className="contact-title">{t.contact.title}</h2>
         </div>
 
         {/* Email card CTA */}
-        <div className="reveal reveal-s1" style={{ marginBottom: '4rem' }}>
+        <div className="reveal reveal-s1 contact-email-card">
           <div style={{
             padding: '1px', borderRadius: '1.25rem',
             background: 'linear-gradient(135deg, rgba(139,92,246,0.6), rgba(34,211,238,0.4))',
@@ -72,27 +67,15 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
               position: 'relative',
               overflow: 'hidden',
             }}>
-              <div style={{
-                position: 'absolute', top: '-40px', left: '50%', transform: 'translateX(-50%)',
-                width: '400px', height: '200px',
-                background: 'radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, transparent 70%)',
-                pointerEvents: 'none',
-              }} />
+              <div className="section-glow section-glow--violet-top-center" />
 
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                width: '3.5rem', height: '3.5rem', borderRadius: '1rem',
-                background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)',
-                marginBottom: '1.5rem',
-              }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--violet-soft)' }}>
+              <div className="icon-box icon-box--violet icon-box--lg" style={{ margin: '0 auto 1.5rem' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/>
                 </svg>
               </div>
 
-              <p style={{ fontSize: '0.8rem', color: 'rgba(var(--fg-rgb), 0.35)', marginBottom: '0.75rem' }}>
-                {t.contact.emailLabel}
-              </p>
+              <p className="contact-email-label">{t.contact.emailLabel}</p>
 
               <p className="gradient-text" style={{
                 fontSize: 'clamp(1.15rem, 3.5vw, 1.8rem)',
@@ -104,6 +87,7 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
                 {info.email}
               </p>
 
+              {/* background switches on copied state — must stay inline */}
               <button
                 onClick={handleCopyEmail}
                 style={{
@@ -146,7 +130,7 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
         </div>
 
         {/* Contact cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(400px,1fr))', gap: '1rem', marginBottom: '3rem' }}>
+        <div className="contact-grid">
           <ContactItem index={0} icon={<MailIcon />}    label={t.contact.emailItemLabel}    value={info.email}         href={`mailto:${info.email}`} />
           <ContactItem index={1} icon={<GitHubIcon />} label={t.contact.githubItemLabel}  value="github.com/Lukey99"  href="https://github.com/Lukey99" />
           <ContactItem index={2} icon={<MapIcon />}    label={t.contact.locationItemLabel} value={info.location} />
@@ -154,13 +138,9 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
         </div>
 
         {/* Footer */}
-        <div className="reveal reveal-s3" style={{ paddingTop: '2rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.05)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
-          <p style={{ fontSize: '0.82rem', color: 'rgba(var(--fg-rgb), 0.22)' }}>
-            {t.contact.copyright}
-          </p>
-          <p style={{ fontSize: '0.75rem', color: 'rgba(var(--fg-rgb), 0.18)' }}>
-            {t.contact.builtWith}
-          </p>
+        <div className="reveal reveal-s3 contact-footer">
+          <p className="contact-copyright">{t.contact.copyright}</p>
+          <p className="contact-built-with">{t.contact.builtWith}</p>
         </div>
       </div>
     </section>

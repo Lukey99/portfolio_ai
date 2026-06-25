@@ -46,28 +46,28 @@ export function ShowcaseCard({ period, title, subtitle, description, tags, index
           transition: tilt.hover ? 'transform 0.1s ease-out' : 'transform 0.5s ease-out',
         }}
       >
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg,transparent,#8b5cf6,#22d3ee,transparent)' }} />
+        <div className="gradient-top-border" />
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem', marginBottom: '1.5rem' }}>
+        <div className="sc-header">
           <div>
-            <p style={{ fontSize: '0.8rem', color: 'rgba(var(--fg-rgb), 0.4)', fontWeight: 500, marginBottom: '0.35rem' }}>{period}</p>
-            <h3 className="gradient-text" style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.3rem' }}>{title}</h3>
-            <p style={{ color: 'rgba(var(--fg-rgb), 0.7)', fontWeight: 600, fontSize: '1.1rem' }}>{subtitle}</p>
+            <p className="text-meta" style={{ marginBottom: '0.35rem' }}>{period}</p>
+            <h3 className="gradient-text sc-title">{title}</h3>
+            <p className="sc-subtitle">{subtitle}</p>
           </div>
         </div>
 
-        <div style={{ height: '1px', background: 'rgba(var(--overlay-rgb), 0.05)', marginBottom: '1.5rem' }} />
+        <div className="divider" style={{ marginBottom: '1.5rem' }} />
 
-        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.7rem', marginBottom: '1.75rem' }}>
+        <ul className="bullet-list bullet-list--lg" style={{ marginBottom: '1.75rem' }}>
           {description.map((item, i) => (
-            <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '0.9rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.65 }}>
-              <span style={{ marginTop: '0.55em', width: '5px', height: '5px', borderRadius: '50%', background: 'rgba(34,211,238,0.7)', flexShrink: 0 }} />
+            <li key={i} className="bullet-list__item">
+              <span className="bullet-list__dot bullet-list__dot--cyan" />
               {item}
             </li>
           ))}
         </ul>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+        <div className="sc-tags">
           {tags.map((tag) => <Tag key={tag}>{tag}</Tag>)}
         </div>
       </div>

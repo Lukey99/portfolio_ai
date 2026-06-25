@@ -13,19 +13,14 @@ export function BentoCell({ icon, name, skills, index }: BentoCellProps) {
       className={`glass-card reveal reveal-s${index}`}
       style={{ padding: '2rem', height: '100%', position: 'relative', overflow: 'hidden' }}
     >
-      <div style={{
-        position: 'absolute', top: 0, right: 0,
-        width: '10rem', height: '10rem',
-        background: 'radial-gradient(circle at 70% 30%, rgba(139,92,246,0.12), transparent 70%)',
-        pointerEvents: 'none',
-      }} />
+      <div className="bc-glow" />
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.25rem' }}>
+      <div className="bc-header">
         <span style={{ fontSize: '1.4rem' }} aria-hidden>{icon}</span>
-        <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--fg)' }}>{name}</h3>
+        <h3 className="bc-name">{name}</h3>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+      <div className="bc-tags">
         {skills.map((skill) => (
           <Tag key={skill}>{skill}</Tag>
         ))}

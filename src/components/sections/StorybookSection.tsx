@@ -55,16 +55,15 @@ interface ShowcaseBlock {
   stories: { label: string; node: React.ReactNode }[];
 }
 
-// ── Showcases (static: no description text) ───────────────────
+// ── Showcases ─────────────────────────────────────────────────
 
 const SHOWCASES: ShowcaseBlock[] = [
-  // ── Atoms ──────────────────────────────────────────────────
   {
     name: 'Button',
     category: 'Atom',
     path: 'src/components/atoms/Button.tsx',
     stories: [
-      { label: 'primary', node: <Button href="#" variant="primary">Voir mon parcours →</Button> },
+      { label: 'primary',   node: <Button href="#" variant="primary">Voir mon parcours →</Button> },
       { label: 'secondary', node: <Button href="#" variant="secondary">Me contacter</Button> },
     ],
   },
@@ -73,9 +72,9 @@ const SHOWCASES: ShowcaseBlock[] = [
     category: 'Atom',
     path: 'src/components/atoms/Badge.tsx',
     stories: [
-      { label: 'accent', node: <Badge variant="accent">CDI</Badge> },
-      { label: 'cyan', node: <Badge variant="cyan">Alternance</Badge> },
-      { label: 'dim', node: <Badge variant="dim">Projet</Badge> },
+      { label: 'accent',     node: <Badge variant="accent">CDI</Badge> },
+      { label: 'cyan',       node: <Badge variant="cyan">Alternance</Badge> },
+      { label: 'dim',        node: <Badge variant="dim">Projet</Badge> },
     ],
   },
   {
@@ -119,7 +118,6 @@ const SHOWCASES: ShowcaseBlock[] = [
       },
     ],
   },
-  // ── Molecules ──────────────────────────────────────────────
   {
     name: 'TimelineCard',
     category: 'Molecule',
@@ -135,7 +133,7 @@ const SHOWCASES: ShowcaseBlock[] = [
             subtitle="Développeur Front-End Senior"
             items={[
               'Design system React partagé entre 4 équipes product.',
-              'Refonte de l\'interface admin (−40 % temps de chargement).',
+              "Refonte de l'interface admin (−40 % temps de chargement).",
             ]}
             index={0}
           />
@@ -287,74 +285,37 @@ function ComponentShowcase({
       }}
     >
       {/* Header */}
-      <div
-        style={{
-          padding: '1.25rem 1.5rem 1rem',
-          borderBottom: '1px solid rgba(var(--overlay-rgb), 0.06)',
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          gap: '1rem',
-        }}
-      >
+      <div style={{
+        padding: '1.25rem 1.5rem 1rem',
+        borderBottom: '1px solid rgba(var(--overlay-rgb), 0.06)',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: '1rem',
+      }}>
         <div>
-          <h3
-            style={{
-              fontSize: '1rem',
-              fontWeight: 700,
-              color: 'var(--fg)',
-              marginBottom: '0.35rem',
-              fontFamily: 'monospace',
-            }}
-          >
+          <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--fg)', marginBottom: '0.35rem', fontFamily: 'monospace' }}>
             {block.name}
           </h3>
-          <p style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.4)', lineHeight: 1.5 }}>
-            {description}
-          </p>
+          <p style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.4)', lineHeight: 1.5 }}>{description}</p>
         </div>
-        <span
-          style={{
-            flexShrink: 0,
-            fontSize: '0.6rem',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase' as const,
-            color,
-            background: `${color}18`,
-            border: `1px solid ${color}30`,
-            padding: '0.2rem 0.55rem',
-            borderRadius: '9999px',
-            fontFamily: 'monospace',
-            whiteSpace: 'nowrap' as const,
-          }}
-        >
+        {/* color is data-driven per category */}
+        <span style={{
+          flexShrink: 0, fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em',
+          textTransform: 'uppercase' as const, color,
+          background: `${color}18`, border: `1px solid ${color}30`,
+          padding: '0.2rem 0.55rem', borderRadius: '9999px',
+          fontFamily: 'monospace', whiteSpace: 'nowrap' as const,
+        }}>
           {block.category}
         </span>
       </div>
 
       {/* Stories */}
-      <div
-        style={{
-          padding: '1.25rem 1.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          flex: 1,
-        }}
-      >
+      <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
         {block.stories.map(story => (
           <div key={story.label}>
-            <span
-              style={{
-                display: 'block',
-                fontSize: '0.68rem',
-                color: 'rgba(var(--fg-rgb), 0.3)',
-                fontFamily: 'monospace',
-                marginBottom: '0.6rem',
-                letterSpacing: '0.05em',
-              }}
-            >
+            <span style={{ display: 'block', fontSize: '0.68rem', color: 'rgba(var(--fg-rgb), 0.3)', fontFamily: 'monospace', marginBottom: '0.6rem', letterSpacing: '0.05em' }}>
               {story.label}
             </span>
             {block.category === 'Atom' ? (
@@ -369,16 +330,8 @@ function ComponentShowcase({
       </div>
 
       {/* File path */}
-      <div
-        style={{
-          padding: '0.75rem 1.5rem',
-          borderTop: '1px solid rgba(var(--overlay-rgb), 0.05)',
-          background: 'rgba(var(--overlay-rgb), 0.02)',
-        }}
-      >
-        <span style={{ fontSize: '0.7rem', color: 'rgba(var(--fg-rgb), 0.25)', fontFamily: 'monospace' }}>
-          {block.path}
-        </span>
+      <div style={{ padding: '0.75rem 1.5rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.05)', background: 'rgba(var(--overlay-rgb), 0.02)' }}>
+        <span className="text-mono" style={{ fontSize: '0.7rem', color: 'rgba(var(--fg-rgb), 0.25)' }}>{block.path}</span>
       </div>
     </motion.div>
   );
@@ -386,19 +339,7 @@ function ComponentShowcase({
 
 // ── Group header ──────────────────────────────────────────────
 
-function GroupLabel({
-  label,
-  count,
-  color,
-  isInView,
-  delay,
-}: {
-  label: string;
-  count: number;
-  color: string;
-  isInView: boolean;
-  delay: number;
-}) {
+function GroupLabel({ label, count, color, isInView, delay }: { label: string; count: number; color: string; isInView: boolean; delay: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -406,30 +347,12 @@ function GroupLabel({
       transition={{ duration: 0.4, delay }}
       style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}
     >
+      {/* color is data-driven */}
       <div style={{ width: '2px', height: '1rem', background: color, borderRadius: '1px' }} />
-      <span
-        style={{
-          fontSize: '0.68rem',
-          fontWeight: 700,
-          letterSpacing: '0.16em',
-          textTransform: 'uppercase' as const,
-          color,
-        }}
-      >
+      <span style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, color }}>
         {label}
       </span>
-      <span
-        style={{
-          fontSize: '0.6rem',
-          fontWeight: 600,
-          padding: '0.1rem 0.5rem',
-          borderRadius: '9999px',
-          background: `${color}15`,
-          color,
-          border: `1px solid ${color}25`,
-          fontFamily: 'monospace',
-        }}
-      >
+      <span style={{ fontSize: '0.6rem', fontWeight: 600, padding: '0.1rem 0.5rem', borderRadius: '9999px', background: `${color}15`, color, border: `1px solid ${color}25`, fontFamily: 'monospace' }}>
         {count}
       </span>
     </motion.div>
@@ -452,29 +375,10 @@ export function StorybookSection() {
   const molecules = allBlocks.filter(b => b.block.category === 'Molecule');
 
   return (
-    <section
-      ref={ref}
-      style={{
-        padding: 'clamp(3rem,8vw,7rem) 1.5rem clamp(3rem,8vw,8rem)',
-        backgroundColor: 'var(--bg)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '10%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '800px',
-          height: '400px',
-          background: 'radial-gradient(ellipse at center, rgba(139,92,246,0.06) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
+    <section ref={ref} className="section" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="section-glow section-glow--storybook" />
 
-      <div style={{ maxWidth: '72rem', margin: '0 auto', position: 'relative' }}>
+      <div className="container--wide" style={{ position: 'relative' }}>
         <SectionTitle
           number={t.storybook.section.number}
           label={t.storybook.section.label}
@@ -483,28 +387,14 @@ export function StorybookSection() {
         />
 
         <GroupLabel label={t.storybook.atomsLabel} count={atoms.length} color="#22d3ee" isInView={isInView} delay={0.05} />
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '1.25rem',
-            marginBottom: '3.5rem',
-          }}
-        >
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '3.5rem' }}>
           {atoms.map(({ block, description }, i) => (
             <ComponentShowcase key={block.name} block={block} description={description} index={i} isInView={isInView} />
           ))}
         </div>
 
         <GroupLabel label={t.storybook.moleculesLabel} count={molecules.length} color="#8b5cf6" isInView={isInView} delay={0.1} />
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: '1.25rem',
-            marginBottom: '3rem',
-          }}
-        >
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.25rem', marginBottom: '3rem' }}>
           {molecules.map(({ block, description }, i) => (
             <ComponentShowcase key={block.name} block={block} description={description} index={i} isInView={isInView} />
           ))}
@@ -515,15 +405,9 @@ export function StorybookSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.6 }}
           style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1.5rem',
-            padding: '1.75rem 2rem',
-            borderRadius: '1rem',
-            background: 'var(--card-bg)',
-            border: '1px solid rgba(var(--overlay-rgb), 0.08)',
+            display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between',
+            gap: '1.5rem', padding: '1.75rem 2rem', borderRadius: '1rem',
+            background: 'var(--card-bg)', border: '1px solid rgba(var(--overlay-rgb), 0.08)',
           }}
         >
           <div>
@@ -532,15 +416,7 @@ export function StorybookSection() {
             </p>
             <p style={{ fontSize: '0.82rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>
               {t.storybook.exploreLaunch}{' '}
-              <code
-                style={{
-                  fontFamily: 'monospace',
-                  color: 'var(--violet-soft)',
-                  background: 'rgba(139,92,246,0.1)',
-                  padding: '0.15rem 0.5rem',
-                  borderRadius: '0.3rem',
-                }}
-              >
+              <code style={{ fontFamily: 'monospace', color: 'var(--violet-soft)', background: 'rgba(139,92,246,0.1)', padding: '0.15rem 0.5rem', borderRadius: '0.3rem' }}>
                 npm run storybook
               </code>
             </p>
@@ -551,27 +427,15 @@ export function StorybookSection() {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.65rem 1.4rem',
-              borderRadius: '9999px',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              color: '#fff',
-              textDecoration: 'none',
+              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+              padding: '0.65rem 1.4rem', borderRadius: '9999px',
+              fontSize: '0.85rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
               background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
               transition: 'opacity 0.2s ease, transform 0.2s ease',
               whiteSpace: 'nowrap',
             }}
-            onMouseEnter={e => {
-              e.currentTarget.style.opacity = '0.85';
-              e.currentTarget.style.transform = 'scale(1.03)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.opacity = '1';
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'scale(1.03)'; }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1)'; }}
           >
             {t.storybook.exploreRepoBtn}
             <ExternalIcon />

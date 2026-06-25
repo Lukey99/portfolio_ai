@@ -7,7 +7,7 @@ import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
-// ── Static layer data (colors, component names) ───────────────
+// ── Static layer data ─────────────────────────────────────────
 
 const LAYERS_STATIC = [
   {
@@ -58,6 +58,7 @@ function LayerRow({ layer, index, isInView }: { layer: typeof LAYERS_STATIC[0] &
       style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '10rem 1fr', gap: isMobile ? '0.5rem' : '1.5rem', alignItems: 'flex-start' }}
     >
       <div style={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', alignItems: isMobile ? 'center' : 'flex-start', gap: '0.35rem', paddingTop: '0.25rem', flexWrap: 'wrap' }}>
+        {/* color/bg/border are data-driven */}
         <span style={{
           display: 'inline-block', padding: '0.3rem 0.75rem', borderRadius: '9999px',
           fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
@@ -66,9 +67,7 @@ function LayerRow({ layer, index, isInView }: { layer: typeof LAYERS_STATIC[0] &
         }}>
           {layer.label}
         </span>
-        <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.35)', lineHeight: 1.4 }}>
-          {layer.description}
-        </span>
+        <span className="text-faint" style={{ fontSize: '0.72rem', lineHeight: 1.4 }}>{layer.description}</span>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', paddingTop: isMobile ? 0 : '0.2rem' }}>
         {layer.components.map((comp, ci) => (
@@ -159,10 +158,10 @@ function ExperienceSkeletonCard() {
 function MiniExperienceCard() {
   return (
     <div className="glass-card" style={{ padding: '0.75rem 0.9rem', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg,transparent,#8b5cf6,#22d3ee,transparent)' }} />
+      <div className="gradient-top-border" />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
         <span style={{ display: 'inline-block', padding: '0.1rem 0.45rem', borderRadius: '9999px', fontSize: '0.58rem', fontWeight: 700, background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.25)', color: '#a78bfa' }}>CDI</span>
-        <span style={{ fontSize: '0.55rem', color: 'rgba(var(--fg-rgb), 0.35)', fontFamily: 'monospace' }}>2023 — Ajd</span>
+        <span className="text-mono text-faint" style={{ fontSize: '0.55rem' }}>2023 — Ajd</span>
       </div>
       <p className="gradient-text" style={{ fontSize: '0.82rem', fontWeight: 800, marginBottom: '0.12rem' }}>Acme Corp</p>
       <p style={{ fontSize: '0.67rem', color: 'rgba(var(--fg-rgb), 0.6)', fontWeight: 500 }}>Développeur Front-End Sr</p>
@@ -173,14 +172,14 @@ function MiniExperienceCard() {
 function DemoExperienceCard() {
   return (
     <div className="glass-card" style={{ padding: '1.75rem 2rem', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg,transparent,#8b5cf6,#22d3ee,transparent)' }} />
+      <div className="gradient-top-border" />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.9rem' }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', padding: '0.22rem 0.75rem', borderRadius: '9999px', fontSize: '0.72rem', fontWeight: 700, background: 'rgba(139,92,246,0.14)', border: '1px solid rgba(139,92,246,0.3)', color: '#a78bfa' }}>CDI</span>
-        <p style={{ fontSize: '0.75rem', color: 'rgba(var(--fg-rgb), 0.38)', fontFamily: 'monospace' }}>Jan. 2023 — Aujourd'hui</p>
+        <p className="text-mono text-faint" style={{ fontSize: '0.75rem' }}>Jan. 2023 — Aujourd'hui</p>
       </div>
       <h3 className="gradient-text" style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.2rem' }}>Acme Corp</h3>
       <p style={{ color: 'rgba(var(--fg-rgb), 0.68)', fontWeight: 600, fontSize: '0.95rem', marginBottom: '1.1rem' }}>Développeur Front-End Senior</p>
-      <div style={{ height: '1px', background: 'rgba(var(--overlay-rgb), 0.05)', marginBottom: '1.1rem' }} />
+      <div className="divider" style={{ marginBottom: '1.1rem' }} />
       <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.84rem', color: 'rgba(var(--fg-rgb), 0.52)', lineHeight: 1.6, listStyle: 'none', marginBottom: '0.55rem' }}>
         <span style={{ marginTop: '0.52em', width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(34,211,238,0.65)', flexShrink: 0 }} />
         Mise en place d'un design system React partagé entre 4 équipes.
@@ -238,7 +237,7 @@ function SectionView() {
         Organism · Timeline
       </span>
       <div style={{ marginBottom: '0.85rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.25rem' }}>
+        <div className="eyebrow" style={{ marginBottom: '0.25rem', gap: '0.4rem' }}>
           <div style={{ width: '1rem', height: '1px', background: 'linear-gradient(90deg,#8b5cf6,#22d3ee)' }} />
           <span style={{ fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#a78bfa' }}>02 — Expériences</span>
         </div>
@@ -266,7 +265,7 @@ function AtomBreakdownView() {
       <p style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.65)', fontWeight: 600 }}>Développeur Front-End Senior</p>
     )},
     { label: 'Atom · text', delay: 0.21, content: (
-      <p style={{ fontSize: '0.65rem', color: 'rgba(var(--fg-rgb), 0.38)', fontFamily: 'monospace' }}>Jan. 2023 — Aujourd'hui</p>
+      <p className="text-mono text-faint" style={{ fontSize: '0.65rem' }}>Jan. 2023 — Aujourd'hui</p>
     )},
     { label: 'Atom · text', delay: 0.28, content: (
       <p style={{ fontSize: '0.7rem', color: 'rgba(var(--fg-rgb), 0.45)', lineHeight: 1.5 }}>Design system React partagé entre 4 équipes.</p>
@@ -297,7 +296,7 @@ const zoomVariants = {
   center: { scale: 1, opacity: 1, filter: 'blur(0px)' },
   exit: (dir: number) => ({ scale: dir > 0 ? 1.16 : 0.82, opacity: 0, filter: 'blur(6px)' }),
 };
-const zoomTransitionIn  = { duration: 0.42, ease: 'easeOut' as const };
+const zoomTransitionIn = { duration: 0.42, ease: 'easeOut' as const };
 
 function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: string; desc: string }[] }) {
   const [step, setStep] = useState<ExplodeStep>(0);
@@ -314,11 +313,11 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
     <div className="arch-demo" style={{ marginTop: '4rem' }}>
       {/* Divider */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
-        <div style={{ height: '1px', flex: 1, background: 'rgba(var(--overlay-rgb), 0.08)' }} />
+        <div className="divider" style={{ flex: 1 }} />
         <span style={{ fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.28)', padding: '0.3rem 1.1rem', border: '1px solid rgba(var(--overlay-rgb), 0.09)', borderRadius: '9999px', background: 'var(--card-bg)', whiteSpace: 'nowrap' }}>
           {demoLabel}
         </span>
-        <div style={{ height: '1px', flex: 1, background: 'rgba(var(--overlay-rgb), 0.08)' }} />
+        <div className="divider" style={{ flex: 1 }} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', background: 'var(--card-bg)', borderRadius: '1.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.07)', marginBottom: '2.5rem', overflow: 'hidden', minHeight: isMobile ? 'auto' : '480px' }}>
@@ -356,14 +355,14 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
           <div style={{ flex: 1, padding: isMobile ? '1.25rem 1.25rem 1rem' : '3.5rem 2.5rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <AnimatePresence mode="wait">
               <motion.div key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
-                <span style={{ fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.25)', fontFamily: 'monospace' }}>
+                <span className="text-mono" style={{ fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.25)' }}>
                   {String(step + 1).padStart(2, '0')} / {steps.length}
                 </span>
                 <h4 style={{ fontSize: isMobile ? '1.4rem' : '2rem', fontWeight: 800, color: current.color, letterSpacing: '-0.03em', lineHeight: 1.05, marginTop: '0.5rem', marginBottom: '0.3rem' }}>
                   {current.label}
                 </h4>
                 {current.component !== '—' && (
-                  <p style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: 'rgba(var(--fg-rgb), 0.32)', letterSpacing: '0.05em', marginBottom: '1.25rem' }}>
+                  <p className="text-mono" style={{ fontSize: '0.7rem', color: 'rgba(var(--fg-rgb), 0.32)', letterSpacing: '0.05em', marginBottom: '1.25rem' }}>
                     {current.component}
                   </p>
                 )}
@@ -374,7 +373,7 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
             </AnimatePresence>
           </div>
 
-          <div style={{ height: '1px', background: 'rgba(var(--overlay-rgb), 0.07)', margin: isMobile ? '0 1.25rem' : '0 2rem' }} />
+          <div className="divider" style={{ margin: isMobile ? '0 1.25rem' : '0 2rem' }} />
 
           <div style={{ padding: isMobile ? '0.85rem 1.25rem 1.25rem' : '1.25rem 2rem 1.75rem' }}>
             {isMobile ? (
@@ -452,10 +451,10 @@ export function ArchitectureSection() {
   const mergedLayers = LAYERS_STATIC.map((l, i) => ({ ...l, label: layers[i].label, description: layers[i].description }));
 
   return (
-    <section ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem', backgroundColor: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: '30%', right: '-10%', width: '500px', height: '400px', background: 'radial-gradient(ellipse at center, rgba(34,211,238,0.04) 0%, transparent 70%)', pointerEvents: 'none' }} />
+    <section ref={ref} className="section" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="section-glow section-glow--arch" />
 
-      <div style={{ maxWidth: '72rem', margin: '0 auto', position: 'relative' }}>
+      <div className="container--wide" style={{ position: 'relative' }}>
         <SectionTitle
           number={section.number}
           label={section.label}
@@ -482,8 +481,8 @@ export function ArchitectureSection() {
         >
           {STATS_N.map((n, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-              <span style={{ fontSize: '1.5rem', fontWeight: 800, background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{n}</span>
-              <span style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>{stats[i].label}</span>
+              <span className="gradient-text" style={{ fontSize: '1.5rem', fontWeight: 800 }}>{n}</span>
+              <span className="text-faint" style={{ fontSize: '0.78rem' }}>{stats[i].label}</span>
             </div>
           ))}
         </motion.div>

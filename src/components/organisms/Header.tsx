@@ -26,7 +26,8 @@ const GitHubIcon = () => (
   </svg>
 );
 
-const iconStyle: React.CSSProperties = {
+// Shared style for icon buttons in the header bar
+const iconBtnStyle: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   width: '2.25rem', height: '2.25rem', borderRadius: '0.6rem',
   background: 'rgba(var(--overlay-rgb), 0.06)',
@@ -35,6 +36,9 @@ const iconStyle: React.CSSProperties = {
   cursor: 'pointer',
   transition: 'background 0.2s ease, color 0.2s ease, border-color 0.2s ease',
 };
+
+const hoverOn  = (e: React.MouseEvent<HTMLElement>) => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(var(--overlay-rgb), 0.1)'; el.style.color = 'var(--fg)'; };
+const hoverOff = (e: React.MouseEvent<HTMLElement>) => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(var(--overlay-rgb), 0.06)'; el.style.color = 'rgba(var(--fg-rgb), 0.8)'; };
 
 export function Header() {
   const [scrolled, setScrolled]       = useState(false);
@@ -65,17 +69,6 @@ export function Header() {
   const isActive = (href: string) => {
     if (clickedHref !== null) return clickedHref === href;
     return href === '/' ? pathname === '/' : pathname.startsWith(href);
-  };
-
-  const hoverOn = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const el = e.currentTarget;
-    el.style.background = 'rgba(var(--overlay-rgb), 0.1)';
-    el.style.color = 'var(--fg)';
-  };
-  const hoverOff = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const el = e.currentTarget;
-    el.style.background = 'rgba(var(--overlay-rgb), 0.06)';
-    el.style.color = 'rgba(var(--fg-rgb), 0.8)';
   };
 
   return (
@@ -134,17 +127,9 @@ export function Header() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              style={iconStyle}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = 'rgba(var(--overlay-rgb), 0.1)';
-                el.style.color = 'var(--fg)';
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = 'rgba(var(--overlay-rgb), 0.06)';
-                el.style.color = 'rgba(var(--fg-rgb), 0.8)';
-              }}
+              style={iconBtnStyle}
+              onMouseEnter={hoverOn}
+              onMouseLeave={hoverOff}
             >
               <GitHubIcon />
             </a>
@@ -153,11 +138,7 @@ export function Header() {
             <button
               onClick={() => setLocale(locale === 'fr' ? 'en' : 'fr')}
               aria-label={`Switch to ${locale === 'fr' ? 'English' : 'French'}`}
-              style={{
-                ...iconStyle,
-                fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.06em',
-                fontFamily: 'monospace',
-              }}
+              style={{ ...iconBtnStyle, fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.06em', fontFamily: 'monospace' }}
               onMouseEnter={hoverOn}
               onMouseLeave={hoverOff}
             >
@@ -168,7 +149,7 @@ export function Header() {
             <button
               onClick={toggle}
               aria-label={theme === 'dark' ? t.header.themeLight : t.header.themeDark}
-              style={iconStyle}
+              style={iconBtnStyle}
               onMouseEnter={hoverOn}
               onMouseLeave={hoverOff}
             >

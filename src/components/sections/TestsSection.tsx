@@ -6,7 +6,7 @@ import { useReveal } from '@/hooks/useReveal';
 import { SectionTitle } from '@/components/molecules';
 import { useLocale } from '@/contexts/LocaleContext';
 
-// ─── Static data (no translatable text) ──────────────────────────────────────
+// ─── Static data ─────────────────────────────────────────────────────────────
 
 const UNIT_SUITES_STATIC = [
   { category: 'Hook',     file: 'useTheme.test.ts',      path: 'src/hooks/',                   colorVar: 'var(--violet)',     bg: 'rgba(139,92,246,0.10)', border: 'rgba(139,92,246,0.22)', count: 5  },
@@ -64,44 +64,40 @@ function SuiteCard({ suite, index }: { suite: UnitSuiteMerged; index: number }) 
   return (
     <motion.div
       ref={ref}
-      className={`glass-card reveal reveal-s${index % 6}`}
+      className={`glass-card suite-card reveal reveal-s${index % 6}`}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.07 }}
-      style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}
     >
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <div className="suite-card__header">
         <span className={categoryClass[suite.category]}>{suite.category}</span>
-        <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.35)', fontFamily: 'monospace' }}>
+        <span className="suite-card__path">
           {suite.path}<strong style={{ color: suite.colorVar }}>{suite.file}</strong>
         </span>
       </div>
 
-      {/* Test list */}
-      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem', flexGrow: 1 }}>
+      <ul className="suite-card__list">
         {suite.tests.map((name, i) => (
           <motion.li
             key={i}
+            className="suite-card__test"
             initial={{ opacity: 0, x: -8 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.3, delay: index * 0.07 + i * 0.06 + 0.15 }}
-            style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.78rem', lineHeight: 1.5 }}
           >
-            <span style={{ color: '#4ade80', flexShrink: 0, marginTop: '0.05em' }}>✓</span>
-            <span style={{ color: 'rgba(var(--fg-rgb), 0.6)' }}>{name}</span>
+            <span className="suite-card__check">✓</span>
+            <span>{name}</span>
           </motion.li>
         ))}
       </ul>
 
-      {/* Footer */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '0.75rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.06)' }}>
-        <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>
+      <div className="suite-card__footer">
+        <span className="suite-card__count">
           {suite.tests.length} test{suite.tests.length > 1 ? 's' : ''}
         </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80' }} />
-          <span style={{ fontSize: '0.72rem', color: '#4ade80', fontWeight: 600 }}>passed</span>
+        <div className="status-passed">
+          <div className="status-dot status-dot--green" />
+          <span className="status-passed__text">passed</span>
         </div>
       </div>
     </motion.div>
@@ -123,7 +119,7 @@ function StatCounter({ value, label }: { value: number; label: string }) {
       >
         {value}
       </motion.div>
-      <div style={{ fontSize: '0.8rem', color: 'rgba(var(--fg-rgb), 0.45)', marginTop: '0.35rem' }}>{label}</div>
+      <div className="stat__label">{label}</div>
     </div>
   );
 }
@@ -146,8 +142,8 @@ export function TestsSection() {
   }));
 
   return (
-    <section id="tests" ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem', backgroundColor: 'var(--bg)' }}>
-      <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
+    <section id="tests" ref={ref} className="section">
+      <div className="container--wide">
         <SectionTitle
           number={t.tests.section.number}
           label={t.tests.section.label}
@@ -155,97 +151,82 @@ export function TestsSection() {
           subtitle={t.tests.section.subtitle}
         />
 
-        {/* ── Stats globales ── */}
-        <div className="reveal reveal-s3" style={{ marginBottom: '4rem' }}>
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(3,1fr)',
-            gap: '1.5rem', padding: '2.5rem',
-            borderRadius: '1.25rem',
-            border: '1px solid rgba(var(--overlay-rgb), 0.08)',
-            background: 'var(--card-bg)',
-            position: 'relative', overflow: 'hidden',
-          }}>
-            <div style={{
-              position: 'absolute', top: '-40px', left: '50%', transform: 'translateX(-50%)',
-              width: '500px', height: '200px',
-              background: 'radial-gradient(ellipse, rgba(139,92,246,0.09) 0%, transparent 70%)',
-              pointerEvents: 'none',
-            }} />
+        {/* Stats globales */}
+        <div className="reveal reveal-s3">
+          <div className="tests-stats">
+            <div className="section-glow section-glow--tests" />
             <StatCounter value={TOTAL} label={t.tests.totalLabel} />
-            <div style={{ borderLeft: '1px solid rgba(var(--overlay-rgb),0.07)', borderRight: '1px solid rgba(var(--overlay-rgb),0.07)', padding: '0 1rem' }}>
+            <div className="tests-stats__divider">
               <StatCounter value={UNIT_SUITES_STATIC.length + E2E_SUITES_STATIC.length} label={t.tests.filesLabel} />
             </div>
             <StatCounter value={100} label={t.tests.passingLabel} />
           </div>
         </div>
 
-        {/* ── Tests unitaires ── */}
-        <div className="reveal reveal-s2" style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.35rem 0.9rem', borderRadius: '9999px', background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.22)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--violet)' }}>
+        {/* Tests unitaires */}
+        <div className="reveal reveal-s2 tests-runner-label">
+          <div className="tests-runner-badge tests-runner-badge--vitest">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             {t.tests.vitestLabel}
           </div>
-          <span style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>{TOTAL_UNIT} tests · {UNIT_SUITES_STATIC.length} fichiers</span>
+          <span className="tests-runner-count">{TOTAL_UNIT} tests · {UNIT_SUITES_STATIC.length} fichiers</span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.875rem', marginBottom: '3rem' }}>
+        <div className="tests-suite-grid">
           {unitSuites.map((suite, i) => (
             <SuiteCard key={suite.file} suite={suite} index={i} />
           ))}
         </div>
 
-        {/* ── Tests E2E ── */}
-        <div className="reveal reveal-s2" style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.35rem 0.9rem', borderRadius: '9999px', background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--cyan)' }}>
+        {/* Tests E2E */}
+        <div className="reveal reveal-s2 tests-runner-label">
+          <div className="tests-runner-badge tests-runner-badge--playwright">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             {t.tests.playwrightLabel}
           </div>
-          <span style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>{TOTAL_E2E} tests · {E2E_SUITES_STATIC.length} fichiers</span>
+          <span className="tests-runner-count">{TOTAL_E2E} tests · {E2E_SUITES_STATIC.length} fichiers</span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.875rem', marginBottom: '3rem' }}>
+        <div className="tests-suite-grid">
           {e2eSuites.map((suite, i) => (
             <motion.div
               key={suite.file}
-              className="glass-card"
-              style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}
+              className="glass-card suite-card"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+              <div className="suite-card__header">
                 <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--fg)' }}>{suite.label}</span>
-                <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.35)', fontFamily: 'monospace' }}>{suite.file}</span>
+                <span className="suite-card__path">{suite.file}</span>
               </div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem', flexGrow: 1 }}>
+              <ul className="suite-card__list">
                 {suite.tests.map((name, j) => (
-                  <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.78rem', lineHeight: 1.5 }}>
-                    <span style={{ color: '#4ade80', flexShrink: 0 }}>✓</span>
-                    <span style={{ color: 'rgba(var(--fg-rgb), 0.6)' }}>{name}</span>
+                  <li key={j} className="suite-card__test">
+                    <span className="suite-card__check">✓</span>
+                    <span>{name}</span>
                   </li>
                 ))}
               </ul>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '0.75rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.06)' }}>
-                <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.35)' }}>{suite.tests.length} tests</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80' }} />
-                  <span style={{ fontSize: '0.72rem', color: '#4ade80', fontWeight: 600 }}>passed</span>
+              <div className="suite-card__footer">
+                <span className="suite-card__count">{suite.tests.length} tests</span>
+                <div className="status-passed">
+                  <div className="status-dot status-dot--green" />
+                  <span className="status-passed__text">passed</span>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* ── CI Badge ── */}
-        <div className="reveal reveal-s3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {/* CI Badge */}
+        <div className="reveal reveal-s3 tests-ci-wrap">
           <a
             href="https://github.com/Lukey99/portfolio_ai/actions/workflows/ci.yml"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1.5rem', borderRadius: '0.75rem', border: '1px solid rgba(var(--overlay-rgb), 0.08)', background: 'var(--card-bg)', textDecoration: 'none', transition: 'border-color 0.2s ease' }}
-            onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(139,92,246,0.35)')}
-            onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(var(--overlay-rgb), 0.08)')}
+            className="tests-ci-link"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(var(--fg-rgb),0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
@@ -256,7 +237,7 @@ export function TestsSection() {
               alt="CI status"
               style={{ height: '20px' }}
             />
-            <span style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.45)' }}>{t.tests.ghActionsBtn}</span>
+            <span className="tests-ci-text">{t.tests.ghActionsBtn}</span>
           </a>
         </div>
       </div>

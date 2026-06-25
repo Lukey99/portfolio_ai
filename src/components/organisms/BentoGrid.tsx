@@ -34,7 +34,7 @@ export function BentoGrid<T extends { id: string }>({
   const ref = useReveal();
 
   return (
-    <section id={sectionId} ref={ref} style={{ padding: '7rem 1.5rem', backgroundColor: 'var(--bg)' }}>
+    <section id={sectionId} ref={ref} className="section--fixed">
       <div style={{ maxWidth, margin: '0 auto' }}>
         <SectionTitle {...title} />
         <div className="bento-grid">

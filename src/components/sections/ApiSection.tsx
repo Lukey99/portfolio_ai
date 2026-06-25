@@ -9,7 +9,6 @@ import { useLocale } from '@/contexts/LocaleContext';
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
-// Static data (paths, colors) — text comes from translations
 const ENDPOINTS_STATIC = [
   { id: 'all',         path: '/api/portfolio/all',         color: '#94a3b8' },
   { id: 'experiences', path: '/api/portfolio/experiences', color: '#8b5cf6' },
@@ -56,7 +55,7 @@ function JsonView({ data }: { data: unknown }) {
   if (last < text.length) nodes.push(text.slice(last));
 
   return (
-    <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.7rem', lineHeight: 1.75, color: 'rgba(var(--fg-rgb), 0.55)' }}>
+    <pre className="text-mono" style={{ margin: 0, fontSize: '0.7rem', lineHeight: 1.75, color: 'rgba(var(--fg-rgb), 0.55)' }}>
       {nodes}
     </pre>
   );
@@ -114,8 +113,8 @@ export function ApiSection() {
   }, [fetchEndpoint]);
 
   return (
-    <section id="api" ref={ref} style={{ padding: 'clamp(3rem,8vw,7rem) 1.5rem', backgroundColor: 'var(--bg)' }}>
-      <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
+    <section id="api" ref={ref} className="section">
+      <div className="container--wide">
         <SectionTitle
           number={t.api.section.number}
           label={t.api.section.label}
@@ -123,6 +122,7 @@ export function ApiSection() {
           subtitle={t.api.section.subtitle}
         />
 
+        {/* Dark terminal panel — CSS variable overrides must stay inline to scope dark theme */}
         <div style={{
           borderRadius: '1.25rem',
           border: '1px solid rgba(255,255,255,0.08)',
@@ -168,7 +168,7 @@ export function ApiSection() {
                   exit={{ opacity: 0 }}
                   style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
                 >
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80' }} />
+                  <div className="status-dot status-dot--green" />
                   <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#4ade80', fontFamily: 'monospace' }}>
                     200 OK
                   </span>
