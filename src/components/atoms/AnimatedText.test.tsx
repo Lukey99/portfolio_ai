@@ -17,7 +17,7 @@ describe('AnimatedText', () => {
   it('applique le style gradient si gradient=true', () => {
     render(<AnimatedText text="Gradient" gradient />);
     const el = screen.getByLabelText('Gradient');
-    expect(el.getAttribute('style')).toContain('linear-gradient');
+    expect(el).toHaveClass('gradient-text');
   });
 
   it('n\'applique pas le gradient par défaut', () => {
