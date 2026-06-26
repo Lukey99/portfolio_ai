@@ -7,6 +7,9 @@ import {
   E2E_TOTAL,
   PERF_TOTAL,
   BENCH_TOTAL,
+  TOTAL_ALL,
+  COVERAGE_BY_LAYER,
+  COVERAGE_AVG,
 } from '@/lib/generated/test-stats';
 
 // ── Color helper ──────────────────────────────────────────────
@@ -21,23 +24,23 @@ export type TestType = 'Unit' | 'API' | 'A11y' | 'E2E' | 'Bench';
 export type DashTab = 'global' | 'score' | 'pipeline' | 'coverage' | 'why';
 
 export const QUALITY_STATIC = [
-  { score: 100, color: 'var(--t-unit)' },
+  { score: COVERAGE_AVG, color: 'var(--t-unit)' },
   { score: 95, color: 'var(--t-api)' },
   { score: 88, color: 'var(--t-organism)' },
   { score: 90, color: 'var(--t-a11y)' },
-] as const;
+];
 
 export const OVERALL = Math.round(
   QUALITY_STATIC.reduce((s, q) => s + q.score, 0) / QUALITY_STATIC.length
 );
 
 export const COVERAGE_LAYERS = [
-  { label: 'App', pct: 80, color: 'var(--t-perf)' },
-  { label: 'Atoms', pct: 100, color: 'var(--t-api)' },
-  { label: 'Molecules', pct: 72, color: 'var(--t-unit)' },
-  { label: 'Hooks', pct: 68, color: 'var(--t-bench)' },
-  { label: 'API', pct: 100, color: 'var(--t-e2e)' },
-  { label: 'Organisms', pct: 12, color: 'var(--t-organism)' },
+  { label: 'App', pct: COVERAGE_BY_LAYER.App, color: 'var(--t-perf)' },
+  { label: 'Atoms', pct: COVERAGE_BY_LAYER.Atoms, color: 'var(--t-api)' },
+  { label: 'Molecules', pct: COVERAGE_BY_LAYER.Molecules, color: 'var(--t-unit)' },
+  { label: 'Hooks', pct: COVERAGE_BY_LAYER.Hooks, color: 'var(--t-bench)' },
+  { label: 'API', pct: COVERAGE_BY_LAYER.API, color: 'var(--t-e2e)' },
+  { label: 'Organisms', pct: COVERAGE_BY_LAYER.Organisms, color: 'var(--t-organism)' },
 ];
 
 export const PIPELINE_STATIC = [
@@ -155,17 +158,17 @@ export const LAYER_COLORS: Record<string, string> = {
 };
 
 export const GLOBAL_STATS_STATIC = [
-  { value: UNIT_TOTAL, suffix: '', color: 'var(--t-unit)' },
+  { value: TOTAL_ALL, suffix: '', color: 'var(--t-unit)' },
   { value: 0, suffix: '', color: 'var(--t-organism)' },
   { value: OVERALL, suffix: '/100', color: 'var(--t-api)' },
-  { value: 100, suffix: '%', color: 'var(--t-a11y)' },
-] as const;
+  { value: COVERAGE_AVG, suffix: '%', color: 'var(--t-a11y)' },
+];
 
 export const WHY_REASONS_STATIC = [
   { icon: '⚡', color: 'var(--t-unit)', stat: '0' },
   { icon: '⏱', color: 'var(--t-api)', stat: '9s' },
   { icon: '📖', color: 'var(--t-organism)', stat: String(UNIT_TOTAL) },
-  { icon: '↺', color: 'var(--t-a11y)', stat: '100%' },
+  { icon: '↺', color: 'var(--t-a11y)', stat: `${COVERAGE_AVG}%` },
 ];
 
 export const WHY_TEST_TYPES_STATIC = [

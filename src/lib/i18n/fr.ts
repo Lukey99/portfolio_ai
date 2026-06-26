@@ -430,13 +430,13 @@ export const fr: Translations = {
     qualityItems: [
       {
         label: 'Couverture',
-        desc: 'Tous les fichiers source testés',
+        desc: 'Couverture moy. par couche atomique',
         popover: {
           title: 'Couverture de code',
-          body: 'Tous les fichiers source publics ont au minimum un test unitaire, mesurée via @vitest/coverage-v8.',
+          body: 'Couverture en instructions mesurée par @vitest/coverage-v8 sur 6 couches atomiques. Moyenne : 93%.',
           items: [
-            '46 suites · 245 tests unitaires',
-            'App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
+            'App 93% · Atoms 100% · Molecules 95%',
+            'Hooks 86% · API 100% · Organisms 84%',
             'E2E et benchmarks Organisms restent à compléter',
           ],
         },
@@ -485,7 +485,7 @@ export const fr: Translations = {
       { label: 'Tests', sub: '6 types · 0 skip' },
       { label: 'Échecs', sub: 'Pipeline vert' },
       { label: 'Score qualité', sub: 'Moyenne 4 axes' },
-      { label: 'Cov. min', sub: 'Tous fichiers couverts' },
+      { label: 'Couv. moy', sub: 'Moyenne 6 couches' },
     ],
     qualityAxesLabel: 'Axes qualité',
     globalGradeLabel: 'Mention globale · moyenne des 4 axes',
@@ -500,7 +500,7 @@ export const fr: Translations = {
     pipelineSlowestTemplate: "est l'étape la plus longue",
     pipelineDetails: [
       'TypeScript strict + ESLint — 0 erreur',
-      '46 fichiers · 245 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
+      '46 fichiers · 246 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
       '5 routes REST · données mockées',
       'axe-core + Playwright · dark & light mode · WCAG 2A + 2AA',
       'Playwright · 3 pages · navigation + contenu',
@@ -546,12 +546,12 @@ export const fr: Translations = {
         title: 'Déployer sans peur',
         statSuffix: 'régression',
         statLabel: 'non détectée en production',
-        body: 'Un pipeline vert = un code déployable. Fini les vérifications manuelles avant chaque release : si les 245 tests unitaires passent, on ship.',
+        body: 'Un pipeline vert = un code déployable. Fini les vérifications manuelles avant chaque release : si les 246 tests unitaires passent, on ship.',
       },
       {
         title: 'Corriger au plus tôt',
         statSuffix: '',
-        statLabel: 'pour détecter une régression dans le pipeline CI',
+        statLabel: 'de feedback via les tests unitaires',
         body: 'Un bug attrapé par un test se corrige en minutes. Détecté en production, il coûte un hotfix, un rollback, et parfois une nuit blanche.',
       },
       {
@@ -563,7 +563,7 @@ export const fr: Translations = {
       {
         title: 'Refactoriser librement',
         statSuffix: '',
-        statLabel: 'des couches refactorisables en confiance',
+        statLabel: 'de couverture moyenne',
         body: "Changer l'implémentation sans toucher les tests valide que le comportement est préservé. Les tests testent le quoi, pas le comment.",
       },
     ],

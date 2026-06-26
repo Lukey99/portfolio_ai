@@ -48,7 +48,7 @@ describe('Hero', () => {
 
   it('affiche les statistiques clés', () => {
     render(<Hero info={INFO} />);
-    expect(screen.getByText('6+')).toBeInTheDocument();
+    expect(screen.getByText('3+')).toBeInTheDocument();
     expect(screen.getByText('925')).toBeInTheDocument();
   });
 

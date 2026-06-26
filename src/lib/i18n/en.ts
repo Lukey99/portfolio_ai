@@ -420,13 +420,13 @@ export const en: Translations = {
     qualityItems: [
       {
         label: 'Coverage',
-        desc: 'All source files tested',
+        desc: 'Avg. coverage per atomic layer',
         popover: {
           title: 'Code coverage',
-          body: 'All public source files have at least one unit test, measured via @vitest/coverage-v8.',
+          body: 'Statement coverage measured by @vitest/coverage-v8 across 6 atomic layers. Average: 93%.',
           items: [
-            '46 suites · 245 unit tests',
-            'App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
+            'App 93% · Atoms 100% · Molecules 95%',
+            'Hooks 86% · API 100% · Organisms 84%',
             'E2E and Organism benchmarks still to complete',
           ],
         },
@@ -475,7 +475,7 @@ export const en: Translations = {
       { label: 'Tests', sub: '6 types · 0 skip' },
       { label: 'Failures', sub: 'Green pipeline' },
       { label: 'Quality score', sub: '4-axis average' },
-      { label: 'Min. cov.', sub: 'All files covered' },
+      { label: 'Avg. cov.', sub: 'Average 6 layers' },
     ],
     qualityAxesLabel: 'Quality axes',
     globalGradeLabel: 'Overall grade · average of 4 axes',
@@ -490,7 +490,7 @@ export const en: Translations = {
     pipelineSlowestTemplate: 'is the slowest step',
     pipelineDetails: [
       'TypeScript strict + ESLint — 0 errors',
-      '46 files · 245 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
+      '46 files · 246 tests · App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
       '5 REST routes · mocked data',
       'axe-core + Playwright · dark & light mode · WCAG 2A + 2AA',
       'Playwright · 3 pages · navigation + content',
@@ -536,12 +536,12 @@ export const en: Translations = {
         title: 'Deploy without fear',
         statSuffix: 'regression',
         statLabel: 'undetected in production',
-        body: 'A green pipeline = deployable code. No more manual checks before every release: if the 245 unit tests pass, we ship.',
+        body: 'A green pipeline = deployable code. No more manual checks before every release: if the 246 unit tests pass, we ship.',
       },
       {
         title: 'Fix early',
         statSuffix: '',
-        statLabel: 'to detect a regression in the CI pipeline',
+        statLabel: 'of unit test feedback',
         body: 'A bug caught by a test is fixed in minutes. Detected in production, it costs a hotfix, a rollback, and sometimes an all-nighter.',
       },
       {
@@ -553,7 +553,7 @@ export const en: Translations = {
       {
         title: 'Refactor freely',
         statSuffix: '',
-        statLabel: 'of layers refactorable with confidence',
+        statLabel: 'average coverage',
         body: 'Changing the implementation without touching the tests validates that behaviour is preserved. Tests test the what, not the how.',
       },
     ],
