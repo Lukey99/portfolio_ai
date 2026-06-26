@@ -36,10 +36,13 @@ export default function HomePage() {
           sectionId="skills"
           title={t.sections.skills}
           items={[
-            { data: skills[0], colSpan: 2 },
-            { data: skills[1], rowSpan: 2 },
-            { data: skills[2] },
-            { data: skills[3] },
+            { data: skills[0], colSpan: 4 },
+            { data: skills[1], colSpan: 2, rowSpan: 2 },
+            { data: skills[2], colSpan: 2 },
+            { data: skills[3], colSpan: 2 },
+            { data: skills[4], colSpan: 3 },
+            { data: skills[5], colSpan: 3 },
+            { data: skills[6], colSpan: 6 },
           ]}
           renderItem={(skill, i) => <BentoCell {...toBentoCellProps(skill)} index={i} />}
         />,

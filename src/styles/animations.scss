@@ -193,8 +193,7 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
 
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(6, 1fr);
   gap: 1rem;
 
   @media (max-width: 900px) {

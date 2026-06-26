@@ -30,7 +30,7 @@ export const fr: Translations = {
     ctaExperience: 'Voir mon parcours',
     ctaContact: 'Me contacter',
     stats: [
-      { value: '6+', label: "Années d'expérience" },
+      { value: '3+', label: "Années d'expérience" },
       { value: '4',  label: 'Entreprises' },
       { value: '925', label: 'TOEIC anglais' },
     ],
