@@ -14,6 +14,7 @@
     "test:e2e:ui": "playwright test --ui",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,json,scss,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,json,scss,css}\"",
+    "check-all": "node scripts/check-all.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
