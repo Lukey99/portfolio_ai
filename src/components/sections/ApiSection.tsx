@@ -55,7 +55,7 @@ function JsonView({ data }: { data: unknown }) {
   if (last < text.length) nodes.push(text.slice(last));
 
   return (
-    <pre className="text-mono" style={{ margin: 0, fontSize: '0.7rem', lineHeight: 1.75, color: 'rgba(var(--fg-rgb), 0.55)' }}>
+    <pre className="text-mono" style={{ margin: 0, fontSize: 'var(--text-xs)', lineHeight: 1.75, color: 'rgba(var(--fg-rgb), 0.55)' }}>
       {nodes}
     </pre>
   );
@@ -152,7 +152,7 @@ export function ApiSection() {
             }}>
               GET
             </span>
-            <span style={{ fontSize: '0.78rem', fontFamily: 'monospace', color: 'rgba(var(--fg-rgb), 0.55)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+            <span style={{ fontSize: 'var(--text-sm)', fontFamily: 'monospace', color: 'rgba(var(--fg-rgb), 0.55)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
               {!isMobile && <span style={{ color: 'rgba(var(--fg-rgb), 0.5)' }}>localhost:3000</span>}
               <span style={{ color: active.color, fontWeight: 600 }}>{active.path}</span>
             </span>
@@ -169,7 +169,7 @@ export function ApiSection() {
                   style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
                 >
                   <div className="status-dot status-dot--green" />
-                  <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#4ade80', fontFamily: 'monospace' }}>
+                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: '#4ade80', fontFamily: 'monospace' }}>
                     200 OK
                   </span>
                   <span style={{ fontSize: '0.68rem', color: 'rgba(var(--fg-rgb), 0.55)', fontFamily: 'monospace' }}>
@@ -186,7 +186,7 @@ export function ApiSection() {
                   style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
                 >
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#f87171' }} />
-                  <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#f87171', fontFamily: 'monospace' }}>
+                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: '#f87171', fontFamily: 'monospace' }}>
                     {t.api.errorLabel}
                   </span>
                 </motion.div>
@@ -251,7 +251,7 @@ export function ApiSection() {
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
-                    <p style={{ fontSize: '0.8rem' }}>{t.api.idleText}</p>
+                    <p style={{ fontSize: 'var(--text-sm)' }}>{t.api.idleText}</p>
                   </motion.div>
                 )}
 
@@ -286,7 +286,7 @@ export function ApiSection() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    style={{ padding: '1.25rem 1.5rem', color: '#f87171', fontSize: '0.78rem', fontFamily: 'monospace' }}
+                    style={{ padding: '1.25rem 1.5rem', color: '#f87171', fontSize: 'var(--text-sm)', fontFamily: 'monospace' }}
                   >
                     {fetchState.message}
                   </motion.div>

@@ -92,7 +92,7 @@ export function AIWorkflowSection() {
                 display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
                 padding: '0.45rem 1rem', borderRadius: '9999px',
                 background: tool.bg, border: `1px solid ${tool.border}`,
-                fontSize: '0.82rem', fontWeight: 600, color: tool.color,
+                fontSize: 'var(--text-sm)', fontWeight: 600, color: tool.color,
               }}
             >
               {tool.icon}

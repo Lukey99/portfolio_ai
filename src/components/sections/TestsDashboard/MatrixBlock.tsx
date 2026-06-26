@@ -46,7 +46,7 @@ export function MatrixBlock() {
                 <td style={{ padding: '0.4rem 0.5rem 0.4rem 0' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                     <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: LAYER_COLORS[comp.layer], flexShrink: 0, opacity: 0.7 }} />
-                    <span style={{ fontSize: '0.72rem', color: isHovered ? 'var(--fg)' : 'rgba(var(--fg-rgb), 0.6)', fontFamily: 'monospace', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>{comp.name}</span>
+                    <span style={{ fontSize: 'var(--text-xs)', color: isHovered ? 'var(--fg)' : 'rgba(var(--fg-rgb), 0.6)', fontFamily: 'monospace', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>{comp.name}</span>
                   </div>
                 </td>
                 {TEST_COLS.map((col, ci) => {

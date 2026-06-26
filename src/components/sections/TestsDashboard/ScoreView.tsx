@@ -99,7 +99,7 @@ export function ScoreView() {
                   style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.7rem 0.85rem', background: isOpen ? mix(imp.color, 5) : 'transparent', border: `1px solid ${isOpen ? mix(imp.color, 19) : 'rgba(var(--overlay-rgb), 0.07)'}`, borderRadius: '0.6rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s' }}
                 >
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: pc, flexShrink: 0, boxShadow: `0 0 5px ${pc}` }} />
-                  <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--fg)', flex: 1 }}>{imp.action}</span>
+                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--fg)', flex: 1 }}>{imp.action}</span>
                   <span style={{ fontSize: '0.58rem', color: pc, background: mix(pc, 9), border: `1px solid ${mix(pc, 19)}`, borderRadius: '999px', padding: '0.1rem 0.5rem', flexShrink: 0 }}>
                     {priorityLabels[imp.priority]}
                   </span>

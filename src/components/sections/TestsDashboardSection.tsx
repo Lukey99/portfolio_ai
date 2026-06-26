@@ -80,8 +80,8 @@ export function TestsDashboardSection() {
                       transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                     />
                   )}
-                  <span style={{ position: 'relative', zIndex: 1, fontSize: isMobile ? '0.9rem' : '0.72rem' }}>{tab.icon}</span>
-                  <span style={{ position: 'relative', zIndex: 1, fontSize: isMobile ? '0.48rem' : '0.72rem', lineHeight: 1.2 }}>
+                  <span style={{ position: 'relative', zIndex: 1, fontSize: isMobile ? 'var(--text-md)' : 'var(--text-xs)' }}>{tab.icon}</span>
+                  <span style={{ position: 'relative', zIndex: 1, fontSize: isMobile ? '0.48rem' : 'var(--text-xs)', lineHeight: 1.2 }}>
                     {isMobile ? shortLabel : tab.label}
                   </span>
                 </button>

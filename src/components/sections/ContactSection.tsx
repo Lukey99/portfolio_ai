@@ -96,7 +96,7 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
                   background: copied
                     ? 'linear-gradient(135deg,#22c55e,#16a34a)'
                     : 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
-                  color: '#fff', fontWeight: 700, fontSize: '0.95rem',
+                  color: '#fff', fontWeight: 700, fontSize: 'var(--text-base)',
                   border: 'none', cursor: 'pointer',
                   boxShadow: '0 4px 24px rgba(139,92,246,0.4)',
                   transition: 'opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease',

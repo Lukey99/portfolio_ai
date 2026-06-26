@@ -20,7 +20,7 @@ export default function Error({ error, reset }: ErrorProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '2rem',
+        padding: 'var(--space-8)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -43,7 +43,7 @@ export default function Error({ error, reset }: ErrorProps) {
             fontSize: 'clamp(8rem, 28vw, 18rem)',
             fontWeight: 900,
             color: 'rgba(var(--overlay-rgb), 0.03)',
-            lineHeight: 1,
+            lineHeight: 'var(--leading-tight)',
             pointerEvents: 'none',
             userSelect: 'none',
           }}
@@ -53,12 +53,12 @@ export default function Error({ error, reset }: ErrorProps) {
 
         <p
           style={{
-            fontSize: '0.7rem',
+            fontSize: 'var(--text-xs)',
             fontWeight: 700,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
             color: 'rgba(248, 113, 113, 0.7)',
-            marginBottom: '1.25rem',
+            marginBottom: 'var(--space-5)',
           }}
         >
           Erreur inattendue
@@ -66,12 +66,12 @@ export default function Error({ error, reset }: ErrorProps) {
 
         <h2
           style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+            fontSize: 'var(--text-section)',
             fontWeight: 900,
             color: 'var(--fg)',
             letterSpacing: '-0.03em',
-            lineHeight: 1.1,
-            marginBottom: '1.25rem',
+            lineHeight: 'var(--leading-tight)',
+            marginBottom: 'var(--space-5)',
           }}
         >
           Quelque chose s&apos;est mal passé
@@ -79,28 +79,28 @@ export default function Error({ error, reset }: ErrorProps) {
 
         <p
           style={{
-            fontSize: '1rem',
+            fontSize: 'var(--text-base)',
             color: 'rgba(var(--fg-rgb), 0.45)',
             lineHeight: 1.7,
-            marginBottom: '2.5rem',
+            marginBottom: 'var(--space-10)',
           }}
         >
           Une erreur inattendue s&apos;est produite. Essaie de recharger la page.
         </p>
 
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button
             onClick={reset}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.5rem',
+              gap: 'var(--space-2)',
               padding: '0.875rem 2rem',
               borderRadius: '9999px',
               background: 'var(--gradient)',
               color: '#fff',
               fontWeight: 700,
-              fontSize: '0.9rem',
+              fontSize: 'var(--text-md)',
               border: 'none',
               cursor: 'pointer',
               boxShadow: '0 4px 20px rgba(139,92,246,0.3)',
@@ -117,7 +117,7 @@ export default function Error({ error, reset }: ErrorProps) {
               borderRadius: '9999px',
               color: 'rgba(var(--fg-rgb), 0.6)',
               fontWeight: 600,
-              fontSize: '0.9rem',
+              fontSize: 'var(--text-md)',
               textDecoration: 'none',
               border: '1px solid rgba(var(--overlay-rgb), 0.12)',
             }}

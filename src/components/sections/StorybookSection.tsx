@@ -294,14 +294,14 @@ function ComponentShowcase({
         gap: '1rem',
       }}>
         <div>
-          <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--fg)', marginBottom: '0.35rem', fontFamily: 'monospace' }}>
+          <h3 style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--fg)', marginBottom: '0.35rem', fontFamily: 'monospace' }}>
             {block.name}
           </h3>
-          <p style={{ fontSize: '0.78rem', color: 'rgba(var(--fg-rgb), 0.4)', lineHeight: 1.5 }}>{description}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(var(--fg-rgb), 0.4)', lineHeight: 1.5 }}>{description}</p>
         </div>
         {/* color is data-driven per category */}
         <span style={{
-          flexShrink: 0, fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em',
+          flexShrink: 0, fontSize: 'var(--text-2xs)', fontWeight: 700, letterSpacing: '0.08em',
           textTransform: 'uppercase' as const, color,
           background: `${color}18`, border: `1px solid ${color}30`,
           padding: '0.2rem 0.55rem', borderRadius: '9999px',
@@ -331,7 +331,7 @@ function ComponentShowcase({
 
       {/* File path */}
       <div style={{ padding: '0.75rem 1.5rem', borderTop: '1px solid rgba(var(--overlay-rgb), 0.05)', background: 'rgba(var(--overlay-rgb), 0.02)' }}>
-        <span className="text-mono" style={{ fontSize: '0.7rem', color: 'rgba(var(--fg-rgb), 0.25)' }}>{block.path}</span>
+        <span className="text-mono" style={{ fontSize: 'var(--text-xs)', color: 'rgba(var(--fg-rgb), 0.25)' }}>{block.path}</span>
       </div>
     </motion.div>
   );
@@ -349,10 +349,10 @@ function GroupLabel({ label, count, color, isInView, delay }: { label: string; c
     >
       {/* color is data-driven */}
       <div style={{ width: '2px', height: '1rem', background: color, borderRadius: '1px' }} />
-      <span style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, color }}>
+      <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, color }}>
         {label}
       </span>
-      <span style={{ fontSize: '0.6rem', fontWeight: 600, padding: '0.1rem 0.5rem', borderRadius: '9999px', background: `${color}15`, color, border: `1px solid ${color}25`, fontFamily: 'monospace' }}>
+      <span style={{ fontSize: 'var(--text-2xs)', fontWeight: 600, padding: '0.1rem 0.5rem', borderRadius: '9999px', background: `${color}15`, color, border: `1px solid ${color}25`, fontFamily: 'monospace' }}>
         {count}
       </span>
     </motion.div>
@@ -411,10 +411,10 @@ export function StorybookSection() {
           }}
         >
           <div>
-            <p style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.35rem' }}>
+            <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.35rem' }}>
               {t.storybook.exploreTitle}
             </p>
-            <p style={{ fontSize: '0.82rem', color: 'rgba(var(--fg-rgb), 0.4)' }}>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(var(--fg-rgb), 0.4)' }}>
               {t.storybook.exploreLaunch}{' '}
               <code style={{ fontFamily: 'monospace', color: 'var(--violet-soft)', background: 'rgba(139,92,246,0.1)', padding: '0.15rem 0.5rem', borderRadius: '0.3rem' }}>
                 npm run storybook
@@ -429,7 +429,7 @@ export function StorybookSection() {
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
               padding: '0.65rem 1.4rem', borderRadius: '9999px',
-              fontSize: '0.85rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
+              fontSize: 'var(--text-md)', fontWeight: 600, color: '#fff', textDecoration: 'none',
               background: 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
               transition: 'opacity 0.2s ease, transform 0.2s ease',
               whiteSpace: 'nowrap',

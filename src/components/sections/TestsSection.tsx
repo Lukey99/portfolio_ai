@@ -198,7 +198,7 @@ export function TestsSection() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
               <div className="suite-card__header">
-                <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--fg)' }}>{suite.label}</span>
+                <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--fg)' }}>{suite.label}</span>
                 <span className="suite-card__path">{suite.file}</span>
               </div>
               <ul className="suite-card__list">

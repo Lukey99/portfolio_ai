@@ -42,7 +42,7 @@ export function CoverageView() {
             return (
               <motion.div key={gap.name} initial={{ opacity: 0, x: -8 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.08 + i * 0.07 }} style={{ padding: '0.75rem 1rem', background: mix(pc, 5), border: `1px solid ${mix(pc, 13)}`, borderRadius: '0.7rem', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--fg)' }}>{gap.name}</span>
+                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--fg)' }}>{gap.name}</span>
                   <span style={{ fontSize: '0.57rem', color: 'rgba(var(--fg-rgb), 0.35)', background: 'rgba(var(--overlay-rgb), 0.06)', borderRadius: '4px', padding: '0.1rem 0.45rem' }}>{gap.layer}</span>
                   <span style={{ fontSize: '0.57rem', color: pc, background: mix(pc, 9), border: `1px solid ${mix(pc, 19)}`, borderRadius: '999px', padding: '0.1rem 0.5rem', marginLeft: 'auto' }}>{pl}</span>
                 </div>

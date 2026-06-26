@@ -75,7 +75,7 @@ export function CoverageBar({ label, pct, color, delay }: { label: string; pct: 
       transition={{ duration: 0.3, delay }}
       style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'default' }}
     >
-      <span style={{ fontSize: '0.72rem', color: hovered ? color : 'rgba(var(--fg-rgb), 0.55)', fontFamily: 'monospace', width: '72px', flexShrink: 0, transition: 'color 0.2s' }}>{label}</span>
+      <span style={{ fontSize: 'var(--text-xs)', color: hovered ? color : 'rgba(var(--fg-rgb), 0.55)', fontFamily: 'monospace', width: '72px', flexShrink: 0, transition: 'color 0.2s' }}>{label}</span>
       <div style={{ flex: 1, height: hovered ? '9px' : '7px', borderRadius: '9999px', background: 'rgba(var(--overlay-rgb), 0.08)', overflow: 'hidden', transition: 'height 0.2s ease' }}>
         <motion.div
           initial={{ scaleX: 0 }}
@@ -163,7 +163,7 @@ export function SubScoreCard({ q, parentInView, index }: { q: QualityMerged; par
             }}
           >
             <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: 'var(--menu-bg)', borderRight: `1px solid ${mix(q.color, 21)}`, borderBottom: `1px solid ${mix(q.color, 21)}` }} />
-            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: q.color, marginBottom: '0.45rem' }}>{q.popover.title}</div>
+            <div style={{ fontSize: 'var(--text-xs)', fontWeight: 800, color: q.color, marginBottom: '0.45rem' }}>{q.popover.title}</div>
             <div style={{ fontSize: '0.63rem', color: 'rgba(var(--fg-rgb), 0.6)', lineHeight: 1.55, marginBottom: '0.6rem' }}>{q.popover.body}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.28rem' }}>
               {q.popover.items.map((item) => (
@@ -219,7 +219,7 @@ export function MobileSubScoreRow({ q, inView, index }: { q: QualityMerged; inVi
         borderBottom: index < 3 ? '1px solid rgba(var(--overlay-rgb), 0.05)' : 'none',
       }}
     >
-      <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.7)', flex: 1 }}>{q.label}</span>
+      <span style={{ fontSize: 'var(--text-xs)', color: 'rgba(var(--fg-rgb), 0.7)', flex: 1 }}>{q.label}</span>
       <div style={{ width: '52px', height: '4px', background: 'rgba(var(--overlay-rgb), 0.1)', borderRadius: '999px', overflow: 'hidden', flexShrink: 0 }}>
         <motion.div
           initial={{ width: 0 }}
@@ -228,7 +228,7 @@ export function MobileSubScoreRow({ q, inView, index }: { q: QualityMerged; inVi
           style={{ height: '100%', background: q.color, borderRadius: '999px', boxShadow: `0 0 4px ${mix(q.color, 38)}` }}
         />
       </div>
-      <span style={{ fontSize: '0.8rem', fontWeight: 800, color: q.color, fontFamily: 'monospace', width: '28px', textAlign: 'right', flexShrink: 0 }}>{count}</span>
+      <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: q.color, fontFamily: 'monospace', width: '28px', textAlign: 'right', flexShrink: 0 }}>{count}</span>
     </motion.div>
   );
 }

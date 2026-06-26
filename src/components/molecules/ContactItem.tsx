@@ -15,7 +15,7 @@ export function ContactItem({ icon, label, value, href, index }: ContactItemProp
       <div className="icon-box icon-box--violet">{icon}</div>
       <div>
         <p style={{ fontSize: '0.68rem', color: 'rgba(var(--fg-rgb), 0.4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.2rem' }}>{label}</p>
-        <p style={{ fontSize: '0.9rem', color: 'rgba(var(--fg-rgb), 0.8)', fontWeight: 500 }}>{value}</p>
+        <p style={{ fontSize: 'var(--text-md)', color: 'rgba(var(--fg-rgb), 0.8)', fontWeight: 500 }}>{value}</p>
       </div>
     </div>
   );

@@ -98,7 +98,7 @@ export function PipelineView() {
                         <motion.div initial={{ scale: 0 }} animate={inView ? { scale: 1 } : {}} transition={{ delay: i * 0.08 + 0.3, type: 'spring', stiffness: 300 }} style={{ width: '7px', height: '7px', borderRadius: '50%', background: stage.color, boxShadow: `0 0 6px ${stage.color}` }} />
                         <span style={{ fontSize: '0.6rem', color: stage.color, fontWeight: 700 }}>✓</span>
                       </div>
-                      <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--fg)', marginBottom: '0.3rem', whiteSpace: 'nowrap' }}>{stage.label}</div>
+                      <div style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--fg)', marginBottom: '0.3rem', whiteSpace: 'nowrap' }}>{stage.label}</div>
                       <div style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.4)', fontFamily: 'monospace' }}>
                         {stage.duration}
                         {stage.count !== null && <span style={{ marginLeft: '0.3rem', color: stage.color }}>·{stage.count}</span>}
@@ -119,7 +119,7 @@ export function PipelineView() {
                 <motion.div initial={{ opacity: 0, height: 0, marginTop: 0 }} animate={{ opacity: 1, height: 'auto', marginTop: '0.75rem' }} exit={{ opacity: 0, height: 0, marginTop: 0 }} transition={{ duration: 0.25 }} style={{ overflow: 'hidden' }}>
                   <div style={{ background: mix(pipeline[selected].color, 7), border: `1px solid ${mix(pipeline[selected].color, 25)}`, borderRadius: '0.6rem', padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                     <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: pipeline[selected].color, flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.72rem', color: 'rgba(var(--fg-rgb), 0.75)' }}>{pipeline[selected].detail}</span>
+                    <span style={{ fontSize: 'var(--text-xs)', color: 'rgba(var(--fg-rgb), 0.75)' }}>{pipeline[selected].detail}</span>
                   </div>
                 </motion.div>
               )}

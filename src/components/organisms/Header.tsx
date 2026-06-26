@@ -101,7 +101,7 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--fg)', textDecoration: 'none', letterSpacing: '-0.02em', flexShrink: 0 }}
+            style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--fg)', textDecoration: 'none', letterSpacing: '-0.02em', flexShrink: 0 }}
           >
             KN<span style={{ color: 'var(--violet-mid)' }}>.</span>
           </Link>
@@ -116,7 +116,7 @@ export function Header() {
                 style={{
                   padding: '0.45rem 0.85rem',
                   borderRadius: '0.6rem',
-                  fontSize: '0.875rem',
+                  fontSize: 'var(--text-md)',
                   fontWeight: 500,
                   textDecoration: 'none',
                   transition: 'color 0.2s ease, background 0.2s ease',
@@ -129,7 +129,7 @@ export function Header() {
             ))}
           </nav>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* GitHub */}
             <a
               href="https://github.com/Lukey99"
@@ -147,7 +147,7 @@ export function Header() {
               onClick={() => setLocale(locale === 'fr' ? 'en' : 'fr')}
               aria-label={`Switch to ${locale === 'fr' ? 'English' : 'French'}`}
               className="header-icon-btn"
-              style={{ ...iconBtnStyle, fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.06em', fontFamily: 'monospace' }}
+              style={{ ...iconBtnStyle, fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', fontFamily: 'monospace' }}
             >
               {t.common.switchLocale}
             </button>
@@ -169,7 +169,7 @@ export function Header() {
               style={{
                 alignItems: 'center', gap: '0.35rem',
                 padding: '0.5rem 1.2rem', borderRadius: '9999px',
-                fontSize: '0.82rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
+                fontSize: 'var(--text-md)', fontWeight: 600, color: '#fff', textDecoration: 'none',
                 background: 'var(--gradient)',
                 transition: 'opacity 0.2s ease, transform 0.2s ease',
               }}
@@ -243,7 +243,7 @@ export function Header() {
                   ref={i === 0 ? firstMenuLinkRef : undefined}
                   style={{
                     display: 'block', padding: '0.9rem 1rem', marginBottom: '0.15rem',
-                    fontSize: '1rem', fontWeight: 500, textDecoration: 'none', borderRadius: '0.75rem',
+                    fontSize: 'var(--text-base)', fontWeight: 500, textDecoration: 'none', borderRadius: '0.75rem',
                     color:      isActive(link.href) ? 'var(--violet-soft)'        : 'rgba(var(--fg-rgb), 0.7)',
                     background: isActive(link.href) ? 'rgba(139, 92, 246, 0.12)'  : 'transparent',
                     transition: 'color 0.2s ease, background 0.2s ease',
@@ -258,7 +258,7 @@ export function Header() {
                 href="/contact"
                 style={{
                   display: 'block', padding: '0.9rem 1rem', textAlign: 'center',
-                  fontSize: '0.9rem', fontWeight: 600, color: '#fff', textDecoration: 'none',
+                  fontSize: 'var(--text-md)', fontWeight: 600, color: '#fff', textDecoration: 'none',
                   borderRadius: '0.75rem', background: 'var(--gradient)',
                 }}
               >
