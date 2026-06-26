@@ -181,14 +181,14 @@ function DemoExperienceCard() {
       <h3 className="gradient-text" style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.2rem' }}>Acme Corp</h3>
       <p style={{ color: 'rgba(var(--fg-rgb), 0.68)', fontWeight: 600, fontSize: '0.95rem', marginBottom: '1.1rem' }}>Développeur Front-End Senior</p>
       <div className="divider" style={{ marginBottom: '1.1rem' }} />
-      <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.84rem', color: 'rgba(var(--fg-rgb), 0.52)', lineHeight: 1.6, listStyle: 'none', marginBottom: '0.55rem' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.84rem', color: 'rgba(var(--fg-rgb), 0.52)', lineHeight: 1.6, marginBottom: '0.55rem' }}>
         <span style={{ marginTop: '0.52em', width: '4px', height: '4px', borderRadius: '50%', background: va(CYAN, 0.65), flexShrink: 0 }} />
         Mise en place d'un design system React partagé entre 4 équipes.
-      </li>
-      <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.84rem', color: 'rgba(var(--fg-rgb), 0.52)', lineHeight: 1.6, listStyle: 'none' }}>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.84rem', color: 'rgba(var(--fg-rgb), 0.52)', lineHeight: 1.6 }}>
         <span style={{ marginTop: '0.52em', width: '4px', height: '4px', borderRadius: '50%', background: va(CYAN, 0.65), flexShrink: 0 }} />
         Refonte de l'interface admin (−40% temps de chargement).
-      </li>
+      </div>
     </div>
   );
 }
