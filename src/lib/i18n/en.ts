@@ -552,8 +552,8 @@ export const en: Translations = {
       },
       {
         title: 'Refactor freely',
-        statSuffix: '',
-        statLabel: 'average coverage',
+        statSuffix: 'tests',
+        statLabel: 'as a safety net',
         body: 'Changing the implementation without touching the tests validates that behaviour is preserved. Tests test the what, not the how.',
       },
     ],

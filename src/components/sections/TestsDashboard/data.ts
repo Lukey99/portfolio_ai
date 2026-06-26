@@ -168,7 +168,7 @@ export const WHY_REASONS_STATIC = [
   { icon: '⚡', color: 'var(--t-unit)', stat: '0' },
   { icon: '⏱', color: 'var(--t-api)', stat: '9s' },
   { icon: '📖', color: 'var(--t-organism)', stat: String(UNIT_TOTAL) },
-  { icon: '↺', color: 'var(--t-a11y)', stat: `${COVERAGE_AVG}%` },
+  { icon: '↺', color: 'var(--t-a11y)', stat: String(TOTAL_ALL) },
 ];
 
 export const WHY_TEST_TYPES_STATIC = [

@@ -562,8 +562,8 @@ export const fr: Translations = {
       },
       {
         title: 'Refactoriser librement',
-        statSuffix: '',
-        statLabel: 'de couverture moyenne',
+        statSuffix: 'tests',
+        statLabel: 'de filet de sécurité',
         body: "Changer l'implémentation sans toucher les tests valide que le comportement est préservé. Les tests testent le quoi, pas le comment.",
       },
     ],
