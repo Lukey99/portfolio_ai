@@ -17,13 +17,21 @@ export const Default: Story = {
   decorators: [
     Story => (
       <div
-        style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg)' }}
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'var(--bg)',
+        }}
         onMouseMove={e => {
-          window.dispatchEvent(new MouseEvent('mousemove', {
-            clientX: e.clientX,
-            clientY: e.clientY,
-            bubbles: true,
-          }));
+          window.dispatchEvent(
+            new MouseEvent('mousemove', {
+              clientX: e.clientX,
+              clientY: e.clientY,
+              bubbles: true,
+            })
+          );
         }}
       >
         <p style={{ color: 'rgba(232,232,238,0.4)', fontSize: '0.85rem', pointerEvents: 'none' }}>

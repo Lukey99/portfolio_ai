@@ -22,10 +22,11 @@ const meta = {
       number: '01',
       label: 'Expériences',
       title: 'Mon Parcours',
-      subtitle: "Des expériences variées qui m'ont permis de développer une expertise complète en développement front-end.",
+      subtitle:
+        "Des expériences variées qui m'ont permis de développer une expertise complète en développement front-end.",
     },
     items: portfolioData.experiences,
-    renderItem: ((exp: typeof portfolioData.experiences[0], i: number) => (
+    renderItem: ((exp: (typeof portfolioData.experiences)[0], i: number) => (
       <TimelineCard {...toTimelineCardProps(exp)} index={i} />
     )) as unknown as (item: { id: string }, index: number) => ReactNode,
   },
@@ -45,7 +46,7 @@ export const Education: Story = {
       subtitle: 'Un parcours académique solide qui allie théorie et pratique.',
     },
     items: portfolioData.education as unknown as typeof portfolioData.experiences,
-    renderItem: ((edu: typeof portfolioData.education[0], i: number) => (
+    renderItem: ((edu: (typeof portfolioData.education)[0], i: number) => (
       <CredentialCard {...toCredentialCardProps(edu)} index={i} />
     )) as unknown as (item: { id: string }, index: number) => ReactNode,
   },

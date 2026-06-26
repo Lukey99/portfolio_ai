@@ -14,19 +14,37 @@ const TOOLS = [
     bg: va(VIOLET, 0.12),
     border: va(VIOLET, 0.28),
     icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 3l14 9-7 1-4 7z"/>
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M5 3l14 9-7 1-4 7z" />
       </svg>
     ),
   },
   {
     name: 'Claude Code',
     color: 'var(--cyan-soft)',
-    bg: va(CYAN, 0.10),
+    bg: va(CYAN, 0.1),
     border: va(CYAN, 0.22),
     icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
       </svg>
     ),
   },
@@ -34,12 +52,18 @@ const TOOLS = [
 
 const WORKFLOW_STATIC = [
   { icon: '🔍', from: VIOLET, to: CYAN },
-  { icon: '🧪', from: CYAN,   to: VIOLET },
+  { icon: '🧪', from: CYAN, to: VIOLET },
   { icon: '⚡', from: VIOLET, to: CYAN },
-  { icon: '🔀', from: CYAN,   to: VIOLET },
+  { icon: '🔀', from: CYAN, to: VIOLET },
 ];
 
-function WorkflowCard({ item, index }: { item: { icon: string; from: string; to: string; title: string; desc: string; benefit: string }; index: number }) {
+function WorkflowCard({
+  item,
+  index,
+}: {
+  item: { icon: string; from: string; to: string; title: string; desc: string; benefit: string };
+  index: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-60px 0px 0px 0px' });
 
@@ -60,7 +84,10 @@ function WorkflowCard({ item, index }: { item: { icon: string; from: string; to:
 
       <div className="workflow-card__benefit">
         {/* background is data-driven (from/to per card), must stay inline */}
-        <span className="workflow-card__dot" style={{ background: `linear-gradient(135deg, ${item.from}, ${item.to})` }} />
+        <span
+          className="workflow-card__dot"
+          style={{ background: `linear-gradient(135deg, ${item.from}, ${item.to})` }}
+        />
         <span className="workflow-card__benefit-text">{item.benefit}</span>
       </div>
     </motion.div>
@@ -68,7 +95,7 @@ function WorkflowCard({ item, index }: { item: { icon: string; from: string; to:
 }
 
 export function AIWorkflowSection() {
-  const ref   = useReveal();
+  const ref = useReveal();
   const { t } = useLocale();
   const { section, workflow } = t.aiWorkflow;
 
@@ -86,14 +113,20 @@ export function AIWorkflowSection() {
 
         {/* Tool pills — bg/border/color are data-driven, stay inline */}
         <div className="reveal reveal-s3 workflow-tools">
-          {TOOLS.map((tool) => (
+          {TOOLS.map(tool => (
             <div
               key={tool.name}
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
-                padding: '0.45rem 1rem', borderRadius: '9999px',
-                background: tool.bg, border: `1px solid ${tool.border}`,
-                fontSize: 'var(--text-sm)', fontWeight: 600, color: tool.color,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '0.45rem 1rem',
+                borderRadius: '9999px',
+                background: tool.bg,
+                border: `1px solid ${tool.border}`,
+                fontSize: 'var(--text-sm)',
+                fontWeight: 600,
+                color: tool.color,
               }}
             >
               {tool.icon}

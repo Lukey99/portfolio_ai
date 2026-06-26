@@ -6,7 +6,15 @@ interface MainLayoutProps {
 }
 
 const Divider = () => (
-  <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(var(--overlay-rgb), 0.06), transparent)', maxWidth: '900px', margin: '0 auto' }} />
+  <div
+    style={{
+      height: '1px',
+      background:
+        'linear-gradient(90deg, transparent, rgba(var(--overlay-rgb), 0.06), transparent)',
+      maxWidth: '900px',
+      margin: '0 auto',
+    }}
+  />
 );
 
 export function MainLayout({ hero, sections }: MainLayoutProps) {

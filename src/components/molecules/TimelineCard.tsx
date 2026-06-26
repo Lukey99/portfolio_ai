@@ -11,13 +11,18 @@ interface TimelineCardProps {
 
 export function TimelineCard({ badge, period, title, subtitle, items, index }: TimelineCardProps) {
   return (
-    <div className={`timeline__item reveal reveal--left reveal-s${index}`} style={{ position: 'relative' }}>
+    <div
+      className={`timeline__item reveal reveal--left reveal-s${index}`}
+      style={{ position: 'relative' }}
+    >
       <div className="timeline__dot timeline__dot--violet" />
 
       <div className="glass-card" style={{ padding: '2rem 2.5rem' }}>
         <div className="tc-header">
           <div>
-            <p className="text-meta" style={{ marginBottom: '0.3rem' }}>{period}</p>
+            <p className="text-meta" style={{ marginBottom: '0.3rem' }}>
+              {period}
+            </p>
             <h3 className="gradient-text tc-title">{title}</h3>
             <p className="tc-subtitle">{subtitle}</p>
           </div>

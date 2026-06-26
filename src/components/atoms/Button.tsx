@@ -9,7 +9,14 @@ interface ButtonProps {
   target?: string;
 }
 
-export function Button({ children, variant = 'primary', href, onClick, className = '', target }: ButtonProps) {
+export function Button({
+  children,
+  variant = 'primary',
+  href,
+  onClick,
+  className = '',
+  target,
+}: ButtonProps) {
   const cls = `btn btn--${variant} ${className}`;
 
   if (href) {
@@ -21,7 +28,12 @@ export function Button({ children, variant = 'primary', href, onClick, className
       );
     }
     return (
-      <a href={href} className={cls} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>
+      <a
+        href={href}
+        className={cls}
+        target={target}
+        rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+      >
         {children}
       </a>
     );

@@ -20,7 +20,7 @@ describe('AnimatedText', () => {
     expect(el).toHaveClass('gradient-text');
   });
 
-  it('n\'applique pas le gradient par défaut', () => {
+  it("n'applique pas le gradient par défaut", () => {
     render(<AnimatedText text="Normal" />);
     const el = screen.getByLabelText('Normal');
     expect(el.getAttribute('style') ?? '').not.toContain('linear-gradient');

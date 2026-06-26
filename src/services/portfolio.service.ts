@@ -1,4 +1,10 @@
-import type { Portfolio, Experience, Education, SkillCategory, Project } from '@/types/portfolio.types';
+import type {
+  Portfolio,
+  Experience,
+  Education,
+  SkillCategory,
+  Project,
+} from '@/types/portfolio.types';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
 

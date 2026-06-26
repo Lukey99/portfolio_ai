@@ -21,9 +21,7 @@ const INFO: PersonalInfo = {
     { name: 'Français', level: 'Maternelle' },
     { name: 'Anglais', level: 'TOEIC 925' },
   ],
-  interests: [
-    { name: 'Musique', description: 'Piano', icon: '🎵' },
-  ],
+  interests: [{ name: 'Musique', description: 'Piano', icon: '🎵' }],
 };
 
 describe('ProfileSection', () => {
@@ -37,7 +35,7 @@ describe('ProfileSection', () => {
     expect(screen.getByText('Anglais')).toBeInTheDocument();
   });
 
-  it('affiche les centres d\'intérêt', () => {
+  it("affiche les centres d'intérêt", () => {
     render(<ProfileSection info={INFO} />);
     expect(screen.getByText('Musique')).toBeInTheDocument();
   });

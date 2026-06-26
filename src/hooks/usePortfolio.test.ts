@@ -12,11 +12,19 @@ vi.mock('@/services/portfolio.service', () => ({
 
 const MOCK_PORTFOLIO: Portfolio = {
   personalInfo: {
-    name: 'Test', title: 'Dev', description: 'Desc',
-    phone: '0600', email: 'test@test.com', location: 'Paris',
-    languages: [], interests: [],
+    name: 'Test',
+    title: 'Dev',
+    description: 'Desc',
+    phone: '0600',
+    email: 'test@test.com',
+    location: 'Paris',
+    languages: [],
+    interests: [],
   },
-  experiences: [], education: [], skills: [], projects: [],
+  experiences: [],
+  education: [],
+  skills: [],
+  projects: [],
 };
 
 describe('usePortfolio', () => {
@@ -43,7 +51,7 @@ describe('usePortfolio', () => {
     expect(result.current.error).toBeNull();
   });
 
-  it('passe loading à false et expose l\'erreur en cas d\'échec', async () => {
+  it("passe loading à false et expose l'erreur en cas d'échec", async () => {
     vi.mocked(portfolioService.getPortfolio).mockRejectedValue(new Error('Erreur réseau'));
     const { result } = renderHook(() => usePortfolio());
     await waitFor(() => expect(result.current.loading).toBe(false));

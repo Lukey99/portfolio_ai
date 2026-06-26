@@ -19,11 +19,13 @@ describe('SectionTitle', () => {
   });
 
   it('affiche le subtitle quand fourni', () => {
-    render(<SectionTitle number="01" label="Tests" title="Titre" subtitle="Description de la section" />);
+    render(
+      <SectionTitle number="01" label="Tests" title="Titre" subtitle="Description de la section" />
+    );
     expect(screen.getByText('Description de la section')).toBeInTheDocument();
   });
 
-  it('n\'affiche pas de subtitle quand non fourni', () => {
+  it("n'affiche pas de subtitle quand non fourni", () => {
     render(<SectionTitle number="01" label="Tests" title="Titre" />);
     expect(screen.queryByText(/description/i)).not.toBeInTheDocument();
   });

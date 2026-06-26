@@ -88,7 +88,14 @@ export default function Error({ error, reset }: ErrorProps) {
           Une erreur inattendue s&apos;est produite. Essaie de recharger la page.
         </p>
 
-        <div style={{ display: 'flex', gap: 'var(--space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: 'var(--space-4)',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
           <button
             onClick={reset}
             style={{

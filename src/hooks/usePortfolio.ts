@@ -13,7 +13,7 @@ export function usePortfolio() {
     portfolioService
       .getPortfolio()
       .then(setData)
-      .catch((err) => setError(err.message))
+      .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 

@@ -28,7 +28,8 @@ const meta = {
       number: '02',
       label: 'Compétences',
       title: 'Ma Stack',
-      subtitle: "Les technologies et outils que j'utilise au quotidien pour créer des interfaces de qualité.",
+      subtitle:
+        "Les technologies et outils que j'utilise au quotidien pour créer des interfaces de qualité.",
     },
     items: [
       { data: portfolioData.skills[0], colSpan: 2 },
@@ -36,7 +37,7 @@ const meta = {
       { data: portfolioData.skills[2] },
       { data: portfolioData.skills[3] },
     ],
-    renderItem: ((skill: typeof portfolioData.skills[0], i: number) => (
+    renderItem: ((skill: (typeof portfolioData.skills)[0], i: number) => (
       <BentoCell {...toBentoCellProps(skill)} index={i} />
     )) as unknown as (item: { id: string }, index: number) => ReactNode,
   },

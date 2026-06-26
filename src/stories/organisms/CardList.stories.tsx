@@ -23,10 +23,11 @@ const meta = {
       number: '03',
       label: 'Projets',
       title: 'Projets Entrepreneuriaux',
-      subtitle: "Des initiatives personnelles qui reflètent ma passion pour le produit et l'expérience utilisateur.",
+      subtitle:
+        "Des initiatives personnelles qui reflètent ma passion pour le produit et l'expérience utilisateur.",
     },
     items: portfolioData.projects,
-    renderItem: ((proj: typeof portfolioData.projects[0], i: number) => (
+    renderItem: ((proj: (typeof portfolioData.projects)[0], i: number) => (
       <ShowcaseCard {...toShowcaseCardProps(proj)} index={i} />
     )) as unknown as (item: { id: string }, index: number) => ReactNode,
   },

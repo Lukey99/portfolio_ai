@@ -14,7 +14,7 @@ describe('useReveal', () => {
     expect(result.current.current).toBeNull(); // pas encore attaché à un DOM node
   });
 
-  it('ne plante pas quand la ref n\'est pas attachée', () => {
+  it("ne plante pas quand la ref n'est pas attachée", () => {
     expect(() => renderHook(() => useReveal())).not.toThrow();
   });
 

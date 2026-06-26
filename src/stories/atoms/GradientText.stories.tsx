@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Heading: Story = {
   args: { children: 'Design System' },
-  render: (args) => (
+  render: args => (
     <p style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
       <GradientText {...args} />
     </p>
@@ -31,7 +31,7 @@ export const Heading: Story = {
 
 export const Inline: Story = {
   args: { children: 'React & TypeScript' },
-  render: (args) => (
+  render: args => (
     <p style={{ fontSize: '1rem', color: 'rgba(232,232,238,0.7)' }}>
       Spécialisé en <GradientText {...args} /> depuis 5 ans.
     </p>
@@ -40,7 +40,7 @@ export const Inline: Story = {
 
 export const Large: Story = {
   args: { children: 'Kévin Nguyen' },
-  render: (args) => (
+  render: args => (
     <p style={{ fontSize: '3.5rem', fontWeight: 900, letterSpacing: '-0.03em' }}>
       <GradientText {...args} />
     </p>

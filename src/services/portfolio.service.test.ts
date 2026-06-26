@@ -19,7 +19,7 @@ describe('portfolioService', () => {
     await portfolioService.getPortfolio();
     expect(mockFetch).toHaveBeenCalledWith(
       'http://localhost:3000/api/portfolio/all',
-      expect.objectContaining({ next: { revalidate: 3600 } }),
+      expect.objectContaining({ next: { revalidate: 3600 } })
     );
   });
 
@@ -28,7 +28,7 @@ describe('portfolioService', () => {
     await portfolioService.getExperiences();
     expect(mockFetch).toHaveBeenCalledWith(
       'http://localhost:3000/api/portfolio/experiences',
-      expect.any(Object),
+      expect.any(Object)
     );
   });
 
@@ -37,7 +37,7 @@ describe('portfolioService', () => {
     await portfolioService.getSkills();
     expect(mockFetch).toHaveBeenCalledWith(
       'http://localhost:3000/api/portfolio/skills',
-      expect.any(Object),
+      expect.any(Object)
     );
   });
 
@@ -46,7 +46,7 @@ describe('portfolioService', () => {
     await portfolioService.getEducation();
     expect(mockFetch).toHaveBeenCalledWith(
       'http://localhost:3000/api/portfolio/education',
-      expect.any(Object),
+      expect.any(Object)
     );
   });
 
@@ -55,7 +55,7 @@ describe('portfolioService', () => {
     await portfolioService.getProjects();
     expect(mockFetch).toHaveBeenCalledWith(
       'http://localhost:3000/api/portfolio/projects',
-      expect.any(Object),
+      expect.any(Object)
     );
   });
 

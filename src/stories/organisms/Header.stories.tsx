@@ -3,10 +3,12 @@ import { userEvent, within } from '@storybook/test';
 import { Header } from '@/components/organisms/Header';
 
 const preventNav = (Story: React.ComponentType) => (
-  <div onClickCapture={e => {
-    const target = e.target as HTMLElement;
-    if (target.closest('a')) e.preventDefault();
-  }}>
+  <div
+    onClickCapture={e => {
+      const target = e.target as HTMLElement;
+      if (target.closest('a')) e.preventDefault();
+    }}
+  >
     <Story />
   </div>
 );

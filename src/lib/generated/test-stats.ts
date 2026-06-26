@@ -3,35 +3,36 @@
 // Last sync: 2026-06-25T13:05:42.960Z
 
 export const TEST_STATS = {
-  "generatedAt": "2026-06-25T13:05:42.960Z",
-  "unit": {
-    "total": 245,
-    "passed": 245,
-    "failed": 0,
-    "skipped": 0,
-    "files": 46,
-    "byFile": {
-      "api.test.ts": 12,
-      "accessibility.test.tsx": 9
-    }
+  generatedAt: '2026-06-25T13:05:42.960Z',
+  unit: {
+    total: 245,
+    passed: 245,
+    failed: 0,
+    skipped: 0,
+    files: 46,
+    byFile: {
+      'api.test.ts': 12,
+      'accessibility.test.tsx': 9,
+    },
   },
-  "playwright": {
-    "a11y": 10,
-    "audit": 10,
-    "navigation": 6,
-    "performance": 7,
-    "theme": 5
+  playwright: {
+    a11y: 10,
+    audit: 10,
+    navigation: 6,
+    performance: 7,
+    theme: 5,
   },
-  "bench": {
-    "total": 8
-  }
+  bench: {
+    total: 8,
+  },
 } as const;
 
-export const UNIT_TOTAL  = TEST_STATS.unit.total;
-export const A11Y_UNIT   = TEST_STATS.unit.byFile['accessibility.test.tsx'];
-export const A11Y_E2E    = TEST_STATS.playwright.a11y;
-export const A11Y_TOTAL  = A11Y_UNIT + A11Y_E2E;
-export const API_COUNT   = TEST_STATS.unit.byFile['api.test.ts'];
-export const E2E_TOTAL   = TEST_STATS.playwright.navigation + TEST_STATS.playwright.theme + TEST_STATS.playwright.audit;
-export const PERF_TOTAL  = TEST_STATS.playwright.performance;
+export const UNIT_TOTAL = TEST_STATS.unit.total;
+export const A11Y_UNIT = TEST_STATS.unit.byFile['accessibility.test.tsx'];
+export const A11Y_E2E = TEST_STATS.playwright.a11y;
+export const A11Y_TOTAL = A11Y_UNIT + A11Y_E2E;
+export const API_COUNT = TEST_STATS.unit.byFile['api.test.ts'];
+export const E2E_TOTAL =
+  TEST_STATS.playwright.navigation + TEST_STATS.playwright.theme + TEST_STATS.playwright.audit;
+export const PERF_TOTAL = TEST_STATS.playwright.performance;
 export const BENCH_TOTAL = TEST_STATS.bench.total;

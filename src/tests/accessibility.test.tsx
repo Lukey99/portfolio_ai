@@ -44,26 +44,37 @@ describe('Accessibilité — Atoms', () => {
 
 describe('Accessibilité — Molecules', () => {
   it('SectionTitle : aucune violation axe', async () => {
-    expect(await a11y(
-      <SectionTitle number="01" label="Expériences" title="Mon parcours" />
-    )).toHaveLength(0);
+    expect(
+      await a11y(<SectionTitle number="01" label="Expériences" title="Mon parcours" />)
+    ).toHaveLength(0);
   });
 
   it('TimelineCard : aucune violation axe', async () => {
-    expect(await a11y(
-      <TimelineCard badge="CDI" period="2022 — 2024" title="Acme" subtitle="Dev Front" items={['Tâche A']} index={0} />
-    )).toHaveLength(0);
+    expect(
+      await a11y(
+        <TimelineCard
+          badge="CDI"
+          period="2022 — 2024"
+          title="Acme"
+          subtitle="Dev Front"
+          items={['Tâche A']}
+          index={0}
+        />
+      )
+    ).toHaveLength(0);
   });
 
   it('CredentialCard : aucune violation axe', async () => {
-    expect(await a11y(
-      <CredentialCard period="2019 — 2022" institution="ESIEA" title="Ingénieur" index={0} />
-    )).toHaveLength(0);
+    expect(
+      await a11y(
+        <CredentialCard period="2019 — 2022" institution="ESIEA" title="Ingénieur" index={0} />
+      )
+    ).toHaveLength(0);
   });
 
   it('BentoCell : aucune violation axe', async () => {
-    expect(await a11y(
-      <BentoCell icon="⚡" name="Stack" skills={['React', 'TypeScript']} index={0} />
-    )).toHaveLength(0);
+    expect(
+      await a11y(<BentoCell icon="⚡" name="Stack" skills={['React', 'TypeScript']} index={0} />)
+    ).toHaveLength(0);
   });
 });

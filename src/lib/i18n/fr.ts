@@ -31,7 +31,7 @@ export const fr: Translations = {
     ctaContact: 'Me contacter',
     stats: [
       { value: '3+', label: "Années d'expérience" },
-      { value: '4',  label: 'Entreprises' },
+      { value: '4', label: 'Entreprises' },
       { value: '925', label: 'TOEIC anglais' },
     ],
     scrollLabel: 'Scroll',
@@ -43,25 +43,28 @@ export const fr: Translations = {
       number: '01',
       label: 'Expériences',
       title: 'Mon Parcours',
-      subtitle: "Des expériences variées qui m'ont permis de développer une expertise complète en développement front-end.",
+      subtitle:
+        "Des expériences variées qui m'ont permis de développer une expertise complète en développement front-end.",
     },
     skills: {
       number: '02',
       label: 'Compétences',
       title: 'Ma Stack',
-      subtitle: "Les technologies et outils que j'utilise au quotidien pour créer des interfaces de qualité.",
+      subtitle:
+        "Les technologies et outils que j'utilise au quotidien pour créer des interfaces de qualité.",
     },
     projects: {
       number: '03',
       label: 'Projets',
       title: 'Projets Entrepreneuriaux',
-      subtitle: "Des initiatives personnelles qui reflètent ma passion pour le produit et l'expérience utilisateur.",
+      subtitle:
+        "Des initiatives personnelles qui reflètent ma passion pour le produit et l'expérience utilisateur.",
     },
     education: {
       number: '04',
       label: 'Formation',
       title: 'Mon Cursus',
-      subtitle: "Un parcours académique solide qui allie théorie et pratique.",
+      subtitle: 'Un parcours académique solide qui allie théorie et pratique.',
     },
     profile: {
       number: '05',
@@ -74,7 +77,8 @@ export const fr: Translations = {
   // ── Portfolio data ───────────────────────────────────────────
   data: {
     personalTitle: 'Développeur Front End',
-    personalDescription: "Développeur front-end spécialisé en création d'interfaces scalables et performantes (React / Vue), avec une forte exigence sur le pixel perfect et l'expérience utilisateur. Expérience dans la mise en place de design systems et l'amélioration des workflows d'équipe.",
+    personalDescription:
+      "Développeur front-end spécialisé en création d'interfaces scalables et performantes (React / Vue), avec une forte exigence sur le pixel perfect et l'expérience utilisateur. Expérience dans la mise en place de design systems et l'amélioration des workflows d'équipe.",
     experiences: [
       {
         id: 'jane-energie',
@@ -199,7 +203,8 @@ export const fr: Translations = {
       number: '01',
       label: 'IA & Workflow',
       title: 'Productivité augmentée',
-      subtitle: "J'intègre Cursor et Claude Code dans mon workflow quotidien pour automatiser les tâches répétitives et me concentrer sur ce qui crée de la valeur.",
+      subtitle:
+        "J'intègre Cursor et Claude Code dans mon workflow quotidien pour automatiser les tâches répétitives et me concentrer sur ce qui crée de la valeur.",
     },
     workflow: [
       {
@@ -231,16 +236,17 @@ export const fr: Translations = {
       number: '04',
       label: 'API REST',
       title: 'Démo API',
-      subtitle: 'Route handlers Next.js qui exposent les données du portfolio. Cliquez sur un endpoint pour exécuter un fetch en direct.',
+      subtitle:
+        'Route handlers Next.js qui exposent les données du portfolio. Cliquez sur un endpoint pour exécuter un fetch en direct.',
     },
     idleText: 'Sélectionnez un endpoint',
     errorLabel: 'Erreur',
     endpoints: [
-      { label: 'Portfolio',    desc: 'Intégralité des données du portfolio.' },
-      { label: 'Expériences',  desc: 'Liste des expériences professionnelles.' },
-      { label: 'Compétences',  desc: 'Catégories de compétences techniques.' },
-      { label: 'Formation',    desc: 'Parcours académique et diplômes.' },
-      { label: 'Projets',      desc: 'Side projects et réalisations.' },
+      { label: 'Portfolio', desc: 'Intégralité des données du portfolio.' },
+      { label: 'Expériences', desc: 'Liste des expériences professionnelles.' },
+      { label: 'Compétences', desc: 'Catégories de compétences techniques.' },
+      { label: 'Formation', desc: 'Parcours académique et diplômes.' },
+      { label: 'Projets', desc: 'Side projects et réalisations.' },
     ],
   },
 
@@ -250,14 +256,15 @@ export const fr: Translations = {
       number: '05',
       label: 'Architecture',
       title: 'Design atomique',
-      subtitle: "L'UI suit le pattern Atomic Design — chaque niveau est indépendant, testable, et réutilisable dans plusieurs contextes.",
+      subtitle:
+        "L'UI suit le pattern Atomic Design — chaque niveau est indépendant, testable, et réutilisable dans plusieurs contextes.",
     },
     layers: [
-      { label: 'Atomes',    description: 'Briques élémentaires — aucune logique applicative' },
+      { label: 'Atomes', description: 'Briques élémentaires — aucune logique applicative' },
       { label: 'Molécules', description: "Combinaisons d'atomes avec une responsabilité unique" },
       { label: 'Organismes', description: 'Sections autonomes composées de molécules' },
       { label: 'Templates', description: 'Mise en page structurelle — pas de données en dur' },
-      { label: 'Pages',     description: "Routes Next.js — assemblage final avec données réelles" },
+      { label: 'Pages', description: 'Routes Next.js — assemblage final avec données réelles' },
     ],
     stats: [
       { label: 'Atomes' },
@@ -267,10 +274,22 @@ export const fr: Translations = {
     ],
     demoLabel: 'Démo interactive',
     demoSteps: [
-      { label: 'Assemblé',  desc: "L'UI telle que l'utilisateur la voit — aucune couture visible entre les niveaux." },
-      { label: 'Organisme', desc: "Orchestre une liste d'items génériques et délègue le rendu de chacun via une render prop." },
-      { label: 'Molécule',  desc: 'Assemble Badge + GradientText + textes à partir de props visuelles — sans couplage au domaine.' },
-      { label: 'Atomes',    desc: 'Briques indivisibles — chacune vit dans sa propre logique, réutilisée partout.' },
+      {
+        label: 'Assemblé',
+        desc: "L'UI telle que l'utilisateur la voit — aucune couture visible entre les niveaux.",
+      },
+      {
+        label: 'Organisme',
+        desc: "Orchestre une liste d'items génériques et délègue le rendu de chacun via une render prop.",
+      },
+      {
+        label: 'Molécule',
+        desc: 'Assemble Badge + GradientText + textes à partir de props visuelles — sans couplage au domaine.',
+      },
+      {
+        label: 'Atomes',
+        desc: 'Briques indivisibles — chacune vit dans sa propre logique, réutilisée partout.',
+      },
     ],
   },
 
@@ -280,7 +299,8 @@ export const fr: Translations = {
       number: '06',
       label: 'Storybook',
       title: 'Bibliothèque de composants',
-      subtitle: "Chaque composant est documenté et isolé — variants, props, états interactifs et données d'exemple réalistes.",
+      subtitle:
+        "Chaque composant est documenté et isolé — variants, props, états interactifs et données d'exemple réalistes.",
     },
     atomsLabel: 'Atomes',
     moleculesLabel: 'Molécules',
@@ -306,7 +326,8 @@ export const fr: Translations = {
       number: '02',
       label: 'Tests & Qualité',
       title: 'Couverture de tests',
-      subtitle: 'Tests unitaires sur les atomes, molécules et hooks — tests E2E sur les flux utilisateur critiques. Exécutés en CI à chaque push.',
+      subtitle:
+        'Tests unitaires sur les atomes, molécules et hooks — tests E2E sur les flux utilisateur critiques. Exécutés en CI à chaque push.',
     },
     totalLabel: 'tests au total',
     filesLabel: 'fichiers de tests',
@@ -316,46 +337,43 @@ export const fr: Translations = {
     ghActionsBtn: 'Voir les actions GitHub',
     unitSuiteTests: [
       [
-        "démarre en mode sombre par défaut",
-        "détecte le mode clair depuis la classe html (anti-flash)",
-        "toggle → mode clair + classe + localStorage",
-        "toggle → mode sombre, supprime la classe",
+        'démarre en mode sombre par défaut',
+        'détecte le mode clair depuis la classe html (anti-flash)',
+        'toggle → mode clair + classe + localStorage',
+        'toggle → mode sombre, supprime la classe',
         "deux toggles consécutifs reviennent à l'état initial",
       ],
       [
-        "rend un <a> quand href est fourni",
-        "rend un <button> quand href est absent",
-        "classe btn--primary par défaut",
-        "classe btn--secondary avec variant secondary",
+        'rend un <a> quand href est fourni',
+        'rend un <button> quand href est absent',
+        'classe btn--primary par défaut',
+        'classe btn--secondary avec variant secondary',
         'rel="noopener noreferrer" sur target _blank',
         "pas de rel quand target n'est pas _blank",
       ],
       [
-        "affiche son contenu",
-        "variante dim par défaut",
-        "badge--accent avec variant accent",
-        "badge--cyan avec variant cyan",
+        'affiche son contenu',
+        'variante dim par défaut',
+        'badge--accent avec variant accent',
+        'badge--cyan avec variant cyan',
       ],
+      ['affiche son contenu', 'applique la classe chip'],
       [
-        "affiche son contenu",
-        "applique la classe chip",
-      ],
-      [
-        "affiche le numéro watermark",
-        "affiche le label avec le numéro",
-        "affiche le titre en h2",
-        "affiche le subtitle quand fourni",
+        'affiche le numéro watermark',
+        'affiche le label avec le numéro',
+        'affiche le titre en h2',
+        'affiche le subtitle quand fourni',
         "n'affiche pas de subtitle quand absent",
       ],
       [
-        "affiche badge, titre, sous-titre et période",
-        "affiche tous les points de la liste",
-        "affiche le badge passé en prop",
+        'affiche badge, titre, sous-titre et période',
+        'affiche tous les points de la liste',
+        'affiche le badge passé en prop',
       ],
       [
-        "affiche le label et la valeur",
-        "rend un lien cliquable quand href fourni",
-        "ne rend pas de lien quand href absent",
+        'affiche le label et la valeur',
+        'rend un lien cliquable quand href fourni',
+        'ne rend pas de lien quand href absent',
         "affiche l'icône",
       ],
       [
@@ -376,19 +394,19 @@ export const fr: Translations = {
     e2eSuiteLabels: ['Thème dark/light', 'Navigation'],
     e2eSuiteTests: [
       [
-        "charge en mode sombre par défaut",
-        "toggle passe en mode clair",
-        "toggle repasse en mode sombre",
-        "thème persiste après rechargement de page",
-        "localStorage contient le bon thème",
+        'charge en mode sombre par défaut',
+        'toggle passe en mode clair',
+        'toggle repasse en mode sombre',
+        'thème persiste après rechargement de page',
+        'localStorage contient le bon thème',
       ],
       [
-        "header visible dès le chargement",
-        "logo pointe vers #home",
-        "lien Expériences → #experience",
-        "clic scroll vers la section",
-        "bouton email visible et cliquable sur la page contact",
-        "CTA Me contacter → #contact",
+        'header visible dès le chargement',
+        'logo pointe vers #home',
+        'lien Expériences → #experience',
+        'clic scroll vers la section',
+        'bouton email visible et cliquable sur la page contact',
+        'CTA Me contacter → #contact',
       ],
     ],
   },
@@ -399,7 +417,8 @@ export const fr: Translations = {
       number: '03',
       label: 'Quality Report',
       title: 'Dashboard qualité',
-      subtitle: 'Score global, pipeline CI/CD et couverture par composant — vue complète de la fiabilité du code.',
+      subtitle:
+        'Score global, pipeline CI/CD et couverture par composant — vue complète de la fiabilité du code.',
     },
     tabs: [
       { label: 'Vue globale' },
@@ -410,50 +429,70 @@ export const fr: Translations = {
     ],
     qualityItems: [
       {
-        label: 'Couverture', desc: 'Tous les fichiers source testés',
+        label: 'Couverture',
+        desc: 'Tous les fichiers source testés',
         popover: {
           title: 'Couverture de code',
           body: 'Tous les fichiers source publics ont au minimum un test unitaire, mesurée via @vitest/coverage-v8.',
-          items: ['46 suites · 245 tests unitaires', 'App · Atoms · Molecules · Organisms · Hooks · Service · Lib', 'E2E et benchmarks Organisms restent à compléter'],
+          items: [
+            '46 suites · 245 tests unitaires',
+            'App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
+            'E2E et benchmarks Organisms restent à compléter',
+          ],
         },
       },
       {
-        label: 'Accessibilité', desc: 'Score WCAG 2A/2AA via axe-core',
+        label: 'Accessibilité',
+        desc: 'Score WCAG 2A/2AA via axe-core',
         popover: {
           title: 'Score accessibilité',
           body: '0 violation critique détectée sur les 3 pages testées, conforme au standard WCAG 2.1 Niveau AA.',
-          items: ['9 tests unitaires via axe-core', '5 tests E2E dark + 5 tests E2E light', 'Alt texts + rôles ARIA vérifiés'],
+          items: [
+            '9 tests unitaires via axe-core',
+            '5 tests E2E dark + 5 tests E2E light',
+            'Alt texts + rôles ARIA vérifiés',
+          ],
         },
       },
       {
-        label: 'Performance', desc: 'LCP, CLS, TTFB dans les cibles',
+        label: 'Performance',
+        desc: 'LCP, CLS, TTFB dans les cibles',
         popover: {
           title: 'Web Vitals',
           body: "Core Web Vitals mesurés via PerformanceObserver dans Playwright sur la page d'accueil en local.",
-          items: ['LCP < 2.5s ✓ · CLS < 0.1 ✓', 'TTFB < 500ms ✓ · API < 200ms ✓', 'FCP non mesuré → 12pts manquants'],
+          items: [
+            'LCP < 2.5s ✓ · CLS < 0.1 ✓',
+            'TTFB < 500ms ✓ · API < 200ms ✓',
+            'FCP non mesuré → 12pts manquants',
+          ],
         },
       },
       {
-        label: 'Densité', desc: 'Tests par composant exposé',
+        label: 'Densité',
+        desc: 'Tests par composant exposé',
         popover: {
           title: 'Densité de tests',
           body: "Ratio entre le nombre total de tests et les composants publics exposés dans l'application.",
-          items: ['~10 tests / composant en moyenne', '6 types de tests différents', 'E2E Organisms + benchmarks à compléter'],
+          items: [
+            '~10 tests / composant en moyenne',
+            '6 types de tests différents',
+            'E2E Organisms + benchmarks à compléter',
+          ],
         },
       },
     ],
     globalStats: [
-      { label: 'Tests',         sub: '6 types · 0 skip' },
-      { label: 'Échecs',        sub: 'Pipeline vert' },
+      { label: 'Tests', sub: '6 types · 0 skip' },
+      { label: 'Échecs', sub: 'Pipeline vert' },
       { label: 'Score qualité', sub: 'Moyenne 4 axes' },
-      { label: 'Cov. min',      sub: 'Tous fichiers couverts' },
+      { label: 'Cov. min', sub: 'Tous fichiers couverts' },
     ],
     qualityAxesLabel: 'Axes qualité',
     globalGradeLabel: 'Mention globale · moyenne des 4 axes',
     pipelineCiLabel: 'Pipeline CI/CD',
     pipelineGreenBadge: '6/6 vert',
     pipelineSummaryTemplate: '{tests} tests · {total} total',
-    pipelineTimestamp: "main · il y a 2h",
+    pipelineTimestamp: 'main · il y a 2h',
     coverageAtomicLabel: 'Couverture par couche atomique',
     coverageWeakPrefix: 'Point faible :',
     pipelineStatsLabels: ['Durée totale', 'Tests exécutés', 'Statut'],
@@ -484,12 +523,23 @@ export const fr: Translations = {
     priorityMeta: { high: 'Critique', medium: 'Modéré', low: 'Faible' },
     improvementsLabel: "Axes d'amélioration",
     improvementItems: [
-      { action: 'Tests E2E & Bench Organisms',  detail: '15 Organisms couverts en unitaire. E2E et benchmarks manquants pour compléter la densité.' },
-      { action: 'Mesurer FCP & TTI',            detail: 'First Contentful Paint et Time to Interactive non encore mesurés.' },
-      { action: 'Tests de navigation clavier',  detail: 'Focus trap, ordre de tabulation et raccourcis clavier à valider.' },
+      {
+        action: 'Tests E2E & Bench Organisms',
+        detail:
+          '15 Organisms couverts en unitaire. E2E et benchmarks manquants pour compléter la densité.',
+      },
+      {
+        action: 'Mesurer FCP & TTI',
+        detail: 'First Contentful Paint et Time to Interactive non encore mesurés.',
+      },
+      {
+        action: 'Tests de navigation clavier',
+        detail: 'Focus trap, ordre de tabulation et raccourcis clavier à valider.',
+      },
     ],
     priorityLabels: { high: 'Priorité haute', medium: 'Priorité moyenne', low: 'Faible impact' },
-    scoreCalcNote: "Score calculé comme la moyenne des 4 axes. Chaque point gagné sur la couverture ou la densité a le plus fort impact sur le score global.",
+    scoreCalcNote:
+      'Score calculé comme la moyenne des 4 axes. Chaque point gagné sur la couverture ou la densité a le plus fort impact sur le score global.',
     whyAnglesLabel: '6 angles de tir',
     whyReasonItems: [
       {
@@ -502,7 +552,7 @@ export const fr: Translations = {
         title: 'Corriger au plus tôt',
         statSuffix: '',
         statLabel: 'pour détecter une régression dans le pipeline CI',
-        body: "Un bug attrapé par un test se corrige en minutes. Détecté en production, il coûte un hotfix, un rollback, et parfois une nuit blanche.",
+        body: 'Un bug attrapé par un test se corrige en minutes. Détecté en production, il coûte un hotfix, un rollback, et parfois une nuit blanche.',
       },
       {
         title: 'Documentation vivante',
@@ -529,7 +579,7 @@ export const fr: Translations = {
       {
         tool: 'axe-core + Playwright',
         points: [
-          'Garantir que personne n\'est exclu — 0 violation WCAG = 0 personne laissée de côté',
+          "Garantir que personne n'est exclu — 0 violation WCAG = 0 personne laissée de côté",
           'Détecter automatiquement les ARIA manquants, alt texts oubliés et contrastes insuffisants',
           'Les deux thèmes (dark/light) sont validés : les contrastes ne varient pas selon le thème',
         ],
@@ -537,17 +587,17 @@ export const fr: Translations = {
       {
         tool: 'Vitest + fetch mock',
         points: [
-          'Découpler la validation du format de données de la logique d\'affichage',
-          'S\'assurer que chaque route retourne le bon code HTTP et la structure exacte attendue',
-          'Attraper un changement de schéma avant qu\'il n\'atteigne les composants qui l\'affichent',
+          "Découpler la validation du format de données de la logique d'affichage",
+          "S'assurer que chaque route retourne le bon code HTTP et la structure exacte attendue",
+          "Attraper un changement de schéma avant qu'il n'atteigne les composants qui l'affichent",
         ],
       },
       {
         tool: 'Playwright',
         points: [
           'Reproduire le parcours utilisateur réel — navigation, transitions, hydratation Next.js',
-          'Détecter ce que les tests unitaires ne voient pas : bug de routing, d\'anchor, de scroll',
-          'Un vrai Chromium, pas un mock — si ça passe ici, ça passe chez l\'utilisateur',
+          "Détecter ce que les tests unitaires ne voient pas : bug de routing, d'anchor, de scroll",
+          "Un vrai Chromium, pas un mock — si ça passe ici, ça passe chez l'utilisateur",
         ],
       },
       {
@@ -562,7 +612,7 @@ export const fr: Translations = {
         tool: 'Vitest bench',
         points: [
           'Détecter en 3s si un composant est devenu bien plus lent à rendre — avant que la PR merge',
-          'Comparer variantes objectivement : chiffres reproductibles, pas d\'impression subjective',
+          "Comparer variantes objectivement : chiffres reproductibles, pas d'impression subjective",
           'Badge, Button, Tag, SectionTitle, TimelineCard — tous confirmés < 1ms au rendu',
         ],
       },

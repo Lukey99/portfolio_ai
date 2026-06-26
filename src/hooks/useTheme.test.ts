@@ -22,7 +22,9 @@ describe('useTheme', () => {
   it('toggle passe en mode clair, ajoute la classe et persiste en localStorage', () => {
     const { result } = renderHook(() => useTheme());
 
-    act(() => { result.current.toggle(); });
+    act(() => {
+      result.current.toggle();
+    });
 
     expect(result.current.theme).toBe('light');
     expect(document.documentElement.classList.contains('light')).toBe(true);
@@ -33,18 +35,24 @@ describe('useTheme', () => {
     document.documentElement.classList.add('light');
     const { result } = renderHook(() => useTheme());
 
-    act(() => { result.current.toggle(); });
+    act(() => {
+      result.current.toggle();
+    });
 
     expect(result.current.theme).toBe('dark');
     expect(document.documentElement.classList.contains('light')).toBe(false);
     expect(localStorage.getItem('theme')).toBe('dark');
   });
 
-  it('deux toggles consécutifs reviennent à l\'état initial', () => {
+  it("deux toggles consécutifs reviennent à l'état initial", () => {
     const { result } = renderHook(() => useTheme());
 
-    act(() => { result.current.toggle(); });
-    act(() => { result.current.toggle(); });
+    act(() => {
+      result.current.toggle();
+    });
+    act(() => {
+      result.current.toggle();
+    });
 
     expect(result.current.theme).toBe('dark');
     expect(document.documentElement.classList.contains('light')).toBe(false);

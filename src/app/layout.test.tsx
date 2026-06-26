@@ -18,21 +18,37 @@ import RootLayout, { metadata } from './layout';
 
 describe('RootLayout', () => {
   it('rend sans erreur', () => {
-    render(<RootLayout><div>contenu</div></RootLayout>);
+    render(
+      <RootLayout>
+        <div>contenu</div>
+      </RootLayout>
+    );
   });
 
   it('affiche les enfants', () => {
-    render(<RootLayout><p>page content</p></RootLayout>);
+    render(
+      <RootLayout>
+        <p>page content</p>
+      </RootLayout>
+    );
     expect(screen.getByText('page content')).toBeInTheDocument();
   });
 
   it('monte le Header', () => {
-    render(<RootLayout><div /></RootLayout>);
+    render(
+      <RootLayout>
+        <div />
+      </RootLayout>
+    );
     expect(document.querySelector('[data-testid="mock-header"]')).toBeTruthy();
   });
 
   it('monte le CustomCursor', () => {
-    render(<RootLayout><div /></RootLayout>);
+    render(
+      <RootLayout>
+        <div />
+      </RootLayout>
+    );
     expect(document.querySelector('[data-testid="mock-cursor"]')).toBeTruthy();
   });
 });

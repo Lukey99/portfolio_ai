@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Kévin Nguyen — Développeur Front End',
     short_name: 'KN',
     description:
-      "Portfolio de Kévin Nguyen, développeur front-end spécialisé en React / Vue et design systems.",
+      'Portfolio de Kévin Nguyen, développeur front-end spécialisé en React / Vue et design systems.',
     start_url: '/',
     display: 'standalone',
     orientation: 'portrait',

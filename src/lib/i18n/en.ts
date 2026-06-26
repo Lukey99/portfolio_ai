@@ -31,7 +31,7 @@ export const en: Translations = {
     ctaContact: 'Contact me',
     stats: [
       { value: '3+', label: 'Years of experience' },
-      { value: '4',  label: 'Companies' },
+      { value: '4', label: 'Companies' },
       { value: '925', label: 'TOEIC English' },
     ],
     scrollLabel: 'Scroll',
@@ -43,7 +43,8 @@ export const en: Translations = {
       number: '01',
       label: 'Experience',
       title: 'My Career',
-      subtitle: 'Varied experiences that have allowed me to develop a comprehensive expertise in front-end development.',
+      subtitle:
+        'Varied experiences that have allowed me to develop a comprehensive expertise in front-end development.',
     },
     skills: {
       number: '02',
@@ -74,7 +75,8 @@ export const en: Translations = {
   // ── Portfolio data ───────────────────────────────────────────
   data: {
     personalTitle: 'Front-End Developer',
-    personalDescription: 'Front-end developer specialised in building scalable, high-performance interfaces (React / Vue), with a strong focus on pixel-perfect design and user experience. Experience in setting up design systems and improving team workflows.',
+    personalDescription:
+      'Front-end developer specialised in building scalable, high-performance interfaces (React / Vue), with a strong focus on pixel-perfect design and user experience. Experience in setting up design systems and improving team workflows.',
     experiences: [
       {
         id: 'jane-energie',
@@ -199,7 +201,8 @@ export const en: Translations = {
       number: '01',
       label: 'AI & Workflow',
       title: 'Augmented productivity',
-      subtitle: 'I integrate Cursor and Claude Code into my daily workflow to automate repetitive tasks and focus on what creates real value.',
+      subtitle:
+        'I integrate Cursor and Claude Code into my daily workflow to automate repetitive tasks and focus on what creates real value.',
     },
     workflow: [
       {
@@ -231,16 +234,17 @@ export const en: Translations = {
       number: '04',
       label: 'REST API',
       title: 'API Demo',
-      subtitle: 'Next.js route handlers exposing portfolio data. Click an endpoint to run a live fetch.',
+      subtitle:
+        'Next.js route handlers exposing portfolio data. Click an endpoint to run a live fetch.',
     },
     idleText: 'Select an endpoint',
     errorLabel: 'Error',
     endpoints: [
-      { label: 'Portfolio',   desc: 'Full portfolio data.' },
+      { label: 'Portfolio', desc: 'Full portfolio data.' },
       { label: 'Experiences', desc: 'List of professional experiences.' },
-      { label: 'Skills',      desc: 'Technical skill categories.' },
-      { label: 'Education',   desc: 'Academic background and degrees.' },
-      { label: 'Projects',    desc: 'Side projects and achievements.' },
+      { label: 'Skills', desc: 'Technical skill categories.' },
+      { label: 'Education', desc: 'Academic background and degrees.' },
+      { label: 'Projects', desc: 'Side projects and achievements.' },
     ],
   },
 
@@ -250,27 +254,32 @@ export const en: Translations = {
       number: '05',
       label: 'Architecture',
       title: 'Atomic Design',
-      subtitle: 'The UI follows the Atomic Design pattern — each level is independent, testable, and reusable across multiple contexts.',
+      subtitle:
+        'The UI follows the Atomic Design pattern — each level is independent, testable, and reusable across multiple contexts.',
     },
     layers: [
-      { label: 'Atoms',     description: 'Elementary building blocks — no application logic' },
+      { label: 'Atoms', description: 'Elementary building blocks — no application logic' },
       { label: 'Molecules', description: 'Combinations of atoms with a single responsibility' },
       { label: 'Organisms', description: 'Standalone sections composed of molecules' },
       { label: 'Templates', description: 'Structural layout — no hardcoded data' },
-      { label: 'Pages',     description: 'Next.js routes — final assembly with real data' },
+      { label: 'Pages', description: 'Next.js routes — final assembly with real data' },
     ],
-    stats: [
-      { label: 'Atoms' },
-      { label: 'Molecules' },
-      { label: 'Organisms' },
-      { label: 'Pages' },
-    ],
+    stats: [{ label: 'Atoms' }, { label: 'Molecules' }, { label: 'Organisms' }, { label: 'Pages' }],
     demoLabel: 'Interactive demo',
     demoSteps: [
       { label: 'Assembled', desc: 'The UI as the user sees it — no visible seam between levels.' },
-      { label: 'Organism',  desc: 'Orchestrates a list of generic items and delegates the rendering of each via a render prop.' },
-      { label: 'Molecule',  desc: 'Assembles Badge + GradientText + text from visual props — no domain coupling.' },
-      { label: 'Atoms',     desc: 'Indivisible building blocks — each lives in its own logic, reused everywhere.' },
+      {
+        label: 'Organism',
+        desc: 'Orchestrates a list of generic items and delegates the rendering of each via a render prop.',
+      },
+      {
+        label: 'Molecule',
+        desc: 'Assembles Badge + GradientText + text from visual props — no domain coupling.',
+      },
+      {
+        label: 'Atoms',
+        desc: 'Indivisible building blocks — each lives in its own logic, reused everywhere.',
+      },
     ],
   },
 
@@ -280,7 +289,8 @@ export const en: Translations = {
       number: '06',
       label: 'Storybook',
       title: 'Component library',
-      subtitle: 'Every component is documented and isolated — variants, props, interactive states and realistic sample data.',
+      subtitle:
+        'Every component is documented and isolated — variants, props, interactive states and realistic sample data.',
     },
     atomsLabel: 'Atoms',
     moleculesLabel: 'Molecules',
@@ -306,7 +316,8 @@ export const en: Translations = {
       number: '02',
       label: 'Tests & Quality',
       title: 'Test coverage',
-      subtitle: 'Unit tests on atoms, molecules and hooks — E2E tests on critical user flows. Run in CI on every push.',
+      subtitle:
+        'Unit tests on atoms, molecules and hooks — E2E tests on critical user flows. Run in CI on every push.',
     },
     totalLabel: 'tests total',
     filesLabel: 'test files',
@@ -336,10 +347,7 @@ export const en: Translations = {
         'badge--accent with accent variant',
         'badge--cyan with cyan variant',
       ],
-      [
-        'displays its content',
-        'applies the chip class',
-      ],
+      ['displays its content', 'applies the chip class'],
       [
         'displays the watermark number',
         'displays the label with the number',
@@ -399,7 +407,8 @@ export const en: Translations = {
       number: '03',
       label: 'Quality Report',
       title: 'Quality dashboard',
-      subtitle: 'Overall score, CI/CD pipeline and per-component coverage — a complete view of code reliability.',
+      subtitle:
+        'Overall score, CI/CD pipeline and per-component coverage — a complete view of code reliability.',
     },
     tabs: [
       { label: 'Overview' },
@@ -410,43 +419,63 @@ export const en: Translations = {
     ],
     qualityItems: [
       {
-        label: 'Coverage', desc: 'All source files tested',
+        label: 'Coverage',
+        desc: 'All source files tested',
         popover: {
           title: 'Code coverage',
           body: 'All public source files have at least one unit test, measured via @vitest/coverage-v8.',
-          items: ['46 suites · 245 unit tests', 'App · Atoms · Molecules · Organisms · Hooks · Service · Lib', 'E2E and Organism benchmarks still to complete'],
+          items: [
+            '46 suites · 245 unit tests',
+            'App · Atoms · Molecules · Organisms · Hooks · Service · Lib',
+            'E2E and Organism benchmarks still to complete',
+          ],
         },
       },
       {
-        label: 'Accessibility', desc: 'WCAG 2A/2AA score via axe-core',
+        label: 'Accessibility',
+        desc: 'WCAG 2A/2AA score via axe-core',
         popover: {
           title: 'Accessibility score',
           body: '0 critical violations detected on the 3 tested pages, compliant with WCAG 2.1 Level AA.',
-          items: ['9 unit tests via axe-core', '5 E2E tests dark + 5 E2E tests light', 'Alt texts + ARIA roles verified'],
+          items: [
+            '9 unit tests via axe-core',
+            '5 E2E tests dark + 5 E2E tests light',
+            'Alt texts + ARIA roles verified',
+          ],
         },
       },
       {
-        label: 'Performance', desc: 'LCP, CLS, TTFB within targets',
+        label: 'Performance',
+        desc: 'LCP, CLS, TTFB within targets',
         popover: {
           title: 'Web Vitals',
           body: 'Core Web Vitals measured via PerformanceObserver in Playwright on the home page locally.',
-          items: ['LCP < 2.5s ✓ · CLS < 0.1 ✓', 'TTFB < 500ms ✓ · API < 200ms ✓', 'FCP not measured → 12pts missing'],
+          items: [
+            'LCP < 2.5s ✓ · CLS < 0.1 ✓',
+            'TTFB < 500ms ✓ · API < 200ms ✓',
+            'FCP not measured → 12pts missing',
+          ],
         },
       },
       {
-        label: 'Density', desc: 'Tests per exposed component',
+        label: 'Density',
+        desc: 'Tests per exposed component',
         popover: {
           title: 'Test density',
           body: 'Ratio between the total number of tests and the public components exposed in the application.',
-          items: ['~10 tests / component on average', '6 different test types', 'E2E Organisms + benchmarks to complete'],
+          items: [
+            '~10 tests / component on average',
+            '6 different test types',
+            'E2E Organisms + benchmarks to complete',
+          ],
         },
       },
     ],
     globalStats: [
-      { label: 'Tests',          sub: '6 types · 0 skip' },
-      { label: 'Failures',       sub: 'Green pipeline' },
-      { label: 'Quality score',  sub: '4-axis average' },
-      { label: 'Min. cov.',      sub: 'All files covered' },
+      { label: 'Tests', sub: '6 types · 0 skip' },
+      { label: 'Failures', sub: 'Green pipeline' },
+      { label: 'Quality score', sub: '4-axis average' },
+      { label: 'Min. cov.', sub: 'All files covered' },
     ],
     qualityAxesLabel: 'Quality axes',
     globalGradeLabel: 'Overall grade · average of 4 axes',
@@ -484,12 +513,23 @@ export const en: Translations = {
     priorityMeta: { high: 'Critical', medium: 'Moderate', low: 'Low' },
     improvementsLabel: 'Improvement areas',
     improvementItems: [
-      { action: 'E2E & Bench tests for Organisms',  detail: '15 Organisms covered with unit tests. E2E and benchmarks missing to complete density.' },
-      { action: 'Measure FCP & TTI',                detail: 'First Contentful Paint and Time to Interactive not yet measured.' },
-      { action: 'Keyboard navigation tests',         detail: 'Focus trap, tab order and keyboard shortcuts to validate.' },
+      {
+        action: 'E2E & Bench tests for Organisms',
+        detail:
+          '15 Organisms covered with unit tests. E2E and benchmarks missing to complete density.',
+      },
+      {
+        action: 'Measure FCP & TTI',
+        detail: 'First Contentful Paint and Time to Interactive not yet measured.',
+      },
+      {
+        action: 'Keyboard navigation tests',
+        detail: 'Focus trap, tab order and keyboard shortcuts to validate.',
+      },
     ],
     priorityLabels: { high: 'High priority', medium: 'Medium priority', low: 'Low impact' },
-    scoreCalcNote: 'Score calculated as the average of 4 axes. Each point gained on coverage or density has the strongest impact on the overall score.',
+    scoreCalcNote:
+      'Score calculated as the average of 4 axes. Each point gained on coverage or density has the strongest impact on the overall score.',
     whyAnglesLabel: '6 test angles',
     whyReasonItems: [
       {
@@ -531,7 +571,7 @@ export const en: Translations = {
         points: [
           'Ensure no one is excluded — 0 WCAG violation = 0 person left behind',
           'Auto-detect missing ARIA, forgotten alt texts and insufficient colour contrasts',
-          'Both themes (dark/light) are validated: contrasts don\'t drift based on the theme',
+          "Both themes (dark/light) are validated: contrasts don't drift based on the theme",
         ],
       },
       {
@@ -553,7 +593,7 @@ export const en: Translations = {
       {
         tool: 'PerformanceObserver + Playwright',
         points: [
-          'Measure LCP, CLS and TTFB automatically — don\'t wait for a complaint to investigate',
+          "Measure LCP, CLS and TTFB automatically — don't wait for a complaint to investigate",
           'Prevent silent regression of Core Web Vitals after every refactor',
           'API response time < 200ms validated each run: no surprises in production',
         ],

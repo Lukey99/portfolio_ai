@@ -7,11 +7,11 @@ import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { TABS_STATIC } from './TestsDashboard/data';
-import { GlobalView }   from './TestsDashboard/GlobalView';
-import { ScoreView }    from './TestsDashboard/ScoreView';
+import { GlobalView } from './TestsDashboard/GlobalView';
+import { ScoreView } from './TestsDashboard/ScoreView';
 import { PipelineView } from './TestsDashboard/PipelineView';
 import { CoverageView } from './TestsDashboard/CoverageView';
-import { WhyView }      from './TestsDashboard/WhyView';
+import { WhyView } from './TestsDashboard/WhyView';
 import type { DashTab } from './TestsDashboard/data';
 
 export function TestsDashboardSection() {
@@ -37,20 +37,23 @@ export function TestsDashboardSection() {
 
         {/* Tab bar */}
         <div className="reveal" style={{ marginBottom: '1.75rem' }}>
-          <div style={{
-            display: 'flex',
-            gap: '0.25rem',
-            background: 'var(--card-bg)',
-            border: '1px solid rgba(var(--overlay-rgb), 0.09)',
-            borderRadius: '0.875rem',
-            padding: '0.3rem',
-            width: isMobile ? '100%' : 'fit-content',
-          }}>
-            {tabs.map((tab) => {
+          <div
+            style={{
+              display: 'flex',
+              gap: '0.25rem',
+              background: 'var(--card-bg)',
+              border: '1px solid rgba(var(--overlay-rgb), 0.09)',
+              borderRadius: '0.875rem',
+              padding: '0.3rem',
+              width: isMobile ? '100%' : 'fit-content',
+            }}
+          >
+            {tabs.map(tab => {
               const isActive = activeTab === tab.id;
-              const shortLabel = tab.label.split(' ')[0].length > 5
-                ? tab.label.split(' ')[0].slice(0, 5) + '.'
-                : tab.label.split(' ')[0];
+              const shortLabel =
+                tab.label.split(' ')[0].length > 5
+                  ? tab.label.split(' ')[0].slice(0, 5) + '.'
+                  : tab.label.split(' ')[0];
               return (
                 <button
                   key={tab.id}
@@ -76,12 +79,34 @@ export function TestsDashboardSection() {
                   {isActive && (
                     <motion.div
                       layoutId="tab-pill"
-                      style={{ position: 'absolute', inset: 0, borderRadius: '0.6rem', background: 'rgba(var(--overlay-rgb), 0.08)', border: '1px solid rgba(var(--overlay-rgb), 0.1)', zIndex: 0 }}
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: '0.6rem',
+                        background: 'rgba(var(--overlay-rgb), 0.08)',
+                        border: '1px solid rgba(var(--overlay-rgb), 0.1)',
+                        zIndex: 0,
+                      }}
                       transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                     />
                   )}
-                  <span style={{ position: 'relative', zIndex: 1, fontSize: isMobile ? 'var(--text-md)' : 'var(--text-xs)' }}>{tab.icon}</span>
-                  <span style={{ position: 'relative', zIndex: 1, fontSize: isMobile ? '0.48rem' : 'var(--text-xs)', lineHeight: 1.2 }}>
+                  <span
+                    style={{
+                      position: 'relative',
+                      zIndex: 1,
+                      fontSize: isMobile ? 'var(--text-md)' : 'var(--text-xs)',
+                    }}
+                  >
+                    {tab.icon}
+                  </span>
+                  <span
+                    style={{
+                      position: 'relative',
+                      zIndex: 1,
+                      fontSize: isMobile ? '0.48rem' : 'var(--text-xs)',
+                      lineHeight: 1.2,
+                    }}
+                  >
                     {isMobile ? shortLabel : tab.label}
                   </span>
                 </button>
@@ -91,7 +116,15 @@ export function TestsDashboardSection() {
         </div>
 
         {/* Views */}
-        <div className="reveal" style={{ maxHeight: isMobile ? 'none' : '680px', overflowY: isMobile ? 'visible' : 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(var(--overlay-rgb), 0.15) transparent' }}>
+        <div
+          className="reveal"
+          style={{
+            maxHeight: isMobile ? 'none' : '680px',
+            overflowY: isMobile ? 'visible' : 'auto',
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(var(--overlay-rgb), 0.15) transparent',
+          }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -100,11 +133,11 @@ export function TestsDashboardSection() {
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.22 }}
             >
-              {activeTab === 'global'   && <GlobalView />}
-              {activeTab === 'score'    && <ScoreView />}
+              {activeTab === 'global' && <GlobalView />}
+              {activeTab === 'score' && <ScoreView />}
               {activeTab === 'pipeline' && <PipelineView />}
               {activeTab === 'coverage' && <CoverageView />}
-              {activeTab === 'why'      && <WhyView />}
+              {activeTab === 'why' && <WhyView />}
             </motion.div>
           </AnimatePresence>
         </div>

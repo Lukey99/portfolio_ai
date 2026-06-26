@@ -25,7 +25,7 @@ describe('NotFound', () => {
     expect(screen.getByText(/erreur 404/i)).toBeInTheDocument();
   });
 
-  it('affiche un lien vers l\'accueil', () => {
+  it("affiche un lien vers l'accueil", () => {
     render(<NotFound />);
     const link = screen.getByRole('link', { name: /retour à l'accueil/i });
     expect(link).toBeInTheDocument();

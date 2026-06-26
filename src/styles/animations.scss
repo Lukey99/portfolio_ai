@@ -2,68 +2,116 @@
 // Variables — compile-time (non-themed)
 // ═══════════════════════════════════════════════════════════
 
-$violet:   #8b5cf6;
-$cyan:     #22d3ee;
-$ease:     cubic-bezier(0.25, 0.4, 0.25, 1);
+$violet: #8b5cf6;
+$cyan: #22d3ee;
+$ease: cubic-bezier(0.25, 0.4, 0.25, 1);
 $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
-
 
 // ═══════════════════════════════════════════════════════════
 // Keyframes
 // ═══════════════════════════════════════════════════════════
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInLeft {
-  from { opacity: 0; transform: translateX(-20px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.94); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes orbFloat1 {
-  0%, 100% { transform: translate(0,    0)    scale(1);    }
-  33%      { transform: translate(40px, -60px) scale(1.05); }
-  66%      { transform: translate(-30px, 30px) scale(0.95); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -60px) scale(1.05);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.95);
+  }
 }
 
 @keyframes orbFloat2 {
-  0%, 100% { transform: translate(0,     0)    scale(1);   }
-  33%      { transform: translate(-50px, 40px)  scale(0.9); }
-  66%      { transform: translate(30px, -20px)  scale(1.1); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-50px, 40px) scale(0.9);
+  }
+  66% {
+    transform: translate(30px, -20px) scale(1.1);
+  }
 }
 
 @keyframes scrollBounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(12px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(12px);
+  }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Instant animations — above-fold, pure CSS (no JS needed)
 // ═══════════════════════════════════════════════════════════
 
-.a-fade-up   { animation: fadeInUp   0.8s $ease both; }
-.a-fade-left { animation: fadeInLeft 0.6s $ease both; }
-.a-fade      { animation: fadeIn     0.8s $ease both; }
-.a-scale-in  { animation: scaleIn    0.7s $ease both; }
+.a-fade-up {
+  animation: fadeInUp 0.8s $ease both;
+}
+.a-fade-left {
+  animation: fadeInLeft 0.6s $ease both;
+}
+.a-fade {
+  animation: fadeIn 0.8s $ease both;
+}
+.a-scale-in {
+  animation: scaleIn 0.7s $ease both;
+}
 
 // Delay steps — d-0 … d-12 at 150 ms intervals
 @for $i from 0 through 12 {
-  .d-#{$i} { animation-delay: #{$i * 0.15}s; }
+  .d-#{$i} {
+    animation-delay: #{$i * 0.15}s;
+  }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Scroll-reveal — JS adds .is-visible via IntersectionObserver
@@ -72,11 +120,19 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.75s $ease, transform 0.75s $ease;
+  transition:
+    opacity 0.75s $ease,
+    transform 0.75s $ease;
 
-  &.reveal--left  { transform: translateX(-28px); }
-  &.reveal--right { transform: translateX(28px);  }
-  &.reveal--scale { transform: scale(0.94);        }
+  &.reveal--left {
+    transform: translateX(-28px);
+  }
+  &.reveal--right {
+    transform: translateX(28px);
+  }
+  &.reveal--scale {
+    transform: scale(0.94);
+  }
 
   &.is-visible {
     opacity: 1;
@@ -86,10 +142,10 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
 
 // Stagger transition-delay for sibling reveals
 @for $i from 0 through 8 {
-  .reveal-s#{$i} { transition-delay: #{$i * 0.1}s; }
+  .reveal-s#{$i} {
+    transition-delay: #{$i * 0.1}s;
+  }
 }
-
-
 
 // ═══════════════════════════════════════════════════════════
 // Glass card
@@ -99,7 +155,10 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   background: var(--card-bg);
   border: 1px solid rgba(var(--overlay-rgb), 0.08);
   border-radius: 1rem;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    background 0.4s ease;
 
   &:hover {
     border-color: rgba($violet, 0.35);
@@ -112,7 +171,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
     box-shadow: 0 0 40px rgba($cyan, 0.06);
   }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Orbs
@@ -135,7 +193,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
     animation: orbFloat2 17s ease-in-out infinite;
   }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Timeline
@@ -160,7 +217,9 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
     background: linear-gradient(to bottom, $violet, $cyan);
     transition: height 1.5s $ease;
 
-    &.is-visible { height: 100%; }
+    &.is-visible {
+      height: 100%;
+    }
   }
 
   &__dot {
@@ -176,16 +235,19 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
 
     &--violet {
       border-color: $violet;
-      .timeline__item:hover & { background: $violet; }
+      .timeline__item:hover & {
+        background: $violet;
+      }
     }
 
     &--cyan {
       border-color: $cyan;
-      .timeline__item:hover & { background: $cyan; }
+      .timeline__item:hover & {
+        background: $cyan;
+      }
     }
   }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Bento grid — responsive skills layout
@@ -201,7 +263,7 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
 
     > * {
       grid-column: auto !important;
-      grid-row:    auto !important;
+      grid-row: auto !important;
     }
   }
 }
@@ -239,8 +301,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   }
 }
 
-
-
 // ═══════════════════════════════════════════════════════════
 // Section watermark number
 // ═══════════════════════════════════════════════════════════
@@ -257,7 +317,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   user-select: none;
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Scroll bounce indicator
 // ═══════════════════════════════════════════════════════════
@@ -265,7 +324,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
 .scroll-bounce {
   animation: scrollBounce 2.5s ease-in-out infinite;
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Tag chip
@@ -281,14 +339,15 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   background: rgba(var(--overlay-rgb), 0.06);
   color: rgba(var(--fg-rgb), 0.7);
   border: 1px solid rgba(var(--overlay-rgb), 0.07);
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
     background: rgba(var(--overlay-rgb), 0.1);
     color: var(--fg);
   }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Badge
@@ -322,7 +381,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   }
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Button
 // ═══════════════════════════════════════════════════════════
@@ -338,9 +396,14 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   text-decoration: none;
   cursor: pointer;
   border: none;
-  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 
-  &:active { transform: scale(0.97); }
+  &:active {
+    transform: scale(0.97);
+  }
 
   &--primary {
     background: $gradient;
@@ -367,7 +430,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   }
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Layout utilities
 // ═══════════════════════════════════════════════════════════
@@ -382,16 +444,24 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   background-color: var(--bg);
 }
 
-.container       { max-width: 64rem; margin: 0 auto; }
-.container--wide { max-width: 72rem; margin: 0 auto; }
-.container--full { max-width: 90rem; margin: 0 auto; }
+.container {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+.container--wide {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+.container--full {
+  max-width: 90rem;
+  margin: 0 auto;
+}
 
 .timeline-list {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Section title block
@@ -417,7 +487,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   max-width: 36rem;
   line-height: 1.75;
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Eyebrow row (gradient line + uppercase label)
@@ -448,23 +517,42 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   &--hero {
     margin-bottom: var(--space-8);
 
-    .eyebrow__line { width: 2.5rem; }
-    .eyebrow__label { font-size: var(--text-xs); letter-spacing: 0.2em; }
+    .eyebrow__line {
+      width: 2.5rem;
+    }
+    .eyebrow__label {
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+    }
   }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Typography utilities
 // ═══════════════════════════════════════════════════════════
 
-.text-meta  { font-size: var(--text-sm);  color: rgba(var(--fg-rgb), 0.4);  font-weight: 500; }
-.text-body  { font-size: var(--text-md);  color: rgba(var(--fg-rgb), 0.55); line-height: var(--leading-relaxed); }
-.text-muted { color: rgba(var(--fg-rgb), 0.45); }
-.text-faint { color: rgba(var(--fg-rgb), 0.35); }
-.text-fg    { color: var(--fg); }
-.text-mono  { font-family: monospace; }
-
+.text-meta {
+  font-size: var(--text-sm);
+  color: rgba(var(--fg-rgb), 0.4);
+  font-weight: 500;
+}
+.text-body {
+  font-size: var(--text-md);
+  color: rgba(var(--fg-rgb), 0.55);
+  line-height: var(--leading-relaxed);
+}
+.text-muted {
+  color: rgba(var(--fg-rgb), 0.45);
+}
+.text-faint {
+  color: rgba(var(--fg-rgb), 0.35);
+}
+.text-fg {
+  color: var(--fg);
+}
+.text-mono {
+  font-family: monospace;
+}
 
 // ═══════════════════════════════════════════════════════════
 // Dividers & decorative lines
@@ -477,7 +565,9 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
 
 .gradient-top-border {
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, $violet, $cyan, transparent);
 }
@@ -487,7 +577,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   height: 3.5rem;
   background: linear-gradient(to bottom, rgba($violet, 0.7), transparent);
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Icon box
@@ -528,7 +617,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   }
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Bullet list
 // ═══════════════════════════════════════════════════════════
@@ -539,7 +627,9 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   flex-direction: column;
   gap: 0.6rem;
 
-  &--lg { gap: 0.7rem; }
+  &--lg {
+    gap: 0.7rem;
+  }
 
   &__item {
     display: flex;
@@ -557,11 +647,14 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
     border-radius: 50%;
     flex-shrink: 0;
 
-    &--violet { background: rgba($violet, 0.7); }
-    &--cyan   { background: rgba($cyan,   0.7); }
+    &--violet {
+      background: rgba($violet, 0.7);
+    }
+    &--cyan {
+      background: rgba($cyan, 0.7);
+    }
   }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Stats
@@ -581,7 +674,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
     margin-top: 0.25rem;
   }
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Hero section
@@ -666,7 +758,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   }
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Page hero (TechPageIntro)
 // ═══════════════════════════════════════════════════════════
@@ -711,7 +802,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   }
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Dashboard card (used in TestsDashboardSection)
 // ═══════════════════════════════════════════════════════════
@@ -730,7 +820,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   text-transform: uppercase;
   color: rgba(var(--fg-rgb), 0.3);
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Suite card (TestsSection)
@@ -793,7 +882,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   color: rgba(var(--fg-rgb), 0.35);
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Contact section
 // ═══════════════════════════════════════════════════════════
@@ -841,7 +929,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   font-size: var(--text-xs);
   color: rgba(var(--fg-rgb), 0.18);
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Profile section cards
@@ -900,7 +987,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   font-size: var(--text-sm);
   color: rgba(var(--fg-rgb), 0.4);
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Workflow card (AIWorkflowSection)
@@ -963,7 +1049,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   gap: 1rem;
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // TimelineCard internals
 // ═══════════════════════════════════════════════════════════
@@ -987,7 +1072,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   color: rgba(var(--fg-rgb), 0.75);
   font-weight: 500;
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // ShowcaseCard internals
@@ -1021,7 +1105,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   gap: 0.5rem;
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // CredentialCard internals
 // ═══════════════════════════════════════════════════════════
@@ -1051,15 +1134,16 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   color: rgba(var(--fg-rgb), 0.4);
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // BentoCell internals
 // ═══════════════════════════════════════════════════════════
 
 .bc-glow {
   position: absolute;
-  top: 0; right: 0;
-  width: 10rem; height: 10rem;
+  top: 0;
+  right: 0;
+  width: 10rem;
+  height: 10rem;
   background: radial-gradient(circle at 70% 30%, rgba($violet, 0.12), transparent 70%);
   pointer-events: none;
 }
@@ -1083,7 +1167,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   gap: 0.5rem;
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Workflow card gradient dot
 // ═══════════════════════════════════════════════════════════
@@ -1096,7 +1179,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   border-radius: 50%;
   display: inline-block;
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Section background glows (absolutely positioned, section-specific)
@@ -1151,7 +1233,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   background: radial-gradient(ellipse, rgba(139, 92, 246, 0.09) 0%, transparent 70%);
 }
 
-
 // ═══════════════════════════════════════════════════════════
 // Contact section header
 // ═══════════════════════════════════════════════════════════
@@ -1175,7 +1256,6 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   color: var(--fg);
   letter-spacing: -0.03em;
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Tests section stats bar
@@ -1258,14 +1338,15 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   text-decoration: none;
   transition: border-color 0.2s ease;
 
-  &:hover { border-color: rgba(139, 92, 246, 0.35); }
+  &:hover {
+    border-color: rgba(139, 92, 246, 0.35);
+  }
 }
 
 .tests-ci-text {
   font-size: var(--text-sm);
   color: rgba(var(--fg-rgb), 0.45);
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // Test status indicator (green dot + passed)
@@ -1277,7 +1358,9 @@ $gradient: linear-gradient(135deg, $violet 0%, $cyan 100%);
   border-radius: 50%;
 }
 
-.status-dot--green { background: #4ade80; }
+.status-dot--green {
+  background: #4ade80;
+}
 
 .status-passed {
   display: flex;

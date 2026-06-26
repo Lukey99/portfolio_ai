@@ -38,9 +38,7 @@ export function Timeline<T extends { id: string }>({
           </div>
           <div className="timeline-list">
             {items.map((item, i) => (
-              <Fragment key={item.id}>
-                {renderItem(item, i)}
-              </Fragment>
+              <Fragment key={item.id}>{renderItem(item, i)}</Fragment>
             ))}
           </div>
         </div>

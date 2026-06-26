@@ -13,7 +13,9 @@ export function useTheme() {
     const next = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
     document.documentElement.classList.toggle('light', next === 'light');
-    try { localStorage.setItem('theme', next); } catch {}
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
   };
 
   return { theme, toggle };

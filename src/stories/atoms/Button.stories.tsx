@@ -34,9 +34,14 @@ export const Secondary: Story = {
 
 export const AsButton: Story = {
   args: { variant: 'primary', children: 'Action', href: undefined },
-  render: (args) => <Button {...args} onClick={() => {}} />,
+  render: args => <Button {...args} onClick={() => {}} />,
 };
 
 export const ExternalLink: Story = {
-  args: { variant: 'secondary', children: 'GitHub ↗', href: 'https://github.com', target: '_blank' },
+  args: {
+    variant: 'secondary',
+    children: 'GitHub ↗',
+    href: 'https://github.com',
+    target: '_blank',
+  },
 };

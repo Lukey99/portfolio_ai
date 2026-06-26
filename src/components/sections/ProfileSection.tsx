@@ -6,7 +6,7 @@ import { SectionTitle } from '@/components/molecules';
 import type { PersonalInfo } from '@/types/portfolio.types';
 
 export function ProfileSection({ info }: { info: PersonalInfo }) {
-  const ref   = useReveal();
+  const ref = useReveal();
   const { t } = useLocale();
 
   return (
@@ -20,14 +20,13 @@ export function ProfileSection({ info }: { info: PersonalInfo }) {
         />
 
         <div className="profile-grid reveal reveal-s2">
-
           {/* Languages */}
           <div className="glass-card profile-card">
             <h3 className="profile-card__heading">
               <span>🌐</span> {t.profile.languagesHeading}
             </h3>
             <div className="profile-card__list">
-              {info.languages.map((l) => (
+              {info.languages.map(l => (
                 <div key={l.name} className="profile-card__row">
                   <span className="profile-card__name">{l.name}</span>
                   <span className="badge badge--accent">{l.level}</span>
@@ -42,7 +41,7 @@ export function ProfileSection({ info }: { info: PersonalInfo }) {
               <span>✦</span> {t.profile.interestsHeading}
             </h3>
             <div className="profile-card__list">
-              {info.interests.map((interest) => (
+              {info.interests.map(interest => (
                 <div key={interest.name} className="profile-interest-row">
                   <div className="icon-box icon-box--cyan icon-box--sm">{interest.icon}</div>
                   <div>

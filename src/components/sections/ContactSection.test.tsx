@@ -21,9 +21,7 @@ const INFO: PersonalInfo = {
     { name: 'Français', level: 'Maternelle' },
     { name: 'Anglais', level: 'TOEIC 925' },
   ],
-  interests: [
-    { name: 'Musique', description: 'Piano', icon: '🎵' },
-  ],
+  interests: [{ name: 'Musique', description: 'Piano', icon: '🎵' }],
 };
 
 describe('ContactSection', () => {
@@ -36,7 +34,7 @@ describe('ContactSection', () => {
     expect(screen.getByText('Travaillons ensemble')).toBeInTheDocument();
   });
 
-  it('affiche l\'email', () => {
+  it("affiche l'email", () => {
     render(<ContactSection info={INFO} />);
     expect(screen.getAllByText(INFO.email)[0]).toBeInTheDocument();
   });

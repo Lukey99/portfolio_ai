@@ -17,8 +17,8 @@ export function useReveal() {
     const targets = container.querySelectorAll<HTMLElement>('.reveal, .timeline__fill');
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      entries => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
             observer.unobserve(entry.target);
@@ -28,7 +28,7 @@ export function useReveal() {
       { rootMargin: '-60px 0px 0px 0px', threshold: 0.05 }
     );
 
-    targets.forEach((el) => observer.observe(el));
+    targets.forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 

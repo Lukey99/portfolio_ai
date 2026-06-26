@@ -12,7 +12,14 @@ interface ShowcaseCardProps {
   index: number;
 }
 
-export function ShowcaseCard({ period, title, subtitle, description, tags, index }: ShowcaseCardProps) {
+export function ShowcaseCard({
+  period,
+  title,
+  subtitle,
+  description,
+  tags,
+  index,
+}: ShowcaseCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0, hover: false });
 
@@ -50,7 +57,9 @@ export function ShowcaseCard({ period, title, subtitle, description, tags, index
 
         <div className="sc-header">
           <div>
-            <p className="text-meta" style={{ marginBottom: '0.35rem' }}>{period}</p>
+            <p className="text-meta" style={{ marginBottom: '0.35rem' }}>
+              {period}
+            </p>
             <h3 className="gradient-text sc-title">{title}</h3>
             <p className="sc-subtitle">{subtitle}</p>
           </div>
@@ -68,7 +77,9 @@ export function ShowcaseCard({ period, title, subtitle, description, tags, index
         </ul>
 
         <div className="sc-tags">
-          {tags.map((tag) => <Tag key={tag}>{tag}</Tag>)}
+          {tags.map(tag => (
+            <Tag key={tag}>{tag}</Tag>
+          ))}
         </div>
       </div>
     </div>

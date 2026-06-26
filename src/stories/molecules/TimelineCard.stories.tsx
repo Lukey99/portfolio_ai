@@ -22,7 +22,7 @@ const meta = {
     title: 'Acme Corp',
     subtitle: 'Développeur Front-End Senior',
     items: [
-      "Design system React partagé entre 4 équipes product.",
+      'Design system React partagé entre 4 équipes product.',
       "Refonte de l'interface admin (−40 % temps de chargement).",
     ],
   },

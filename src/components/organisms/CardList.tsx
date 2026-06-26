@@ -36,9 +36,7 @@ export function CardList<T extends { id: string }>({
         <SectionTitle {...title} />
         <div style={{ display: 'flex', flexDirection: 'column', gap }}>
           {items.map((item, i) => (
-            <Fragment key={item.id}>
-              {renderItem(item, i)}
-            </Fragment>
+            <Fragment key={item.id}>{renderItem(item, i)}</Fragment>
           ))}
         </div>
       </div>

@@ -6,7 +6,12 @@ import { MainLayout } from '@/components/templates/MainLayout';
 import { Hero, ProfileSection } from '@/components/sections';
 import { Timeline, BentoGrid, CardList } from '@/components/organisms';
 import { TimelineCard, CredentialCard, ShowcaseCard, BentoCell } from '@/components/molecules';
-import { toTimelineCardProps, toCredentialCardProps, toShowcaseCardProps, toBentoCellProps } from '@/adapters/portfolio';
+import {
+  toTimelineCardProps,
+  toCredentialCardProps,
+  toShowcaseCardProps,
+  toBentoCellProps,
+} from '@/adapters/portfolio';
 
 export default function HomePage() {
   const { t } = useLocale();

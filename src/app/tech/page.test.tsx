@@ -7,19 +7,23 @@ vi.mock('next/dynamic', async () => {
     default: (importFn: () => Promise<{ default: React.ComponentType }>, _opts?: unknown) => {
       const LazyComp = React.lazy(importFn);
       function Dynamic(props: Record<string, unknown>) {
-        return React.createElement(React.Suspense, { fallback: null }, React.createElement(LazyComp, props));
+        return React.createElement(
+          React.Suspense,
+          { fallback: null },
+          React.createElement(LazyComp, props)
+        );
       }
       return Dynamic;
-    }
+    },
   };
 });
 
 vi.mock('@/components/sections', () => ({
-  AIWorkflowSection:      () => <section data-testid="ai-workflow" />,
-  TestsSection:           () => <section data-testid="tests" />,
-  ApiSection:             () => <section data-testid="api" />,
-  StorybookSection:       () => <section data-testid="storybook" />,
-  TechPageIntro:          () => <h1>Tech</h1>,
+  AIWorkflowSection: () => <section data-testid="ai-workflow" />,
+  TestsSection: () => <section data-testid="tests" />,
+  ApiSection: () => <section data-testid="api" />,
+  StorybookSection: () => <section data-testid="storybook" />,
+  TechPageIntro: () => <h1>Tech</h1>,
 }));
 
 vi.mock('@/components/sections/TestsDashboardSection', () => ({

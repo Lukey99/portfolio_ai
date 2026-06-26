@@ -12,7 +12,15 @@ describe('ContactItem', () => {
   });
 
   it('rend un lien cliquable quand href est fourni', () => {
-    render(<ContactItem icon={icon} label="Email" value="kevin@example.com" href="mailto:kevin@example.com" index={0} />);
+    render(
+      <ContactItem
+        icon={icon}
+        label="Email"
+        value="kevin@example.com"
+        href="mailto:kevin@example.com"
+        index={0}
+      />
+    );
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('href', 'mailto:kevin@example.com');
   });
@@ -22,7 +30,7 @@ describe('ContactItem', () => {
     expect(screen.queryByRole('link')).not.toBeInTheDocument();
   });
 
-  it('affiche l\'icône', () => {
+  it("affiche l'icône", () => {
     render(<ContactItem icon={icon} label="Email" value="test" index={0} />);
     expect(screen.getByTestId('icon')).toBeInTheDocument();
   });

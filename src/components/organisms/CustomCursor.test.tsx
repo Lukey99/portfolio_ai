@@ -7,7 +7,7 @@ describe('CustomCursor', () => {
     render(<CustomCursor />);
   });
 
-  it('répond aux événements mousemove sans lever d\'erreur', () => {
+  it("répond aux événements mousemove sans lever d'erreur", () => {
     render(<CustomCursor />);
     window.dispatchEvent(new MouseEvent('mousemove', { clientX: 100, clientY: 200 }));
   });

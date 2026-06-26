@@ -27,7 +27,13 @@ const letterVariants = {
   }),
 };
 
-export function AnimatedText({ text, className, style, delay = 0, gradient = false }: AnimatedTextProps) {
+export function AnimatedText({
+  text,
+  className,
+  style,
+  delay = 0,
+  gradient = false,
+}: AnimatedTextProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

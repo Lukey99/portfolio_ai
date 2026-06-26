@@ -18,7 +18,12 @@ export function WhyView() {
     if (!carouselRef.current) return;
     setAngleIdx(i);
     const cards = carouselRef.current.children;
-    if (cards[i]) (cards[i] as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    if (cards[i])
+      (cards[i] as HTMLElement).scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'start',
+      });
   }
 
   function handleCarouselScroll(e: React.UIEvent<HTMLDivElement>) {
@@ -47,9 +52,14 @@ export function WhyView() {
 
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-
       {/* 4 reason cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '0.875rem' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+          gap: '0.875rem',
+        }}
+      >
         {whyReasons.map((r, i) => (
           <motion.div
             key={r.title}
@@ -57,26 +67,64 @@ export function WhyView() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.06 + i * 0.08 }}
             style={{
-              ...CARD, padding: '1.25rem',
-              display: 'flex', flexDirection: 'column', gap: '0.75rem',
+              ...CARD,
+              padding: '1.25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.75rem',
               borderTop: `2px solid ${mix(r.color, 25)}`,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <span style={{
-                width: '2rem', height: '2rem', borderRadius: '0.5rem',
-                background: mix(r.color, 9), border: `1px solid ${mix(r.color, 19)}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.95rem', flexShrink: 0,
-              }}>{r.icon}</span>
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--fg)' }}>{r.title}</span>
+              <span
+                style={{
+                  width: '2rem',
+                  height: '2rem',
+                  borderRadius: '0.5rem',
+                  background: mix(r.color, 9),
+                  border: `1px solid ${mix(r.color, 19)}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.95rem',
+                  flexShrink: 0,
+                }}
+              >
+                {r.icon}
+              </span>
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--fg)' }}>
+                {r.title}
+              </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.35rem', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '1.6rem', fontWeight: 900, color: r.color, lineHeight: 1 }}>{r.stat}</span>
-              {r.statSuffix && <span style={{ fontSize: '0.75rem', fontWeight: 700, color: r.color, opacity: 0.7 }}>{r.statSuffix}</span>}
-              <span style={{ fontSize: '0.58rem', color: 'rgba(var(--fg-rgb), 0.35)', lineHeight: 1.3 }}>{r.statLabel}</span>
+            <div
+              style={{ display: 'flex', alignItems: 'baseline', gap: '0.35rem', flexWrap: 'wrap' }}
+            >
+              <span style={{ fontSize: '1.6rem', fontWeight: 900, color: r.color, lineHeight: 1 }}>
+                {r.stat}
+              </span>
+              {r.statSuffix && (
+                <span
+                  style={{ fontSize: '0.75rem', fontWeight: 700, color: r.color, opacity: 0.7 }}
+                >
+                  {r.statSuffix}
+                </span>
+              )}
+              <span
+                style={{ fontSize: '0.58rem', color: 'rgba(var(--fg-rgb), 0.35)', lineHeight: 1.3 }}
+              >
+                {r.statLabel}
+              </span>
             </div>
-            <p style={{ fontSize: '0.65rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.65, margin: 0 }}>{r.body}</p>
+            <p
+              style={{
+                fontSize: '0.65rem',
+                color: 'rgba(var(--fg-rgb), 0.55)',
+                lineHeight: 1.65,
+                margin: 0,
+              }}
+            >
+              {r.body}
+            </p>
           </motion.div>
         ))}
       </div>
@@ -88,7 +136,16 @@ export function WhyView() {
         transition={{ delay: 0.42 }}
         style={{ ...CARD, padding: '1.25rem' }}
       >
-        <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(var(--fg-rgb), 0.3)', marginBottom: '1rem' }}>
+        <p
+          style={{
+            fontSize: '0.6rem',
+            fontWeight: 700,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'rgba(var(--fg-rgb), 0.3)',
+            marginBottom: '1rem',
+          }}
+        >
           {t.testsDashboard.whyAnglesLabel}
         </p>
 
@@ -107,7 +164,7 @@ export function WhyView() {
                 paddingBottom: '4px',
               }}
             >
-              {whyTestTypes.map((wt) => (
+              {whyTestTypes.map(wt => (
                 <div
                   key={wt.id}
                   style={{
@@ -118,33 +175,101 @@ export function WhyView() {
                     background: mix(wt.color, 4),
                     border: `1px solid ${mix(wt.color, 13)}`,
                     borderRadius: '0.75rem',
-                    display: 'flex', flexDirection: 'column', gap: '0.6rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.6rem',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 800, fontFamily: 'monospace', color: wt.color, background: mix(wt.color, 9), border: `1px solid ${mix(wt.color, 21)}`, borderRadius: '4px', padding: '0.15rem 0.55rem' }}>{wt.id}</span>
-                    <span style={{ fontSize: '0.65rem', fontWeight: 700, color: wt.color }}>{wt.count}</span>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: '0.7rem',
+                        fontWeight: 800,
+                        fontFamily: 'monospace',
+                        color: wt.color,
+                        background: mix(wt.color, 9),
+                        border: `1px solid ${mix(wt.color, 21)}`,
+                        borderRadius: '4px',
+                        padding: '0.15rem 0.55rem',
+                      }}
+                    >
+                      {wt.id}
+                    </span>
+                    <span style={{ fontSize: '0.65rem', fontWeight: 700, color: wt.color }}>
+                      {wt.count}
+                    </span>
                   </div>
-                  <span style={{ fontSize: '0.62rem', color: 'rgba(var(--fg-rgb), 0.35)', fontFamily: 'monospace', lineHeight: 1.35 }}>{wt.tool}</span>
+                  <span
+                    style={{
+                      fontSize: '0.62rem',
+                      color: 'rgba(var(--fg-rgb), 0.35)',
+                      fontFamily: 'monospace',
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {wt.tool}
+                  </span>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                     {wt.points.map((pt, pi) => (
-                      <div key={pi} style={{ display: 'flex', gap: '0.45rem', alignItems: 'flex-start' }}>
-                        <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: wt.color, flexShrink: 0, marginTop: '0.32rem' }} />
-                        <span style={{ fontSize: '0.65rem', color: 'rgba(var(--fg-rgb), 0.55)', lineHeight: 1.6 }}>{pt}</span>
+                      <div
+                        key={pi}
+                        style={{ display: 'flex', gap: '0.45rem', alignItems: 'flex-start' }}
+                      >
+                        <div
+                          style={{
+                            width: '4px',
+                            height: '4px',
+                            borderRadius: '50%',
+                            background: wt.color,
+                            flexShrink: 0,
+                            marginTop: '0.32rem',
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontSize: '0.65rem',
+                            color: 'rgba(var(--fg-rgb), 0.55)',
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          {pt}
+                        </span>
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '0.4rem',
+              }}
+            >
               {whyTestTypes.map((wt, i) => (
                 <motion.button
                   key={i}
                   onClick={() => scrollToAngle(i)}
-                  animate={{ width: i === angleIdx ? '18px' : '6px', background: i === angleIdx ? wt.color : 'rgba(var(--fg-rgb), 0.18)' }}
+                  animate={{
+                    width: i === angleIdx ? '18px' : '6px',
+                    background: i === angleIdx ? wt.color : 'rgba(var(--fg-rgb), 0.18)',
+                  }}
                   transition={{ duration: 0.22 }}
-                  style={{ height: '6px', borderRadius: '9999px', border: 'none', cursor: 'pointer', padding: 0 }}
+                  style={{
+                    height: '6px',
+                    borderRadius: '9999px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                  }}
                 />
               ))}
             </div>
@@ -157,18 +282,84 @@ export function WhyView() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.48 + i * 0.06 }}
-                style={{ padding: '0.875rem', background: mix(wt.color, 4), border: `1px solid ${mix(wt.color, 13)}`, borderRadius: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+                style={{
+                  padding: '0.875rem',
+                  background: mix(wt.color, 4),
+                  border: `1px solid ${mix(wt.color, 13)}`,
+                  borderRadius: '0.75rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.5rem',
+                }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem' }}>
-                  <span style={{ fontSize: '0.65rem', fontWeight: 800, fontFamily: 'monospace', color: wt.color, background: mix(wt.color, 9), border: `1px solid ${mix(wt.color, 21)}`, borderRadius: '4px', padding: '0.1rem 0.45rem' }}>{wt.id}</span>
-                  <span style={{ fontSize: '0.6rem', fontWeight: 700, color: wt.color }}>{wt.count}</span>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '0.4rem',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '0.65rem',
+                      fontWeight: 800,
+                      fontFamily: 'monospace',
+                      color: wt.color,
+                      background: mix(wt.color, 9),
+                      border: `1px solid ${mix(wt.color, 21)}`,
+                      borderRadius: '4px',
+                      padding: '0.1rem 0.45rem',
+                    }}
+                  >
+                    {wt.id}
+                  </span>
+                  <span style={{ fontSize: '0.6rem', fontWeight: 700, color: wt.color }}>
+                    {wt.count}
+                  </span>
                 </div>
-                <span style={{ fontSize: '0.57rem', color: 'rgba(var(--fg-rgb), 0.3)', fontFamily: 'monospace', lineHeight: 1.3 }}>{wt.tool}</span>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginTop: '0.15rem' }}>
+                <span
+                  style={{
+                    fontSize: '0.57rem',
+                    color: 'rgba(var(--fg-rgb), 0.3)',
+                    fontFamily: 'monospace',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {wt.tool}
+                </span>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.3rem',
+                    marginTop: '0.15rem',
+                  }}
+                >
                   {wt.points.map((pt, pi) => (
-                    <div key={pi} style={{ display: 'flex', gap: '0.4rem', alignItems: 'flex-start' }}>
-                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', background: wt.color, flexShrink: 0, marginTop: '0.35rem' }} />
-                      <span style={{ fontSize: '0.6rem', color: 'rgba(var(--fg-rgb), 0.5)', lineHeight: 1.55 }}>{pt}</span>
+                    <div
+                      key={pi}
+                      style={{ display: 'flex', gap: '0.4rem', alignItems: 'flex-start' }}
+                    >
+                      <div
+                        style={{
+                          width: '3px',
+                          height: '3px',
+                          borderRadius: '50%',
+                          background: wt.color,
+                          flexShrink: 0,
+                          marginTop: '0.35rem',
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontSize: '0.6rem',
+                          color: 'rgba(var(--fg-rgb), 0.5)',
+                          lineHeight: 1.55,
+                        }}
+                      >
+                        {pt}
+                      </span>
                     </div>
                   ))}
                 </div>

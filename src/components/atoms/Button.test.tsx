@@ -20,18 +20,26 @@ describe('Button', () => {
   });
 
   it('applique la classe btn--secondary avec variant secondary', () => {
-    render(<Button variant="secondary" href="#">Test</Button>);
+    render(
+      <Button variant="secondary" href="#">
+        Test
+      </Button>
+    );
     expect(screen.getByRole('link')).toHaveClass('btn--secondary');
   });
 
   it('ajoute rel="noopener noreferrer" sur target="_blank"', () => {
-    render(<Button href="https://example.com" target="_blank">Externe</Button>);
+    render(
+      <Button href="https://example.com" target="_blank">
+        Externe
+      </Button>
+    );
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
     expect(link).toHaveAttribute('target', '_blank');
   });
 
-  it('n\'ajoute pas rel quand target n\'est pas _blank', () => {
+  it("n'ajoute pas rel quand target n'est pas _blank", () => {
     render(<Button href="#section">Interne</Button>);
     expect(screen.getByRole('link')).not.toHaveAttribute('rel');
   });

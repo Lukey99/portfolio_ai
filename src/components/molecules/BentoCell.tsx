@@ -16,12 +16,14 @@ export function BentoCell({ icon, name, skills, index }: BentoCellProps) {
       <div className="bc-glow" />
 
       <div className="bc-header">
-        <span style={{ fontSize: '1.4rem' }} aria-hidden>{icon}</span>
+        <span style={{ fontSize: '1.4rem' }} aria-hidden>
+          {icon}
+        </span>
         <h3 className="bc-name">{name}</h3>
       </div>
 
       <div className="bc-tags">
-        {skills.map((skill) => (
+        {skills.map(skill => (
           <Tag key={skill}>{skill}</Tag>
         ))}
       </div>
