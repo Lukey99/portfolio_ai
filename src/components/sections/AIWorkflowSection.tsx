@@ -5,13 +5,14 @@ import { motion, useInView } from 'motion/react';
 import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
 import { SectionTitle } from '@/components/molecules';
+import { VIOLET, CYAN, va } from '@/lib/colors';
 
 const TOOLS = [
   {
     name: 'Cursor',
     color: 'var(--violet-soft)',
-    bg: 'rgba(139,92,246,0.12)',
-    border: 'rgba(139,92,246,0.28)',
+    bg: va(VIOLET, 0.12),
+    border: va(VIOLET, 0.28),
     icon: (
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M5 3l14 9-7 1-4 7z"/>
@@ -21,8 +22,8 @@ const TOOLS = [
   {
     name: 'Claude Code',
     color: 'var(--cyan-soft)',
-    bg: 'rgba(34,211,238,0.10)',
-    border: 'rgba(34,211,238,0.22)',
+    bg: va(CYAN, 0.10),
+    border: va(CYAN, 0.22),
     icon: (
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
@@ -32,10 +33,10 @@ const TOOLS = [
 ];
 
 const WORKFLOW_STATIC = [
-  { icon: '🔍', from: '#8b5cf6', to: '#22d3ee' },
-  { icon: '🧪', from: '#22d3ee', to: '#8b5cf6' },
-  { icon: '⚡', from: '#8b5cf6', to: '#22d3ee' },
-  { icon: '🔀', from: '#22d3ee', to: '#8b5cf6' },
+  { icon: '🔍', from: VIOLET, to: CYAN },
+  { icon: '🧪', from: CYAN,   to: VIOLET },
+  { icon: '⚡', from: VIOLET, to: CYAN },
+  { icon: '🔀', from: CYAN,   to: VIOLET },
 ];
 
 function WorkflowCard({ item, index }: { item: { icon: string; from: string; to: string; title: string; desc: string; benefit: string }; index: number }) {

@@ -39,14 +39,14 @@ export function Hero({ info }: HeroProps) {
           <AnimatedText
             text="KÉVIN"
             className="block font-black"
-            style={{ fontSize: 'clamp(64px,13vw,160px)', letterSpacing: '-0.04em', lineHeight: 0.93, marginBottom: '0.1rem', color: 'var(--fg)' }}
+            style={{ fontSize: 'clamp(4rem,13vw,10rem)', letterSpacing: '-0.04em', lineHeight: 0.93, marginBottom: '0.1rem', color: 'var(--fg)' }}
             delay={0.2}
           />
           <AnimatedText
             text="NGUYEN"
             gradient
             className="block font-black"
-            style={{ fontSize: 'clamp(64px,13vw,160px)', letterSpacing: '-0.04em', lineHeight: 0.93, marginBottom: '2.5rem' }}
+            style={{ fontSize: 'clamp(4rem,13vw,10rem)', letterSpacing: '-0.04em', lineHeight: 0.93, marginBottom: '2.5rem' }}
             delay={0.6}
           />
 
@@ -55,11 +55,11 @@ export function Hero({ info }: HeroProps) {
           <div className="hero__cta-row a-fade-up d-9">
             <Button href="#experience" variant="primary">
               {t.hero.ctaExperience}
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
             </Button>
             <Button href="/contact" variant="secondary">
               {t.hero.ctaContact}
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </Button>
           </div>
 

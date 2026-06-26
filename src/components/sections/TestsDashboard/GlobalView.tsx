@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { motion, useInView } from 'motion/react';
 import { useLocale } from '@/contexts/LocaleContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
@@ -19,18 +19,18 @@ export function GlobalView() {
   const { grade, color: gradeColor } = scoreGrade(OVERALL);
   const totalTests = PIPELINE_STATIC.reduce((s, p) => s + (p.count ?? 0), 0);
 
-  const quality: QualityMerged[] = QUALITY_STATIC.map((s, i) => ({
+  const quality = useMemo<QualityMerged[]>(() => QUALITY_STATIC.map((s, i) => ({
     ...s,
     label: t.testsDashboard.qualityItems[i].label,
     desc: t.testsDashboard.qualityItems[i].desc,
     popover: t.testsDashboard.qualityItems[i].popover,
-  }));
+  })), [t]);
 
-  const globalStats: StatHeroCardData[] = GLOBAL_STATS_STATIC.map((s, i) => ({
+  const globalStats = useMemo<StatHeroCardData[]>(() => GLOBAL_STATS_STATIC.map((s, i) => ({
     ...s,
     label: t.testsDashboard.globalStats[i].label,
     sub: t.testsDashboard.globalStats[i].sub,
-  }));
+  })), [t]);
 
   return (
     <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

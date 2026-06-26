@@ -5,23 +5,24 @@ import { motion, useInView } from 'motion/react';
 import { useReveal } from '@/hooks/useReveal';
 import { SectionTitle } from '@/components/molecules';
 import { useLocale } from '@/contexts/LocaleContext';
+import { VIOLET, CYAN, V_MID, GREEN, va } from '@/lib/colors';
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 
 const UNIT_SUITES_STATIC = [
-  { category: 'Hook',     file: 'useTheme.test.ts',      path: 'src/hooks/',                   colorVar: 'var(--violet)',     bg: 'rgba(139,92,246,0.10)', border: 'rgba(139,92,246,0.22)', count: 5  },
-  { category: 'Atom',     file: 'Button.test.tsx',        path: 'src/components/atoms/',         colorVar: 'var(--cyan)',       bg: 'rgba(34,211,238,0.08)', border: 'rgba(34,211,238,0.20)', count: 6  },
-  { category: 'Atom',     file: 'Badge.test.tsx',         path: 'src/components/atoms/',         colorVar: 'var(--cyan)',       bg: 'rgba(34,211,238,0.08)', border: 'rgba(34,211,238,0.20)', count: 4  },
-  { category: 'Atom',     file: 'Tag.test.tsx',           path: 'src/components/atoms/',         colorVar: 'var(--cyan)',       bg: 'rgba(34,211,238,0.08)', border: 'rgba(34,211,238,0.20)', count: 2  },
-  { category: 'Molecule', file: 'SectionTitle.test.tsx',  path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: 'rgba(167,139,250,0.10)', border: 'rgba(167,139,250,0.22)', count: 5 },
-  { category: 'Molecule', file: 'TimelineCard.test.tsx',  path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: 'rgba(167,139,250,0.10)', border: 'rgba(167,139,250,0.22)', count: 3 },
-  { category: 'Molecule', file: 'ContactItem.test.tsx',   path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: 'rgba(167,139,250,0.10)', border: 'rgba(167,139,250,0.22)', count: 4 },
-  { category: 'Route',    file: 'api.test.ts',            path: 'src/app/api/portfolio/',        colorVar: '#10b981',           bg: 'rgba(16,185,129,0.07)',  border: 'rgba(16,185,129,0.20)',  count: 12 },
+  { category: 'Hook',     file: 'useTheme.test.ts',      path: 'src/hooks/',                   colorVar: 'var(--violet)',     bg: va(VIOLET, 0.10), border: va(VIOLET, 0.22), count: 5  },
+  { category: 'Atom',     file: 'Button.test.tsx',        path: 'src/components/atoms/',         colorVar: 'var(--cyan)',       bg: va(CYAN,   0.08), border: va(CYAN,   0.20), count: 6  },
+  { category: 'Atom',     file: 'Badge.test.tsx',         path: 'src/components/atoms/',         colorVar: 'var(--cyan)',       bg: va(CYAN,   0.08), border: va(CYAN,   0.20), count: 4  },
+  { category: 'Atom',     file: 'Tag.test.tsx',           path: 'src/components/atoms/',         colorVar: 'var(--cyan)',       bg: va(CYAN,   0.08), border: va(CYAN,   0.20), count: 2  },
+  { category: 'Molecule', file: 'SectionTitle.test.tsx',  path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: va(V_MID,  0.10), border: va(V_MID,  0.22), count: 5  },
+  { category: 'Molecule', file: 'TimelineCard.test.tsx',  path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: va(V_MID,  0.10), border: va(V_MID,  0.22), count: 3  },
+  { category: 'Molecule', file: 'ContactItem.test.tsx',   path: 'src/components/molecules/',     colorVar: 'var(--violet-mid)', bg: va(V_MID,  0.10), border: va(V_MID,  0.22), count: 4  },
+  { category: 'Route',    file: 'api.test.ts',            path: 'src/app/api/portfolio/',        colorVar: GREEN,               bg: va(GREEN,  0.07), border: va(GREEN,  0.20), count: 12 },
 ] as const;
 
 const E2E_SUITES_STATIC = [
-  { file: 'theme.spec.ts',      bg: 'rgba(139,92,246,0.10)', border: 'rgba(139,92,246,0.22)', count: 5 },
-  { file: 'navigation.spec.ts', bg: 'rgba(34,211,238,0.08)', border: 'rgba(34,211,238,0.20)', count: 6 },
+  { file: 'theme.spec.ts',      bg: va(VIOLET, 0.10), border: va(VIOLET, 0.22), count: 5 },
+  { file: 'navigation.spec.ts', bg: va(CYAN,   0.08), border: va(CYAN,   0.20), count: 6 },
 ] as const;
 
 const TOTAL_UNIT = UNIT_SUITES_STATIC.reduce((s, suite) => s + suite.count, 0);
@@ -166,7 +167,7 @@ export function TestsSection() {
         {/* Tests unitaires */}
         <div className="reveal reveal-s2 tests-runner-label">
           <div className="tests-runner-badge tests-runner-badge--vitest">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             {t.tests.vitestLabel}
           </div>
           <span className="tests-runner-count">{TOTAL_UNIT} tests · {UNIT_SUITES_STATIC.length} fichiers</span>
@@ -181,7 +182,7 @@ export function TestsSection() {
         {/* Tests E2E */}
         <div className="reveal reveal-s2 tests-runner-label">
           <div className="tests-runner-badge tests-runner-badge--playwright">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             {t.tests.playwrightLabel}
           </div>
           <span className="tests-runner-count">{TOTAL_E2E} tests · {E2E_SUITES_STATIC.length} fichiers</span>
@@ -228,7 +229,7 @@ export function TestsSection() {
             rel="noopener noreferrer"
             className="tests-ci-link"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(var(--fg-rgb),0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(var(--fg-rgb),0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
             </svg>
             {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -1,33 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence, useInView } from 'motion/react';
 import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { VIOLET, CYAN, V_MID, V_LITE, AMBER, SLATE, va } from '@/lib/colors';
 
 // ── Static layer data ─────────────────────────────────────────
 
 const LAYERS_STATIC = [
   {
     level: 'Atoms',
-    color: '#22d3ee', bg: 'rgba(34,211,238,0.08)', border: 'rgba(34,211,238,0.22)',
+    color: CYAN,   bg: va(CYAN,   0.08), border: va(CYAN,   0.22),
     components: ['Button', 'Badge', 'Tag', 'GradientText'],
   },
   {
     level: 'Molecules',
-    color: '#8b5cf6', bg: 'rgba(139,92,246,0.08)', border: 'rgba(139,92,246,0.22)',
+    color: VIOLET, bg: va(VIOLET, 0.08), border: va(VIOLET, 0.22),
     components: ['SectionTitle', 'ExperienceCard', 'ProjectCard', 'EducationCard', 'ContactItem', 'SkillBento'],
   },
   {
     level: 'Organisms',
-    color: '#a78bfa', bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.22)',
+    color: V_MID,  bg: va(V_MID,  0.08), border: va(V_MID,  0.22),
     components: ['Header', 'Hero', 'Timeline', 'BentoGrid', 'CardList', 'ContactSection', 'ApiSection', 'AIWorkflowSection', 'TestsSection', 'TestsDashboardSection', 'ArchitectureSection', 'StorybookSection', 'CustomCursor'],
   },
   {
     level: 'Templates',
-    color: '#c4b5fd', bg: 'rgba(196,181,253,0.06)', border: 'rgba(196,181,253,0.18)',
+    color: V_LITE, bg: va(V_LITE, 0.06), border: va(V_LITE, 0.18),
     components: ['MainLayout'],
   },
   {
@@ -38,10 +39,10 @@ const LAYERS_STATIC = [
 ];
 
 const DEMO_STATIC = [
-  { color: '#64748b', component: '—' },
-  { color: '#f59e0b', component: 'Timeline' },
-  { color: '#8b5cf6', component: 'TimelineCard' },
-  { color: '#22d3ee', component: 'Badge · GradientText · text' },
+  { color: SLATE,  component: '—' },
+  { color: AMBER,  component: 'Timeline' },
+  { color: VIOLET, component: 'TimelineCard' },
+  { color: CYAN,   component: 'Badge · GradientText · text' },
 ];
 
 const STATS_N = ['4', '6', '13', '3'];
@@ -101,7 +102,7 @@ function Connector({ index, isInView }: { index: number; isInView: boolean }) {
         transition={{ duration: 0.25, delay: index * 0.28 + 0.22, ease: 'easeOut' }}
         style={{
           width: '1px', height: '2.5rem',
-          background: 'linear-gradient(to bottom, rgba(139,92,246,0.4), rgba(34,211,238,0.4))',
+          background: `linear-gradient(to bottom, ${va(VIOLET,0.4)}, ${va(CYAN,0.4)})`,
           transformOrigin: 'top', marginLeft: '5rem',
         }}
       />
@@ -144,7 +145,7 @@ function LevelBorder({ color, label, visible, children }: { color: string; label
 function ExperienceSkeletonCard() {
   return (
     <div className="glass-card" style={{ padding: '0.75rem 0.9rem', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg,transparent,rgba(139,92,246,0.15),rgba(34,211,238,0.15),transparent)' }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg,transparent,${va(VIOLET,0.15)},${va(CYAN,0.15)},transparent)` }} />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
         <div style={{ width: '28px', height: '13px', borderRadius: '9999px', background: 'rgba(var(--overlay-rgb), 0.07)' }} />
         <div style={{ width: '72px', height: '5px', borderRadius: '3px', background: 'rgba(var(--overlay-rgb), 0.05)' }} />
@@ -160,7 +161,7 @@ function MiniExperienceCard() {
     <div className="glass-card" style={{ padding: '0.75rem 0.9rem', position: 'relative' }}>
       <div className="gradient-top-border" />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-        <span style={{ display: 'inline-block', padding: '0.1rem 0.45rem', borderRadius: '9999px', fontSize: '0.58rem', fontWeight: 700, background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.25)', color: '#a78bfa' }}>CDI</span>
+        <span style={{ display: 'inline-block', padding: '0.1rem 0.45rem', borderRadius: '9999px', fontSize: '0.58rem', fontWeight: 700, background: va(VIOLET, 0.15), border: `1px solid ${va(VIOLET, 0.25)}`, color: V_MID }}>CDI</span>
         <span className="text-mono text-faint" style={{ fontSize: '0.55rem' }}>2023 — Ajd</span>
       </div>
       <p className="gradient-text" style={{ fontSize: '0.82rem', fontWeight: 800, marginBottom: '0.12rem' }}>Acme Corp</p>
@@ -174,18 +175,18 @@ function DemoExperienceCard() {
     <div className="glass-card" style={{ padding: '1.75rem 2rem', position: 'relative' }}>
       <div className="gradient-top-border" />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.9rem' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', padding: '0.22rem 0.75rem', borderRadius: '9999px', fontSize: '0.72rem', fontWeight: 700, background: 'rgba(139,92,246,0.14)', border: '1px solid rgba(139,92,246,0.3)', color: '#a78bfa' }}>CDI</span>
+        <span style={{ display: 'inline-flex', alignItems: 'center', padding: '0.22rem 0.75rem', borderRadius: '9999px', fontSize: '0.72rem', fontWeight: 700, background: va(VIOLET, 0.14), border: `1px solid ${va(VIOLET, 0.30)}`, color: V_MID }}>CDI</span>
         <p className="text-mono text-faint" style={{ fontSize: '0.75rem' }}>Jan. 2023 — Aujourd'hui</p>
       </div>
       <h3 className="gradient-text" style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.2rem' }}>Acme Corp</h3>
       <p style={{ color: 'rgba(var(--fg-rgb), 0.68)', fontWeight: 600, fontSize: '0.95rem', marginBottom: '1.1rem' }}>Développeur Front-End Senior</p>
       <div className="divider" style={{ marginBottom: '1.1rem' }} />
       <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.84rem', color: 'rgba(var(--fg-rgb), 0.52)', lineHeight: 1.6, listStyle: 'none', marginBottom: '0.55rem' }}>
-        <span style={{ marginTop: '0.52em', width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(34,211,238,0.65)', flexShrink: 0 }} />
+        <span style={{ marginTop: '0.52em', width: '4px', height: '4px', borderRadius: '50%', background: va(CYAN, 0.65), flexShrink: 0 }} />
         Mise en place d'un design system React partagé entre 4 équipes.
       </li>
       <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.84rem', color: 'rgba(var(--fg-rgb), 0.52)', lineHeight: 1.6, listStyle: 'none' }}>
-        <span style={{ marginTop: '0.52em', width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(34,211,238,0.65)', flexShrink: 0 }} />
+        <span style={{ marginTop: '0.52em', width: '4px', height: '4px', borderRadius: '50%', background: va(CYAN, 0.65), flexShrink: 0 }} />
         Refonte de l'interface admin (−40% temps de chargement).
       </li>
     </div>
@@ -196,7 +197,7 @@ function PageThumbnail() {
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0.7rem', background: 'rgba(var(--overlay-rgb), 0.04)', borderRadius: '0.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.06)' }}>
-        <div style={{ width: '40px', height: '5px', borderRadius: '3px', background: 'linear-gradient(90deg,#8b5cf6,#22d3ee)' }} />
+        <div style={{ width: '40px', height: '5px', borderRadius: '3px', background: `linear-gradient(90deg,${VIOLET},${CYAN})` }} />
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           {[28, 22, 26, 20].map((w, i) => (
             <div key={i} style={{ width: `${w}px`, height: '4px', borderRadius: '2px', background: 'rgba(var(--overlay-rgb), 0.1)' }} />
@@ -204,11 +205,11 @@ function PageThumbnail() {
         </div>
       </div>
       <div style={{ padding: '0.9rem 0.7rem', background: 'rgba(var(--overlay-rgb), 0.03)', borderRadius: '0.5rem', border: '1px solid rgba(var(--overlay-rgb), 0.05)' }}>
-        <div style={{ width: '55%', height: '8px', borderRadius: '4px', background: 'linear-gradient(90deg,rgba(139,92,246,0.3),rgba(34,211,238,0.2))', marginBottom: '0.35rem' }} />
+        <div style={{ width: '55%', height: '8px', borderRadius: '4px', background: `linear-gradient(90deg,${va(VIOLET,0.3)},${va(CYAN,0.2)})`, marginBottom: '0.35rem' }} />
         <div style={{ width: '75%', height: '5px', borderRadius: '3px', background: 'rgba(var(--overlay-rgb), 0.07)', marginBottom: '0.22rem' }} />
         <div style={{ width: '60%', height: '5px', borderRadius: '3px', background: 'rgba(var(--overlay-rgb), 0.05)', marginBottom: '0.55rem' }} />
         <div style={{ display: 'flex', gap: '0.35rem' }}>
-          <div style={{ width: '50px', height: '13px', borderRadius: '9999px', background: 'rgba(139,92,246,0.18)', border: '1px solid rgba(139,92,246,0.25)' }} />
+          <div style={{ width: '50px', height: '13px', borderRadius: '9999px', background: va(VIOLET, 0.18), border: `1px solid ${va(VIOLET, 0.25)}` }} />
           <div style={{ width: '44px', height: '13px', borderRadius: '9999px', background: 'rgba(var(--overlay-rgb), 0.06)', border: '1px solid rgba(var(--overlay-rgb), 0.09)' }} />
         </div>
       </div>
@@ -238,8 +239,8 @@ function SectionView() {
       </span>
       <div style={{ marginBottom: '0.85rem' }}>
         <div className="eyebrow" style={{ marginBottom: '0.25rem', gap: '0.4rem' }}>
-          <div style={{ width: '1rem', height: '1px', background: 'linear-gradient(90deg,#8b5cf6,#22d3ee)' }} />
-          <span style={{ fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#a78bfa' }}>02 — Expériences</span>
+          <div style={{ width: '1rem', height: '1px', background: `linear-gradient(90deg,${VIOLET},${CYAN})` }} />
+          <span style={{ fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: V_MID }}>02 — Expériences</span>
         </div>
         <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--fg)', letterSpacing: '-0.02em' }}>Mon parcours</p>
       </div>
@@ -253,10 +254,9 @@ function SectionView() {
 }
 
 function AtomBreakdownView() {
-  const CYAN = '#22d3ee';
   const atoms = [
     { label: 'Atom · Badge', delay: 0, content: (
-      <span style={{ display: 'inline-flex', padding: '0.18rem 0.65rem', borderRadius: '9999px', fontSize: '0.7rem', fontWeight: 700, background: 'rgba(139,92,246,0.14)', border: '1px solid rgba(139,92,246,0.3)', color: '#a78bfa' }}>CDI</span>
+      <span style={{ display: 'inline-flex', padding: '0.18rem 0.65rem', borderRadius: '9999px', fontSize: '0.7rem', fontWeight: 700, background: va(VIOLET, 0.14), border: `1px solid ${va(VIOLET, 0.30)}`, color: V_MID }}>CDI</span>
     )},
     { label: 'Atom · GradientText', delay: 0.07, content: (
       <span className="gradient-text" style={{ fontSize: '1.1rem', fontWeight: 800, letterSpacing: '-0.02em' }}>Acme Corp</span>
@@ -337,7 +337,7 @@ function ExplodeDemo({ demoLabel, steps }: { demoLabel: string; steps: { label: 
             )}
             {step === 2 && (
               <motion.div key={2} custom={dir} variants={zoomVariants} initial="enter" animate="center" exit="exit" transition={zoomTransitionIn} style={{ width: '100%' }}>
-                <LevelBorder color="#8b5cf6" label="Molecule · ExperienceCard" visible={true}>
+                <LevelBorder color={VIOLET} label="Molecule · ExperienceCard" visible={true}>
                   <DemoExperienceCard />
                 </LevelBorder>
               </motion.div>
@@ -448,7 +448,10 @@ export function ArchitectureSection() {
   const isInView  = useInView(ref, { once: true, margin: '-10% 0px' });
   const { section, layers, stats, demoLabel, demoSteps } = t.architecture;
 
-  const mergedLayers = LAYERS_STATIC.map((l, i) => ({ ...l, label: layers[i].label, description: layers[i].description }));
+  const mergedLayers = useMemo(
+    () => LAYERS_STATIC.map((l, i) => ({ ...l, label: layers[i].label, description: layers[i].description })),
+    [layers],
+  );
 
   return (
     <section ref={ref} className="section" style={{ position: 'relative', overflow: 'hidden' }}>

@@ -7,14 +7,16 @@ import { SectionTitle } from '@/components/molecules';
 import { useReveal } from '@/hooks/useReveal';
 import { useLocale } from '@/contexts/LocaleContext';
 
+import { VIOLET, CYAN, V_MID, GREEN, AMBER, SLATE } from '@/lib/colors';
+
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 const ENDPOINTS_STATIC = [
-  { id: 'all',         path: '/api/portfolio/all',         color: '#94a3b8' },
-  { id: 'experiences', path: '/api/portfolio/experiences', color: '#8b5cf6' },
-  { id: 'skills',      path: '/api/portfolio/skills',      color: '#22d3ee' },
-  { id: 'education',   path: '/api/portfolio/education',   color: '#f59e0b' },
-  { id: 'projects',    path: '/api/portfolio/projects',    color: '#10b981' },
+  { id: 'all',         path: '/api/portfolio/all',         color: SLATE  },
+  { id: 'experiences', path: '/api/portfolio/experiences', color: VIOLET },
+  { id: 'skills',      path: '/api/portfolio/skills',      color: CYAN   },
+  { id: 'education',   path: '/api/portfolio/education',   color: AMBER  },
+  { id: 'projects',    path: '/api/portfolio/projects',    color: GREEN  },
 ] as const;
 
 type EndpointId = typeof ENDPOINTS_STATIC[number]['id'];
@@ -29,10 +31,10 @@ type FetchState =
 const TOKEN_RE = /("(?:[^"\\]|\\.)*"(?=\s*:))|("(?:[^"\\]|\\.)*")|([-\d.]+(?:[eE][+-]?\d+)?)|(\btrue\b|\bfalse\b|\bnull\b)|([{}[\],:])/g;
 
 const TOKEN_COLORS: Record<string, string> = {
-  key:     '#a78bfa',
+  key:     V_MID,
   string:  '#86efac',
   number:  '#fb923c',
-  keyword: '#22d3ee',
+  keyword: CYAN,
   punct:   'rgba(var(--fg-rgb), 0.3)',
 };
 

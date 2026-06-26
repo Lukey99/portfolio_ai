@@ -48,7 +48,7 @@ export function AnimatedText({ text, className, style, delay = 0, gradient = fal
     <span className={cls} style={style} aria-label={text}>
       {text.split('').map((letter, i) => (
         <span
-          key={i}
+          key={`${i}-${letter}`}
           aria-hidden="true"
           style={{ display: 'inline-block', overflow: 'hidden', lineHeight: 'inherit' }}
         >
