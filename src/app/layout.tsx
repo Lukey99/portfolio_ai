@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Anti-flash: apply stored theme before React hydrates */}
         <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}` }} />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <LocaleProvider>
           <CustomCursor />
           <Header />
