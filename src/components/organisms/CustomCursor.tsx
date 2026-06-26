@@ -12,12 +12,19 @@ export function CustomCursor() {
 
   useEffect(() => {
     setMounted(true);
+    let rafId = 0;
     const moveCursor = (e: MouseEvent) => {
-      dotX.set(e.clientX);
-      dotY.set(e.clientY);
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        dotX.set(e.clientX);
+        dotY.set(e.clientY);
+      });
     };
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      cancelAnimationFrame(rafId);
+    };
   }, [dotX, dotY]);
 
   if (!mounted) return null;
@@ -32,7 +39,7 @@ export function CustomCursor() {
           y: dotY,
           translateX: '-50%',
           translateY: '-50%',
-          background: 'linear-gradient(135deg, #8b5cf6, #22d3ee)',
+          background: 'var(--gradient)',
         }}
       />
       {/* Trailing ring */}

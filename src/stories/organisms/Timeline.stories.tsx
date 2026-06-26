@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
 import { Timeline } from '@/components/organisms/Timeline';
 import { TimelineCard, CredentialCard } from '@/components/molecules';
 import { toTimelineCardProps, toCredentialCardProps } from '@/adapters/portfolio';
@@ -24,10 +25,9 @@ const meta = {
       subtitle: "Des expériences variées qui m'ont permis de développer une expertise complète en développement front-end.",
     },
     items: portfolioData.experiences,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     renderItem: ((exp: typeof portfolioData.experiences[0], i: number) => (
       <TimelineCard {...toTimelineCardProps(exp)} index={i} />
-    )) as any,
+    )) as unknown as (item: { id: string }, index: number) => ReactNode,
   },
 } satisfies Meta<typeof Timeline>;
 
@@ -44,10 +44,9 @@ export const Education: Story = {
       title: 'Mon Cursus',
       subtitle: 'Un parcours académique solide qui allie théorie et pratique.',
     },
-    items: portfolioData.education as any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    items: portfolioData.education as unknown as typeof portfolioData.experiences,
     renderItem: ((edu: typeof portfolioData.education[0], i: number) => (
       <CredentialCard {...toCredentialCardProps(edu)} index={i} />
-    )) as any,
+    )) as unknown as (item: { id: string }, index: number) => ReactNode,
   },
 };

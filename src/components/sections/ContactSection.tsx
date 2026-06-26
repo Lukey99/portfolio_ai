@@ -95,7 +95,7 @@ export function ContactSection({ info }: { info: PersonalInfo }) {
                   padding: '0.9rem 2.25rem', borderRadius: '9999px',
                   background: copied
                     ? 'linear-gradient(135deg,#22c55e,#16a34a)'
-                    : 'linear-gradient(135deg,#8b5cf6,#22d3ee)',
+                    : 'var(--gradient)',
                   color: '#fff', fontWeight: 700, fontSize: 'var(--text-base)',
                   border: 'none', cursor: 'pointer',
                   boxShadow: '0 4px 24px rgba(139,92,246,0.4)',

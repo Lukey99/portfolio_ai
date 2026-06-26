@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
 import { BentoGrid } from '@/components/organisms/BentoGrid';
 import { BentoCell } from '@/components/molecules';
 import { toBentoCellProps } from '@/adapters/portfolio';
@@ -35,10 +36,9 @@ const meta = {
       { data: portfolioData.skills[2] },
       { data: portfolioData.skills[3] },
     ],
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     renderItem: ((skill: typeof portfolioData.skills[0], i: number) => (
       <BentoCell {...toBentoCellProps(skill)} index={i} />
-    )) as any,
+    )) as unknown as (item: { id: string }, index: number) => ReactNode,
   },
 } satisfies Meta<typeof BentoGrid>;
 

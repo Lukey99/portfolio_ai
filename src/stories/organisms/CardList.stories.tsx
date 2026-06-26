@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
 import { CardList } from '@/components/organisms/CardList';
 import { ShowcaseCard } from '@/components/molecules';
 import { toShowcaseCardProps } from '@/adapters/portfolio';
@@ -25,10 +26,9 @@ const meta = {
       subtitle: "Des initiatives personnelles qui reflètent ma passion pour le produit et l'expérience utilisateur.",
     },
     items: portfolioData.projects,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     renderItem: ((proj: typeof portfolioData.projects[0], i: number) => (
       <ShowcaseCard {...toShowcaseCardProps(proj)} index={i} />
-    )) as any,
+    )) as unknown as (item: { id: string }, index: number) => ReactNode,
   },
 } satisfies Meta<typeof CardList>;
 
